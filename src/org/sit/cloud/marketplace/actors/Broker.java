@@ -1,8 +1,10 @@
 package org.sit.cloud.marketplace.actors;
 
 public class Broker {
+	
 	private Registry registry;
 	private UserRegistry userRegistry;
+	
 	public Broker(){
 		registry = new Registry();
 		userRegistry = new UserRegistry();
@@ -15,11 +17,6 @@ public class Broker {
 	public void registerUser(User user){
 		userRegistry.registerUser(user);
 	}
-	
-	
-	
-	
-	
 	
 	/**
 	 * @return the registry
