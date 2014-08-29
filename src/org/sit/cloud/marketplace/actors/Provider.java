@@ -15,6 +15,8 @@ public class Provider {
 	private int ram;
 	private int storage;
 	
+	private Map<GeoLocation, Datacenter> geoLocationToDatacenterMap;
+	
 	/**
 	 * @return the cores
 	 */
@@ -72,8 +74,6 @@ public class Provider {
 		this.geoLocationToDatacenterMap = geoLocationToDatacenterMap;
 	}
 
-	Map<GeoLocation, Datacenter> geoLocationToDatacenterMap;
-
 	public Provider(){
 		id = UUID.randomUUID().toString();
 	}
@@ -89,6 +89,13 @@ public class Provider {
 	
 	public void sendVmToGeoLocation(Vm vm, GeoLocation geoLocation){
 		
+	}
+	
+	public boolean addDatacenter(GeoLocation geoLocation, Datacenter datacenter){
+		if(geoLocationToDatacenterMap.containsKey(geoLocation))
+			return false;
+		geoLocationToDatacenterMap.put(geoLocation, datacenter);
+		return true;
 	}
 	
 	public double getAvailability(){

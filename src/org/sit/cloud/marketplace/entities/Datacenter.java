@@ -6,6 +6,8 @@ public class Datacenter {
 
 	private int numOfAvailableVms;
 	
+	// create a list of vms in this datacenter . so that is is useful to generate current qos easily
+	
 	public void createVms(int numOfVmsToBeCreated){
 		numOfAvailableVms = numOfAvailableVms - numOfVmsToBeCreated;
 	}
