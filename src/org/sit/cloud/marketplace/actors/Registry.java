@@ -19,13 +19,13 @@ public class Registry {
 	
 	private Map<String, Vm> vmIdToVmMap;
 	
-	private List<Transaction> transactions;
+	private Map<String, Transaction> vmIdToTransactionMap;
 	
 	public Registry(){
 		providerIdtoProviderMap = new HashMap<String, Provider>();
+		setVmIdToTransactionMap(new HashMap<String, Transaction>());
 		userIdtoUserMap = new HashMap<String, User>();
 		vmIdToVmMap = new HashMap<String, Vm>();
-		transactions = new ArrayList<Transaction>();
 		userIdToVmIdsMap = new HashMap<String, List<String>>();
 	}
 	
@@ -80,19 +80,19 @@ public class Registry {
 		this.vmIdToVmMap = vmIdToVmMap;
 	}
 
-	public List<Transaction> getTransactions() {
-		return transactions;
-	}
-
-	public void setTransactions(List<Transaction> transactions) {
-		this.transactions = transactions;
-	}
-
 	public Map<String, User> getUserIdtoUserMap() {
 		return userIdtoUserMap;
 	}
 
 	public void setUserIdtoUserMap(Map<String, User> userIdtoUserMap) {
 		this.userIdtoUserMap = userIdtoUserMap;
+	}
+
+	public Map<String, Transaction> getVmIdToTransactionMap() {
+		return vmIdToTransactionMap;
+	}
+
+	public void setVmIdToTransactionMap(Map<String, Transaction> vmIdToTransactionMap) {
+		this.vmIdToTransactionMap = vmIdToTransactionMap;
 	}
 }

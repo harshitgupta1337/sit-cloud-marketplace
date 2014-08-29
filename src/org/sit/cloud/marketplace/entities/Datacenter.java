@@ -1,15 +1,21 @@
 package org.sit.cloud.marketplace.entities;
 
+import java.util.Map;
+
 public class Datacenter {
 
 	private String id;
-
 	private int numOfAvailableVms;
-	
-	// create a list of vms in this datacenter . so that is is useful to generate current qos easily
+	private Map<String, Vm> runningVmIdToVmMap;
+	private double currentAvailability;
 	
 	public void createVms(int numOfVmsToBeCreated){
 		numOfAvailableVms = numOfAvailableVms - numOfVmsToBeCreated;
+	}
+	
+	public void createVm(Vm vm){
+		numOfAvailableVms--;
+		runningVmIdToVmMap.put(vm.getId(), vm);
 	}
 	
 	/**
@@ -39,7 +45,12 @@ public class Datacenter {
 	public void setNumOfAvailableVms(int numOfAvailableVms) {
 		this.numOfAvailableVms = numOfAvailableVms;
 	}
-	
-	
-	
+
+	public double getCurrentAvailability() {
+		return currentAvailability;
+	}
+
+	public void setCurrentAvailability(double currentAvailability) {
+		this.currentAvailability = currentAvailability;
+	}
 }

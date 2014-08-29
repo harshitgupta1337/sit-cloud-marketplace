@@ -1,11 +1,10 @@
 package org.sit.cloud.marketplace.entities;
 
-import java.util.List;
 import java.util.UUID;
 
 public class Transaction {
 	
-	private List<String> vmIds;
+	private String vmId;
 	
 	private double availability;
 	private double cost;
@@ -15,21 +14,21 @@ public class Transaction {
 	
 	private String userId;
 	
-	public Transaction(String userId, List<String> vmIds, double availability, double cost, double bw){
+	public Transaction(String userId, String vmId, double availability, double cost, double bw){
 		this.userId = userId;
-		this.vmIds = vmIds;
+		this.vmId = vmId;
 		this.availability = availability;
 		this.cost = cost;
 		this.bw = bw;
 		this.id = UUID.randomUUID().toString();
 	}
 
-	public List<String> getVmIds() {
-		return vmIds;
+	public String getVmId() {
+		return vmId;
 	}
 
-	public void setVmIds(List<String> vmIds) {
-		this.vmIds = vmIds;
+	public void setVmId(String vmId) {
+		this.vmId = vmId;
 	}
 
 	public double getAvailability() {

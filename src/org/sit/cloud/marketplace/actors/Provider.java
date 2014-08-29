@@ -88,6 +88,12 @@ public class Provider {
 	}
 	
 	public void sendVmToGeoLocation(Vm vm, GeoLocation geoLocation){
+		Datacenter datacenter = geoLocationToDatacenterMap.get(geoLocation);
+		datacenter.createVm(vm);
+		
+	}
+	
+	public void getQosExperiencedByVms(){
 		
 	}
 	
