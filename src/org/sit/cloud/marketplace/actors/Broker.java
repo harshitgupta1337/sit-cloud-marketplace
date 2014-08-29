@@ -1,13 +1,19 @@
 package org.sit.cloud.marketplace.actors;
 
+import java.util.Map;
+
+import org.sit.cloud.marketplace.decision.ProviderSelector;
+import org.sit.cloud.marketplace.entities.GeoLocation;
+import org.sit.cloud.marketplace.entities.UserRequest;
+import org.sit.cloud.marketplace.entities.Vm;
+
+
 public class Broker {
 	
 	private Registry registry;
-	private UserRegistry userRegistry;
-	
+	private ProviderSelector providerSelector;
 	public Broker(){
 		registry = new Registry();
-		userRegistry = new UserRegistry();
 	}
 
 	public void registerProvider(Provider provider){
@@ -15,7 +21,31 @@ public class Broker {
 	}
 
 	public void registerUser(User user){
-		userRegistry.registerUser(user);
+		registry.registerUser(user);
+	}
+
+	private void registerVmWithUser(Vm vm, String userId){
+		registry.registerVmWithUser(vm, userId);
+	}
+	
+	public void acceptUserRequest(UserRequest userRequest){
+		Map<GeoLocation, Integer> geoLocationToNumOfVmsMap = userRequest.getGeoLocationToNumOfVmsMap();
+		for(GeoLocation geoLocation : geoLocationToNumOfVmsMap.keySet()){
+			int numOfVms = geoLocationToNumOfVmsMap.get(geoLocation);
+			Map<String, Integer> allocationMap = providerSelector.selectBestProvider(geoLocation, registry.getProviderParams(), numOfVms);
+			for(String providerId : allocationMap.keySet()){
+				for(int i=0;i<allocationMap.get(providerId);i++){
+					//
+					// SOME VERY INTRICATE THINGS NEED TO BE DONE HERE 
+					
+					Vm vm = new Vm();
+					registerVmWithUser(vm, userRequest.getUserId());
+					registry.getProviderIdtoProviderMap().get(providerId).sendVmToGeoLocation(vm, geoLocation);
+					
+					//
+				}
+			}
+		}
 	}
 	
 	/**
@@ -32,11 +62,13 @@ public class Broker {
 		this.registry = registry;
 	}
 
-	public UserRegistry getUserRegistry() {
-		return userRegistry;
+	public ProviderSelector getProviderSelector() {
+		return providerSelector;
 	}
 
-	public void setUserRegistry(UserRegistry userRegistry) {
-		this.userRegistry = userRegistry;
+	public void setProviderSelector(ProviderSelector providerSelector) {
+		this.providerSelector = providerSelector;
 	}
+
+	
 }

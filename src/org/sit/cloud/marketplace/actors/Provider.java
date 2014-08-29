@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.sit.cloud.marketplace.entities.Datacenter;
 import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.ProviderParams;
+import org.sit.cloud.marketplace.entities.Vm;
 
 public class Provider {
 	
@@ -77,22 +78,26 @@ public class Provider {
 		id = UUID.randomUUID().toString();
 	}
 	
-	public ProviderParams getCurrentQos(long time){
+	public ProviderParams getCurrentQos(){
 		// HERE WE SHOULD APPLY SOME CURVES TO CHANGE THE QOS ACCORDING TO THE SCENARIO TO BE MODELED
-		ProviderParams params = new ProviderParams(id, getAvailability(time), getCost(time), getBandwidth(time),  cores, ram, storage);
+		ProviderParams params = new ProviderParams(id, getAvailability(), getCost(), getBandwidth(),  cores, ram, storage);
 		for(GeoLocation geolocation : geoLocationToDatacenterMap.keySet()){
 			params.getAvailableVmsMap().put(geolocation, geoLocationToDatacenterMap.get(geolocation).getNumOfAvailableVms());
 		}
 		return params;
 	}
 	
-	public double getAvailability(long time){
+	public void sendVmToGeoLocation(Vm vm, GeoLocation geoLocation){
+		
+	}
+	
+	public double getAvailability(){
 		return 0.0;
 	}
-	public double getCost(long time){
+	public double getCost(){
 		return 0.0;
 	}
-	public double getBandwidth(long time){
+	public double getBandwidth(){
 		return 0.0;
 	}
 	

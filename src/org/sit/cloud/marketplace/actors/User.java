@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.sit.cloud.marketplace.entities.UserRequest;
+
 public class User {
 
 	String id;
@@ -28,6 +30,15 @@ public class User {
 		this.vmIds = vmIds;
 	}
 	
+	/**
+	 * Given the no. of vms, this function randomyl splits it into various geolocations
+	 * and creates a user request
+	 * @param numOfVms
+	 * @return a randomly generated user request
+	 */
+	public UserRequest createuserRequest(int numOfVms){
+		return null;
+	}
 	
 	
 }

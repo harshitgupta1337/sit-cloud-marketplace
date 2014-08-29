@@ -1,20 +1,55 @@
 package org.sit.cloud.marketplace.actors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.sit.cloud.marketplace.entities.ProviderParams;
+import org.sit.cloud.marketplace.entities.Transaction;
+import org.sit.cloud.marketplace.entities.Vm;
 
 public class Registry {
 	
+	private Map<String, User> userIdtoUserMap;
+	
 	private Map<String, Provider> providerIdtoProviderMap;
 	
+	private Map<String, List<String>> userIdToVmIdsMap;
+	
+	private Map<String, Vm> vmIdToVmMap;
+	
+	private List<Transaction> transactions;
+	
 	public Registry(){
-		setProviderIdtoProviderMap(new HashMap<String, Provider>());
+		providerIdtoProviderMap = new HashMap<String, Provider>();
+		userIdtoUserMap = new HashMap<String, User>();
+		vmIdToVmMap = new HashMap<String, Vm>();
+		transactions = new ArrayList<Transaction>();
+		userIdToVmIdsMap = new HashMap<String, List<String>>();
+	}
+	
+	public void registerUser(User user){
+		userIdtoUserMap.put(user.getId(), user);
+		userIdToVmIdsMap.put(user.getId(), new ArrayList<String>());
 	}
 
 	public void registerProvider(Provider provider){
 		providerIdtoProviderMap.put(provider.getId(), provider);
 	}
 	
+	public List<ProviderParams> getProviderParams(){
+		List<ProviderParams> providerParamsList = new ArrayList<ProviderParams>();
+		for(String providerId : providerIdtoProviderMap.keySet()){
+			providerParamsList.add(providerIdtoProviderMap.get(providerId).getCurrentQos());
+		}
+		return providerParamsList;
+	}
+	public void registerVmWithUser(Vm vm, String userId){
+		userIdToVmIdsMap.get(userId).add(vm.getId());
+		vmIdToVmMap.put(vm.getId(), vm);
+		
+	}
 	/**
 	 * @return the providerIdtoProviderMap
 	 */
@@ -27,5 +62,37 @@ public class Registry {
 	 */
 	public void setProviderIdtoProviderMap(Map<String, Provider> providerIdtoProviderMap) {
 		this.providerIdtoProviderMap = providerIdtoProviderMap;
+	}
+
+	public Map<String, List<String>> getUserIdToVmIdsMap() {
+		return userIdToVmIdsMap;
+	}
+
+	public void setUserIdToVmIdsMap(Map<String, List<String>> userIdToVmIdsMap) {
+		this.userIdToVmIdsMap = userIdToVmIdsMap;
+	}
+
+	public Map<String, Vm> getVmIdToVmMap() {
+		return vmIdToVmMap;
+	}
+
+	public void setVmIdToVmMap(Map<String, Vm> vmIdToVmMap) {
+		this.vmIdToVmMap = vmIdToVmMap;
+	}
+
+	public List<Transaction> getTransactions() {
+		return transactions;
+	}
+
+	public void setTransactions(List<Transaction> transactions) {
+		this.transactions = transactions;
+	}
+
+	public Map<String, User> getUserIdtoUserMap() {
+		return userIdtoUserMap;
+	}
+
+	public void setUserIdtoUserMap(Map<String, User> userIdtoUserMap) {
+		this.userIdtoUserMap = userIdtoUserMap;
 	}
 }

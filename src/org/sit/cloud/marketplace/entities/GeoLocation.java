@@ -6,6 +6,14 @@ public enum GeoLocation {
     private int code;
 
     private GeoLocation(int code) {
-            this.code = code;
+            this.setCode(code);
     }
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
+	}
 };   
