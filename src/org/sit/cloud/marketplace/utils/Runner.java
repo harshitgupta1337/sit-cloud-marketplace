@@ -3,6 +3,7 @@ package org.sit.cloud.marketplace.utils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.sit.cloud.marketplace.actors.Broker;
 import org.sit.cloud.marketplace.actors.User;
@@ -43,7 +44,8 @@ public class Runner {
 			index++;
 			User user = new User();
 			broker.registerUser(user);
-			UserRequest request = new UserRequest(user.getId(), new HashMap<GeoLocation, Integer>());
+			Map<GeoLocation, Integer> map = new HashMap<GeoLocation, Integer>() {{ put(GeoLocation.EU_WEST, 10); }};
+			UserRequest request = new UserRequest(user.getId(), map, false);
 			broker.acceptUserRequest(request);
 		}
 		else if(index < userRequestInstants.size() && userRequestInstants.get(index) <= TimeKeeper.getTime()){
@@ -57,7 +59,6 @@ public class Runner {
 		while(TimeKeeper.tick()){
 			generateUserRequest();
 			broker.monitorVms();
-			broker.checkForSLAViolation();
 		}
 	}
 	

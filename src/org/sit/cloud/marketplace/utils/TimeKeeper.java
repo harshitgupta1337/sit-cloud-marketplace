@@ -9,6 +9,12 @@ public class TimeKeeper {
 		SIMULATION_TIME = 0;
 	}
 	
+	public static boolean shouldViolationsBeCalculated(){
+		if(SIMULATION_TIME % (24*7) == 0)
+			return true;
+		return false;
+	}
+	
 	public static boolean tick(){
 		if(SIMULATION_TIME == END)
 			return false;
