@@ -8,6 +8,7 @@ public class Datacenter {
 	private int numOfAvailableVms;
 	private Map<String, Vm> runningVmIdToVmMap;
 	private double currentAvailability;
+	private double currentBandwidth;
 	
 	public void createVms(int numOfVmsToBeCreated){
 		numOfAvailableVms = numOfAvailableVms - numOfVmsToBeCreated;
@@ -52,5 +53,13 @@ public class Datacenter {
 
 	public void setCurrentAvailability(double currentAvailability) {
 		this.currentAvailability = currentAvailability;
+	}
+
+	public double getCurrentBandwidth() {
+		return currentBandwidth;
+	}
+
+	public void setCurrentBandwidth(double currentBandwidth) {
+		this.currentBandwidth = currentBandwidth;
 	}
 }

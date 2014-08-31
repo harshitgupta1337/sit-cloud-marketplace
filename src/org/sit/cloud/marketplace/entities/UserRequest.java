@@ -8,9 +8,12 @@ public class UserRequest {
 	
 	private Map<GeoLocation, Integer> geoLocationToNumOfVmsMap;
 	
-	public UserRequest(String userId, Map<GeoLocation, Integer> geoLocationToNumOfVmsMap){
+	private boolean shouldBeViolated;
+	
+	public UserRequest(String userId, Map<GeoLocation, Integer> geoLocationToNumOfVmsMap, boolean shouldBeViolated){
 		this.userId = userId;
 		this.geoLocationToNumOfVmsMap = geoLocationToNumOfVmsMap;
+		this.shouldBeViolated = shouldBeViolated;
 	}
 
 	public String getUserId() {
@@ -27,5 +30,13 @@ public class UserRequest {
 
 	public void setGeoLocationToNumOfVmsMap(Map<GeoLocation, Integer> geoLocationToNumOfVmsMap) {
 		this.geoLocationToNumOfVmsMap = geoLocationToNumOfVmsMap;
+	}
+
+	public boolean isShouldBeViolated() {
+		return shouldBeViolated;
+	}
+
+	public void setShouldBeViolated(boolean shouldBeViolated) {
+		this.shouldBeViolated = shouldBeViolated;
 	}
 }

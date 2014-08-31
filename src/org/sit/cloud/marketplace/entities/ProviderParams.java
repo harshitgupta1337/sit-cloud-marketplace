@@ -8,7 +8,7 @@ public class ProviderParams {
 	private double availability;
 	private double cost;
 	private double bw;
-	private Map<GeoLocation, Integer> availableVmsMap;
+	private int numOfVmsAvailable;
 	private int cores;
 	private int ram;
 	private int storage;
@@ -41,12 +41,7 @@ public class ProviderParams {
 	public void setBw(double bw) {
 		this.bw = bw;
 	}
-	public Map<GeoLocation, Integer> getAvailableVmsMap() {
-		return availableVmsMap;
-	}
-	public void setAvailableVmsMap(Map<GeoLocation, Integer> availableVmsMap) {
-		this.availableVmsMap = availableVmsMap;
-	}
+	
 	/**
 	 * @return the cores
 	 */
@@ -94,6 +89,14 @@ public class ProviderParams {
 	 */
 	public void setProviderId(String providerId) {
 		this.providerId = providerId;
+	}
+
+	public int getNumOfVmsAvailable() {
+		return numOfVmsAvailable;
+	}
+
+	public void setNumOfVmsAvailable(int numOfVmsAvailable) {
+		this.numOfVmsAvailable = numOfVmsAvailable;
 	}
 	
 	

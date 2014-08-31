@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.ProviderParams;
 import org.sit.cloud.marketplace.entities.Transaction;
 import org.sit.cloud.marketplace.entities.Vm;
@@ -38,10 +39,12 @@ public class Registry {
 		providerIdtoProviderMap.put(provider.getId(), provider);
 	}
 	
-	public List<ProviderParams> getProviderParams(){
+	public List<ProviderParams> getProviderParams(GeoLocation geolocation){
 		List<ProviderParams> providerParamsList = new ArrayList<ProviderParams>();
 		for(String providerId : providerIdtoProviderMap.keySet()){
-			providerParamsList.add(providerIdtoProviderMap.get(providerId).getCurrentQos());
+			ProviderParams params = providerIdtoProviderMap.get(providerId).getCurrentQos(geolocation);
+			if(params != null)
+				providerParamsList.add(params);
 		}
 		return providerParamsList;
 	}

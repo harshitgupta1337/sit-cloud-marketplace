@@ -1,9 +1,12 @@
 package org.sit.cloud.marketplace.actors;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.UserRequest;
 
 public class User {
@@ -31,13 +34,15 @@ public class User {
 	}
 	
 	/**
-	 * Given the no. of vms, this function randomyl splits it into various geolocations
+	 * Given the no. of vms, this function randomly splits it into various geolocations
 	 * and creates a user request
 	 * @param numOfVms
 	 * @return a randomly generated user request
 	 */
-	public UserRequest createuserRequest(int numOfVms){
-		return null;
+	public UserRequest createuserRequest(int numOfVms, boolean shouldBeViolated){
+		Map<GeoLocation, Integer> map = new HashMap<GeoLocation, Integer>();
+		map.put(GeoLocation.US_WEST, numOfVms);
+		return new UserRequest(getId(), map, shouldBeViolated);
 	}
 	
 	

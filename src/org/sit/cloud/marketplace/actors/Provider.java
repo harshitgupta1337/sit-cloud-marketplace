@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.sit.cloud.marketplace.entities.Datacenter;
 import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.ProviderParams;
+import org.sit.cloud.marketplace.entities.QoS;
 import org.sit.cloud.marketplace.entities.Vm;
 
 public class Provider {
@@ -78,12 +79,16 @@ public class Provider {
 		id = UUID.randomUUID().toString();
 	}
 	
-	public ProviderParams getCurrentQos(){
+	public ProviderParams getCurrentQos(GeoLocation geolocation){
 		// HERE WE SHOULD APPLY SOME CURVES TO CHANGE THE QOS ACCORDING TO THE SCENARIO TO BE MODELED
-		ProviderParams params = new ProviderParams(id, getAvailability(), getCost(), getBandwidth(),  cores, ram, storage);
-		for(GeoLocation geolocation : geoLocationToDatacenterMap.keySet()){
-			params.getAvailableVmsMap().put(geolocation, geoLocationToDatacenterMap.get(geolocation).getNumOfAvailableVms());
-		}
+		
+		if(!geoLocationToDatacenterMap.containsKey(geolocation))
+			return null;
+		Datacenter dc = geoLocationToDatacenterMap.get(geolocation);
+		if(dc == null)
+			return null;
+		ProviderParams params = new ProviderParams(id, dc.getCurrentAvailability(), getCost(), dc.getCurrentBandwidth(),  cores, ram, storage);
+		params.setNumOfVmsAvailable(geoLocationToDatacenterMap.get(geolocation).getNumOfAvailableVms());
 		return params;
 	}
 	
@@ -93,8 +98,8 @@ public class Provider {
 		
 	}
 	
-	public void getQosExperiencedByVms(){
-		
+	public Map<String, QoS> getQosExperiencedByVms(){
+		return null;
 	}
 	
 	public boolean addDatacenter(GeoLocation geoLocation, Datacenter datacenter){

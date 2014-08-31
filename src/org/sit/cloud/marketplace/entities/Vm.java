@@ -10,11 +10,14 @@ public class Vm {
 	
 	private double experience;
 	
-	public Vm(){
+	private boolean shouldBeViolated;
+	
+	public Vm(boolean shouldBeViolated){
 		id = UUID.randomUUID().toString();
 		providerId = null;
 		setGeoLocation(null);
 		setExperience(1.0);
+		this.shouldBeViolated = shouldBeViolated;
 	}
 	
 	public String getProviderId() {
@@ -44,6 +47,14 @@ public class Vm {
 
 	public void setExperience(double experience) {
 		this.experience = experience;
+	}
+
+	public boolean isShouldBeViolated() {
+		return shouldBeViolated;
+	}
+
+	public void setShouldBeViolated(boolean shouldBeViolated) {
+		this.shouldBeViolated = shouldBeViolated;
 	}
 	
 }
