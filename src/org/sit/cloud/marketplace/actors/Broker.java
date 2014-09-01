@@ -24,9 +24,25 @@ public class Broker {
 	
 	private Registry registry;
 	private ProviderSelector providerSelector;
+
+	/**
+	 * A map that maps each Vm id to the sum of the experienced availability for an entire week
+	 */
 	private Map<String, Double> sumOfExperiencedAvailabilityMap;
+
+	/**
+	 * A map that maps each Vm id to the sum of the experienced bandwidth for an entire week
+	 */
 	private Map<String, Double> sumOfExperiencedBandwidthMap;
+	
+	/**
+	 * A map that maps each Vm id to the sum of the satisfaction in availability for that Vm
+	 */
 	private Map<String, Double> bandwidthSatisfactionMap;
+	
+	/**
+	 * A map that maps each Vm id to the sum of the satisfaction in bandwidth for that Vm
+	 */
 	private Map<String, Double> availabilitySatisfactionMap;
 	
 	/**
