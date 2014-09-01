@@ -1,5 +1,6 @@
 package org.sit.cloud.marketplace.utils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,7 +53,7 @@ public class Runner {
 			index++;
 		}
 	}
-	public static void main(String args[]){
+	public static void main(String args[]) throws IOException{
 		
 		System.out.println(userRequestInstants);
 		
