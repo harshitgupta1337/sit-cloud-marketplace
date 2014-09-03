@@ -8,6 +8,10 @@ public class UserRequest {
 	
 	private Map<GeoLocation, Integer> geoLocationToNumOfVmsMap;
 	
+	/**
+	 * A marker assigned to each UserRequest that tells whether the VMs created by processing this request will face SLA violation or not.
+	 * This is strictly for the purpose of simulation.
+	 */
 	private boolean shouldBeViolated;
 	
 	public UserRequest(String userId, Map<GeoLocation, Integer> geoLocationToNumOfVmsMap, boolean shouldBeViolated){

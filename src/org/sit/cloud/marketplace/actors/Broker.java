@@ -15,9 +15,9 @@ import org.sit.cloud.marketplace.entities.QoS;
 import org.sit.cloud.marketplace.entities.SlaViolationData;
 import org.sit.cloud.marketplace.entities.Transaction;
 import org.sit.cloud.marketplace.entities.UserRequest;
-import org.sit.cloud.marketplace.entities.Utils;
 import org.sit.cloud.marketplace.entities.Vm;
 import org.sit.cloud.marketplace.utils.TimeKeeper;
+import org.sit.cloud.marketplace.utils.Utils;
 
 
 public class Broker {
@@ -45,6 +45,14 @@ public class Broker {
 	 */
 	private Map<String, Double> availabilitySatisfactionMap;
 	
+	
+	/**
+	 * A map that maps every VM to the number of times it's experienced QoS has been polled by the broker. 
+	 * This value is reet every week after the SLA violation data is calculated.
+	 * This value also needs to be reset after the VM is migrated onto a different provider. 
+	 */
+	private Map<String, Integer> vmIdToNumberOfPollsMap;
+	
 	/**
 	 * List of ids of VMs whose experienced QoS parameters have to be printed and plotted
 	 */
@@ -54,6 +62,7 @@ public class Broker {
 	public Broker(){
 		registry = new Registry();
 		providerSelector = new ProviderSelector();
+		vmIdToNumberOfPollsMap = new HashMap<String, Integer>();
 	}
 	
 	public void registerProvider(Provider provider){
@@ -77,7 +86,6 @@ public class Broker {
 	}
 	
 	public void acceptUserRequest(UserRequest userRequest){
-
 		Map<GeoLocation, Integer> geoLocationToNumOfVmsMap = userRequest.getGeoLocationToNumOfVmsMap();
 		for(GeoLocation geoLocation : geoLocationToNumOfVmsMap.keySet()){
 			List<ProviderParams> providerParams = registry.getProviderParams(geoLocation);
@@ -93,11 +101,17 @@ public class Broker {
 					ProviderParams promisedParams = getProviderParamsForProviderId(providerParams, providerId);
 					Transaction transaction = new Transaction(userRequest.getUserId(), vm.getId(), promisedParams.getAvailability(), promisedParams.getCost(), promisedParams.getBw());
 					registry.getVmIdToTransactionMap().put(vm.getId(), transaction);
+					
+					// SENDING THE CREATED VM TO THE PROVIDER
 					registry.getProviderIdtoProviderMap().get(providerId).sendVmToGeoLocation(vm, geoLocation);
+					
 					sumOfExperiencedAvailabilityMap.put(vm.getId(), 0.0);
 					sumOfExperiencedBandwidthMap.put(vm.getId(), 0.0);
-					bandwidthSatisfactionMap.put(vm.getId(), 0.0);
-					availabilitySatisfactionMap.put(vm.getId(), 0.0);
+					
+					bandwidthSatisfactionMap.put(vm.getId(), 1.0);
+					availabilitySatisfactionMap.put(vm.getId(), 1.0);
+					
+					vmIdToNumberOfPollsMap.put(vm.getId(), 0);
 				}
 			}
 		}
@@ -109,6 +123,11 @@ public class Broker {
 		checkForSLAViolation(vmIdToSlaViolationMap);
 	}
 	
+	/**
+	 * 
+	 * @return A map from VM to the QoS experienced by that VM
+	 * @throws IOException
+	 */
 	public Map<String, QoS> monitorVms() throws IOException{
 		Map<String, QoS> vmIdToQosMap = new HashMap<String, QoS>();
 		for(String providerId : registry.getProviderIdtoProviderMap().keySet()){
@@ -134,22 +153,33 @@ public class Broker {
 	
 	public void checkForSLAViolation(Map<String, SlaViolationData> vmIdToSlaViolationMap){
 		for(String vmId : vmIdToSlaViolationMap.keySet()){
+			
+			//ADDING THE EXPERIENCED QoS PARAMETERS SO THAT AVERAGE CAN BE CALCULATED AT THE END OF THE WEEK
+			sumOfExperiencedAvailabilityMap.put(vmId, sumOfExperiencedAvailabilityMap.get(vmId) + vmIdToSlaViolationMap.get(vmId).getExperiencedAvailability());
+			sumOfExperiencedBandwidthMap.put(vmId, sumOfExperiencedBandwidthMap.get(vmId) + vmIdToSlaViolationMap.get(vmId).getExperiencedBandwidth());
+			vmIdToNumberOfPollsMap.put(vmId, vmIdToNumberOfPollsMap.get(vmId)+1); // INCREMENTING THE NUMBER OF POLLS DONE BY 1
+			
 			if(TimeKeeper.shouldViolationsBeCalculated()){
 				// NOW CALCULATE F_A(t_i) and F_BW(t_i)
-				availabilitySatisfactionMap.put(vmId, (sumOfExperiencedAvailabilityMap.get(vmId)/(24*7)) + (availabilitySatisfactionMap.get(vmId)/Math.E));
-				bandwidthSatisfactionMap.put(vmId, (sumOfExperiencedBandwidthMap.get(vmId)/(24*7)) + (bandwidthSatisfactionMap.get(vmId)/Math.E));
+				availabilitySatisfactionMap.put(vmId, (sumOfExperiencedAvailabilityMap.get(vmId)/(vmIdToNumberOfPollsMap.get(vmId))) + (availabilitySatisfactionMap.get(vmId)/Math.E));
+				bandwidthSatisfactionMap.put(vmId, (sumOfExperiencedBandwidthMap.get(vmId)/(vmIdToNumberOfPollsMap.get(vmId))) + (bandwidthSatisfactionMap.get(vmId)/Math.E));
 				
 				// RESETING THE WEEK'S CALCULATION
 				sumOfExperiencedAvailabilityMap.put(vmId, 0.0);
 				sumOfExperiencedBandwidthMap.put(vmId, 0.0);
-			}else{
-				//ADDING THE EXPERIENCED QoS PARAMETERS SO THAT AVERAGE CAN BE CALCULATED AT THE END OF THE WEEK
-				sumOfExperiencedAvailabilityMap.put(vmId, sumOfExperiencedAvailabilityMap.get(vmId) + vmIdToSlaViolationMap.get(vmId).getExperiencedAvailability());
-				sumOfExperiencedBandwidthMap.put(vmId, sumOfExperiencedBandwidthMap.get(vmId) + vmIdToSlaViolationMap.get(vmId).getExperiencedBandwidth());
+				vmIdToNumberOfPollsMap.put(vmId, 0);
 			}
 		}
 	}
 	
+	/**
+	 * 
+	 * This function would apply the fuzzy logic controller on the degree of SLA violation experienced by this VM 
+	 * and then decide whether it needs migration or not
+	 * 
+	 * @param vmId
+	 * @return true if the vm requires to be migrated , false otherwise
+	 */
 	private boolean doesVmNeedMigration(String vmId){
 		return false;
 	}
@@ -208,5 +238,19 @@ public class Broker {
 
 	public void setWriterForVm(Map<String, BufferedWriter> writerForVm) {
 		this.writerForVm = writerForVm;
+	}
+
+	/**
+	 * @return the vmIdToNumberOfPollsMap
+	 */
+	public Map<String, Integer> getVmIdToNumberOfPollsMap() {
+		return vmIdToNumberOfPollsMap;
+	}
+
+	/**
+	 * @param vmIdToNumberOfPollsMap the vmIdToNumberOfPollsMap to set
+	 */
+	public void setVmIdToNumberOfPollsMap(Map<String, Integer> vmIdToNumberOfPollsMap) {
+		this.vmIdToNumberOfPollsMap = vmIdToNumberOfPollsMap;
 	}	
 }

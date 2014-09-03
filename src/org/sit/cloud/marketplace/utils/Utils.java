@@ -1,4 +1,4 @@
-package org.sit.cloud.marketplace.entities;
+package org.sit.cloud.marketplace.utils;
 
 public class Utils {
 
