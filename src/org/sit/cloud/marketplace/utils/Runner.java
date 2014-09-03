@@ -46,7 +46,7 @@ public class Runner {
 			User user = new User();
 			broker.registerUser(user);
 			Map<GeoLocation, Integer> map = new HashMap<GeoLocation, Integer>() {{ put(GeoLocation.EU_WEST, 10); }};
-			UserRequest request = new UserRequest(user.getId(), map, false);
+			UserRequest request = new UserRequest(user.getId(), map, 0.0, 0.0, 0, 0, 0, 0.0, false);
 			broker.acceptUserRequest(request);
 		}
 		else if(index < userRequestInstants.size() && userRequestInstants.get(index) <= TimeKeeper.getTime()){

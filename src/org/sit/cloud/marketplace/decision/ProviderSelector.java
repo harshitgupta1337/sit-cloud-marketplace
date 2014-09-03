@@ -5,14 +5,20 @@ import java.util.Map;
 
 import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.ProviderParams;
+import org.sit.cloud.marketplace.entities.UserRequest;
 
-public class ProviderSelector {
+public abstract class ProviderSelector {
 
 	public ProviderSelector(){
 		
 	}
 	
-	public Map<String, Integer> selectBestProvider(GeoLocation geoLocation, List<ProviderParams> providers, int numOfVms){
-		return null;
+	public Map<String, Integer> selectBestProvider(GeoLocation geoLocation, List<ProviderParams> providers, int numOfVms, UserRequest userRequest){
+		return getAllocationMapAfterInitialFiltering(geoLocation, performInitialFiltering(providers, numOfVms), numOfVms);
 	}
+	
+	protected abstract List<ProviderParams> performInitialFiltering(List<ProviderParams> providers, int numOfVms);
+	
+	protected abstract Map<String, Integer> getAllocationMapAfterInitialFiltering(GeoLocation geoLocation, List<ProviderParams> providers, int numOfVms);
+	
 }

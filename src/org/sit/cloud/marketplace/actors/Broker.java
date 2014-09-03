@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.sit.cloud.marketplace.decision.FuzzyProviderSelector;
 import org.sit.cloud.marketplace.decision.ProviderSelector;
 import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.ProviderParams;
@@ -48,7 +49,7 @@ public class Broker {
 	
 	/**
 	 * A map that maps every VM to the number of times it's experienced QoS has been polled by the broker. 
-	 * This value is reet every week after the SLA violation data is calculated.
+	 * This value is reset every week after the satisfaction values are calculated.
 	 * This value also needs to be reset after the VM is migrated onto a different provider. 
 	 */
 	private Map<String, Integer> vmIdToNumberOfPollsMap;
@@ -61,7 +62,7 @@ public class Broker {
 	
 	public Broker(){
 		registry = new Registry();
-		providerSelector = new ProviderSelector();
+		providerSelector = new FuzzyProviderSelector();
 		vmIdToNumberOfPollsMap = new HashMap<String, Integer>();
 	}
 	
@@ -90,7 +91,7 @@ public class Broker {
 		for(GeoLocation geoLocation : geoLocationToNumOfVmsMap.keySet()){
 			List<ProviderParams> providerParams = registry.getProviderParams(geoLocation);
 			int numOfVms = geoLocationToNumOfVmsMap.get(geoLocation);
-			Map<String, Integer> allocationMap = providerSelector.selectBestProvider(geoLocation, providerParams, numOfVms);
+			Map<String, Integer> allocationMap = providerSelector.selectBestProvider(geoLocation, providerParams, numOfVms, userRequest);
 			for(String providerId : allocationMap.keySet()){
 				for(int i=0;i<allocationMap.get(providerId);i++){
 					//
@@ -164,7 +165,7 @@ public class Broker {
 				availabilitySatisfactionMap.put(vmId, (sumOfExperiencedAvailabilityMap.get(vmId)/(vmIdToNumberOfPollsMap.get(vmId))) + (availabilitySatisfactionMap.get(vmId)/Math.E));
 				bandwidthSatisfactionMap.put(vmId, (sumOfExperiencedBandwidthMap.get(vmId)/(vmIdToNumberOfPollsMap.get(vmId))) + (bandwidthSatisfactionMap.get(vmId)/Math.E));
 				
-				// RESETING THE WEEK'S CALCULATION
+				// RESETING THE WEEK'S CALCULATION AFTER THE CALCULATION OF THE SATISFACTION VALUES
 				sumOfExperiencedAvailabilityMap.put(vmId, 0.0);
 				sumOfExperiencedBandwidthMap.put(vmId, 0.0);
 				vmIdToNumberOfPollsMap.put(vmId, 0);

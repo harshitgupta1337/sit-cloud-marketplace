@@ -8,16 +8,118 @@ public class UserRequest {
 	
 	private Map<GeoLocation, Integer> geoLocationToNumOfVmsMap;
 	
+	private double requiredAvailability;
+	
+	private double requiredBandwidth;
+	
+	private double maxAffordableCost;
+	
+	private int cores;
+	
+	private int ram;
+	
+	private int storage;
+	
+	/**
+	 * @return the requiredAvailability
+	 */
+	public double getRequiredAvailability() {
+		return requiredAvailability;
+	}
+
+	/**
+	 * @param requiredAvailability the requiredAvailability to set
+	 */
+	public void setRequiredAvailability(double requiredAvailability) {
+		this.requiredAvailability = requiredAvailability;
+	}
+
+	/**
+	 * @return the requiredBandwidth
+	 */
+	public double getRequiredBandwidth() {
+		return requiredBandwidth;
+	}
+
+	/**
+	 * @param requiredBandwidth the requiredBandwidth to set
+	 */
+	public void setRequiredBandwidth(double requiredBandwidth) {
+		this.requiredBandwidth = requiredBandwidth;
+	}
+
+	/**
+	 * @return the maxAffordableCost
+	 */
+	public double getMaxAffordableCost() {
+		return maxAffordableCost;
+	}
+
+	/**
+	 * @param maxAffordableCost the maxAffordableCost to set
+	 */
+	public void setMaxAffordableCost(double maxAffordableCost) {
+		this.maxAffordableCost = maxAffordableCost;
+	}
+
+	/**
+	 * @return the cores
+	 */
+	public int getCores() {
+		return cores;
+	}
+
+	/**
+	 * @param cores the cores to set
+	 */
+	public void setCores(int cores) {
+		this.cores = cores;
+	}
+
+	/**
+	 * @return the ram
+	 */
+	public int getRam() {
+		return ram;
+	}
+
+	/**
+	 * @param ram the ram to set
+	 */
+	public void setRam(int ram) {
+		this.ram = ram;
+	}
+
+	/**
+	 * @return the storage
+	 */
+	public int getStorage() {
+		return storage;
+	}
+
+	/**
+	 * @param storage the storage to set
+	 */
+	public void setStorage(int storage) {
+		this.storage = storage;
+	}
+
 	/**
 	 * A marker assigned to each UserRequest that tells whether the VMs created by processing this request will face SLA violation or not.
 	 * This is strictly for the purpose of simulation.
 	 */
 	private boolean shouldBeViolated;
 	
-	public UserRequest(String userId, Map<GeoLocation, Integer> geoLocationToNumOfVmsMap, boolean shouldBeViolated){
+	public UserRequest(String userId, Map<GeoLocation, Integer> geoLocationToNumOfVmsMap, double requiredAvailability, double requiredBandwidth, int cores, int ram, int storage, double maxAffordableCost, boolean shouldBeViolated){
 		this.userId = userId;
 		this.geoLocationToNumOfVmsMap = geoLocationToNumOfVmsMap;
 		this.shouldBeViolated = shouldBeViolated;
+		this.cores = cores;
+		this.ram = ram;
+		this.storage = storage;
+		this.maxAffordableCost = maxAffordableCost;
+		this.requiredAvailability = requiredAvailability;
+		this.requiredBandwidth = requiredBandwidth;
 	}
 
 	public String getUserId() {
