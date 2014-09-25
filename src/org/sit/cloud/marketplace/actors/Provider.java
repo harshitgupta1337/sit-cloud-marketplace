@@ -15,7 +15,39 @@ public class Provider {
 	private int cores;
 	private int ram;
 	private int storage;
+	private double cost;
+	private double promisedAvailability;
+	private double promisedBandwidth;
 	
+	
+	/**
+	 * @return the promisedAvailability
+	 */
+	public double getPromisedAvailability() {
+		return promisedAvailability;
+	}
+
+	/**
+	 * @param promisedAvailability the promisedAvailability to set
+	 */
+	public void setPromisedAvailability(double promisedAvailability) {
+		this.promisedAvailability = promisedAvailability;
+	}
+
+	/**
+	 * @return the promisedBandwidth
+	 */
+	public double getPromisedBandwidth() {
+		return promisedBandwidth;
+	}
+
+	/**
+	 * @param promisedBandwidth the promisedBandwidth to set
+	 */
+	public void setPromisedBandwidth(double promisedBandwidth) {
+		this.promisedBandwidth = promisedBandwidth;
+	}
+
 	private Map<GeoLocation, Datacenter> geoLocationToDatacenterMap;
 	
 	/**
@@ -79,6 +111,17 @@ public class Provider {
 		id = UUID.randomUUID().toString();
 	}
 	
+	/**
+	 * This function returns the QoS details promised by the provider. It is currently independent of the GeoLocation
+	 * except, of course the number of available VMs.
+	 * @return
+	 */
+	public ProviderParams getPromisedQos(GeoLocation geoLocation){
+		ProviderParams params = new ProviderParams(id, getPromisedAvailability(), getCost(), getPromisedBandwidth(),  cores, ram, storage);
+		params.setNumOfVmsAvailable(geoLocationToDatacenterMap.get(geoLocation).getNumOfAvailableVms());
+		return params;
+	}
+	
 	public ProviderParams getCurrentQos(GeoLocation geolocation){
 		// HERE WE SHOULD APPLY SOME CURVES TO CHANGE THE QOS ACCORDING TO THE SCENARIO TO BE MODELED
 		
@@ -131,5 +174,12 @@ public class Provider {
 	 */
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	/**
+	 * @param cost the cost to set
+	 */
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
 }

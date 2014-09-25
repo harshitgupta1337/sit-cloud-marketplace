@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.sit.cloud.marketplace.actors.Broker;
+import org.sit.cloud.marketplace.actors.Provider;
 import org.sit.cloud.marketplace.actors.User;
+import org.sit.cloud.marketplace.entities.Datacenter;
 import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.UserRequest;
 
@@ -53,13 +55,40 @@ public class Runner {
 			index++;
 		}
 	}
+	
+	public static Datacenter createDatacenter(){
+		return null;
+	}
+	public static Provider constructProvider(double cost, double avail, double bw){
+		Provider provider = new Provider();
+		provider.setCores(10);
+		provider.setRam(1024);
+		provider.setStorage(2);
+		provider.setCost(cost);
+		provider.setPromisedAvailability(avail);
+		provider.setPromisedBandwidth(bw);
+		provider.setGeoLocationToDatacenterMap(new HashMap<GeoLocation, Datacenter>(){{ put(GeoLocation.US_WEST, createDatacenter()); }});
+		return provider;
+	}
+	public static List<Provider> constructProviders(){
+		List<Provider> providers = new ArrayList<Provider>();
+		providers.add(constructProvider(100, 98.1, 10.5));
+		providers.add(constructProvider(105, 99, 20));
+		providers.add(constructProvider(198, 98.3, 10.5));
+		return providers;
+	}
+	
 	public static void main(String args[]) throws IOException{
 		
-		System.out.println(userRequestInstants);
+		
+		for(Provider provider : constructProviders()){
+			broker.registerProvider(provider);
+		}
+		//System.out.println(userRequestInstants);
 		
 		while(TimeKeeper.tick()){
 			generateUserRequest();
-			broker.monitorVms();
+			//broker.monitorVms();
 		}
 	}
 	
