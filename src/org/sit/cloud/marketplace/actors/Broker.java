@@ -10,7 +10,6 @@ import java.util.Map;
 
 import org.sit.cloud.marketplace.decision.FuzzyProviderSelector;
 import org.sit.cloud.marketplace.decision.ProviderSelector;
-import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.ProviderParams;
 import org.sit.cloud.marketplace.entities.QoS;
 import org.sit.cloud.marketplace.entities.SlaViolationData;
@@ -87,36 +86,34 @@ public class Broker {
 	}
 	
 	public void acceptUserRequest(UserRequest userRequest){
-		Map<GeoLocation, Integer> geoLocationToNumOfVmsMap = userRequest.getGeoLocationToNumOfVmsMap();
-		for(GeoLocation geoLocation : geoLocationToNumOfVmsMap.keySet()){
-			List<ProviderParams> providerParams = registry.getProviderParams(geoLocation);
-			int numOfVms = geoLocationToNumOfVmsMap.get(geoLocation);
-			Map<String, Integer> allocationMap = providerSelector.selectBestProvider(geoLocation, providerParams, numOfVms, userRequest);
-			for(String providerId : allocationMap.keySet()){
-				for(int i=0;i<allocationMap.get(providerId);i++){
-					//
-					// SOME VERY INTRICATE THINGS NEED TO BE DONE HERE 
-					
-					Vm vm = new Vm(userRequest.isShouldBeViolated());
-					registerVmWithUser(vm, userRequest.getUserId());
-					ProviderParams promisedParams = getProviderParamsForProviderId(providerParams, providerId);
-					Transaction transaction = new Transaction(userRequest.getUserId(), vm.getId(), promisedParams.getAvailability(), promisedParams.getCost(), promisedParams.getBw());
-					registry.getVmIdToTransactionMap().put(vm.getId(), transaction);
-					
-					// SENDING THE CREATED VM TO THE PROVIDER
-					registry.getProviderIdtoProviderMap().get(providerId).sendVmToGeoLocation(vm, geoLocation);
-					
-					sumOfExperiencedAvailabilityMap.put(vm.getId(), 0.0);
-					sumOfExperiencedBandwidthMap.put(vm.getId(), 0.0);
-					
-					bandwidthSatisfactionMap.put(vm.getId(), 1.0);
-					availabilitySatisfactionMap.put(vm.getId(), 1.0);
-					
-					vmIdToNumberOfPollsMap.put(vm.getId(), 0);
-				}
+		int numOfVms = userRequest.getNumOfVms();
+		List<ProviderParams> providerParams = registry.getProviderParams();
+		Map<String, Integer> allocationMap = providerSelector.selectBestProvider(providerParams, numOfVms, userRequest);
+		for(String providerId : allocationMap.keySet()){
+			for(int i=0;i<allocationMap.get(providerId);i++){
+				//
+				// SOME VERY INTRICATE THINGS NEED TO BE DONE HERE 
+				
+				Vm vm = new Vm(userRequest.isShouldBeViolated());
+				registerVmWithUser(vm, userRequest.getUserId());
+				ProviderParams promisedParams = getProviderParamsForProviderId(providerParams, providerId);
+				Transaction transaction = new Transaction(userRequest.getUserId(), vm.getId(), promisedParams.getAvailability(), promisedParams.getCost(), promisedParams.getBw());
+				registry.getVmIdToTransactionMap().put(vm.getId(), transaction);
+				
+				// SENDING THE CREATED VM TO THE PROVIDER
+				registry.getProviderIdtoProviderMap().get(providerId).createVm(vm);
+				
+				sumOfExperiencedAvailabilityMap.put(vm.getId(), 0.0);
+				sumOfExperiencedBandwidthMap.put(vm.getId(), 0.0);
+				
+				bandwidthSatisfactionMap.put(vm.getId(), 1.0);
+				availabilitySatisfactionMap.put(vm.getId(), 1.0);
+				
+				vmIdToNumberOfPollsMap.put(vm.getId(), 0);
 			}
 		}
 	}
+
 	
 	public void performMonitoringAndMigrations() throws IOException{
 		Map<String, QoS> vmIdToQosMap = monitorVms();
@@ -125,8 +122,10 @@ public class Broker {
 	}
 	
 	/**
-	 * 
-	 * @return A map from VM to the QoS experienced by that VM
+	 * This function fetched the currently offered QoS for each VM from the provider hosting it.
+	 * The data for all the VMs is appended in a single map and returned.
+	 * If the user wants to get the QoS data of a VM printed, the printing is done here. 
+	 * @return a map from VM to the QoS experienced by that VM
 	 * @throws IOException
 	 */
 	public Map<String, QoS> monitorVms() throws IOException{

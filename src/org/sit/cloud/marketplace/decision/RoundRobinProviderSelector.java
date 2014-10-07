@@ -1,10 +1,10 @@
 package org.sit.cloud.marketplace.decision;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.ProviderParams;
 
 public class RoundRobinProviderSelector extends ProviderSelector {
@@ -20,14 +20,6 @@ public class RoundRobinProviderSelector extends ProviderSelector {
 		return filteredProviders;
 	}
 
-	@Override
-	protected Map<String, Integer> getAllocationMapAfterInitialFiltering(
-			GeoLocation geoLocation, List<ProviderParams> providers,
-			int numOfVms) {
-		
-		return null;
-	}
-	
 	private List<ProviderParams> sortProviderParams(List<ProviderParams> providerParams){
 		for(int i=0;i<providerParams.size();i++){
 			ProviderParams smallestCost = providerParams.get(i);
@@ -46,6 +38,27 @@ public class RoundRobinProviderSelector extends ProviderSelector {
 			
 		}
 		return providerParams;
+	}
+
+	@Override
+	protected Map<String, Integer> getAllocationMapAfterInitialFiltering(
+			List<ProviderParams> providerParams, int numOfVms) {
+		Map<String, Integer> allocationMap = new HashMap<String, Integer>();
+		List<ProviderParams> sortedProviderParams = sortProviderParams(providerParams);
+		int remainingVmsToBeAllocated = numOfVms;
+		for(int i=0;i<sortedProviderParams.size();i++){
+			if(remainingVmsToBeAllocated == 0)
+				break;
+			int numOfVmsAvailable = sortedProviderParams.get(i).getNumOfVmsAvailable();
+			if(numOfVmsAvailable >= remainingVmsToBeAllocated){
+				allocationMap.put(sortedProviderParams.get(i).getProviderId(), remainingVmsToBeAllocated);
+				remainingVmsToBeAllocated = 0;
+			}else{
+				allocationMap.put(sortedProviderParams.get(i).getProviderId(), numOfVmsAvailable);
+				remainingVmsToBeAllocated -= numOfVmsAvailable;
+			}
+		}
+		return allocationMap;
 	}
 
 }

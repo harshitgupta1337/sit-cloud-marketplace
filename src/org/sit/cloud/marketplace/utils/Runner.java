@@ -2,15 +2,12 @@ package org.sit.cloud.marketplace.utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.sit.cloud.marketplace.actors.Broker;
 import org.sit.cloud.marketplace.actors.Provider;
 import org.sit.cloud.marketplace.actors.User;
 import org.sit.cloud.marketplace.entities.Datacenter;
-import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.UserRequest;
 
 public class Runner {
@@ -47,8 +44,7 @@ public class Runner {
 			index++;
 			User user = new User();
 			broker.registerUser(user);
-			Map<GeoLocation, Integer> map = new HashMap<GeoLocation, Integer>() {{ put(GeoLocation.EU_WEST, 10); }};
-			UserRequest request = new UserRequest(user.getId(), map, 0.0, 0.0, 0, 0, 0, 0.0, false);
+			UserRequest request = new UserRequest(user.getId(), 10, 0.0, 0.0, 0, 0, 0, 0.0, false);
 			broker.acceptUserRequest(request);
 		}
 		else if(index < userRequestInstants.size() && userRequestInstants.get(index) <= TimeKeeper.getTime()){
@@ -67,7 +63,6 @@ public class Runner {
 		provider.setCost(cost);
 		provider.setPromisedAvailability(avail);
 		provider.setPromisedBandwidth(bw);
-		provider.setGeoLocationToDatacenterMap(new HashMap<GeoLocation, Datacenter>(){{ put(GeoLocation.US_WEST, createDatacenter()); }});
 		return provider;
 	}
 	public static List<Provider> constructProviders(){

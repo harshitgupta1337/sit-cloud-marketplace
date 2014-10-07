@@ -1,12 +1,10 @@
 package org.sit.cloud.marketplace.entities;
 
-import java.util.Map;
-
 public class UserRequest {
 	
 	private String userId;
 	
-	private Map<GeoLocation, Integer> geoLocationToNumOfVmsMap;
+	private int numOfVms;
 	
 	private double requiredAvailability;
 	
@@ -110,9 +108,8 @@ public class UserRequest {
 	 */
 	private boolean shouldBeViolated;
 	
-	public UserRequest(String userId, Map<GeoLocation, Integer> geoLocationToNumOfVmsMap, double requiredAvailability, double requiredBandwidth, int cores, int ram, int storage, double maxAffordableCost, boolean shouldBeViolated){
+	public UserRequest(String userId, int numOfVms, double requiredAvailability, double requiredBandwidth, int cores, int ram, int storage, double maxAffordableCost, boolean shouldBeViolated){
 		this.userId = userId;
-		this.geoLocationToNumOfVmsMap = geoLocationToNumOfVmsMap;
 		this.shouldBeViolated = shouldBeViolated;
 		this.cores = cores;
 		this.ram = ram;
@@ -120,6 +117,7 @@ public class UserRequest {
 		this.maxAffordableCost = maxAffordableCost;
 		this.requiredAvailability = requiredAvailability;
 		this.requiredBandwidth = requiredBandwidth;
+		this.setNumOfVms(numOfVms);
 	}
 
 	public String getUserId() {
@@ -130,19 +128,19 @@ public class UserRequest {
 		this.userId = userId;
 	}
 
-	public Map<GeoLocation, Integer> getGeoLocationToNumOfVmsMap() {
-		return geoLocationToNumOfVmsMap;
-	}
-
-	public void setGeoLocationToNumOfVmsMap(Map<GeoLocation, Integer> geoLocationToNumOfVmsMap) {
-		this.geoLocationToNumOfVmsMap = geoLocationToNumOfVmsMap;
-	}
-
 	public boolean isShouldBeViolated() {
 		return shouldBeViolated;
 	}
 
 	public void setShouldBeViolated(boolean shouldBeViolated) {
 		this.shouldBeViolated = shouldBeViolated;
+	}
+
+	public int getNumOfVms() {
+		return numOfVms;
+	}
+
+	public void setNumOfVms(int numOfVms) {
+		this.numOfVms = numOfVms;
 	}
 }

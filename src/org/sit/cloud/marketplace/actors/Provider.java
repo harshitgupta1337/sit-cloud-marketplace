@@ -3,8 +3,6 @@ package org.sit.cloud.marketplace.actors;
 import java.util.Map;
 import java.util.UUID;
 
-import org.sit.cloud.marketplace.entities.Datacenter;
-import org.sit.cloud.marketplace.entities.GeoLocation;
 import org.sit.cloud.marketplace.entities.ProviderParams;
 import org.sit.cloud.marketplace.entities.QoS;
 import org.sit.cloud.marketplace.entities.Vm;
@@ -18,7 +16,37 @@ public class Provider {
 	private double cost;
 	private double promisedAvailability;
 	private double promisedBandwidth;
+	private int numOfAvailableVms;
+	private Map<String, Vm> runningVmIdToVmMap;
+	private double currentAvailability;
+	private double currentBandwidth;
 	
+	public Provider(int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity){
+		id = UUID.randomUUID().toString();
+		this.cores = cores;
+		this.ram = ram;
+		this.storage = storage;
+		this.cost = cost;
+		this.promisedAvailability = promisedAvailability;
+		this.promisedBandwidth = promisedBandwidth;
+		this.numOfAvailableVms = vmCapacity;
+	}
+	public int getNumOfAvailableVms(){
+		return numOfAvailableVms;
+	}
+	
+	public void setNumOfAvailableVms(int numOfAvailableVms){
+		this.numOfAvailableVms = numOfAvailableVms;
+	}
+	
+	public void createVms(int numOfVmsToBeCreated){
+		numOfAvailableVms = numOfAvailableVms - numOfVmsToBeCreated;
+	}
+	
+	public void createVm(Vm vm){
+		numOfAvailableVms--;
+		runningVmIdToVmMap.put(vm.getId(), vm);
+	}
 	
 	/**
 	 * @return the promisedAvailability
@@ -47,8 +75,6 @@ public class Provider {
 	public void setPromisedBandwidth(double promisedBandwidth) {
 		this.promisedBandwidth = promisedBandwidth;
 	}
-
-	private Map<GeoLocation, Datacenter> geoLocationToDatacenterMap;
 	
 	/**
 	 * @return the cores
@@ -92,21 +118,6 @@ public class Provider {
 		this.storage = storage;
 	}
 
-	/**
-	 * @return the geoLocationToDatacenterMap
-	 */
-	public Map<GeoLocation, Datacenter> getGeoLocationToDatacenterMap() {
-		return geoLocationToDatacenterMap;
-	}
-
-	/**
-	 * @param geoLocationToDatacenterMap the geoLocationToDatacenterMap to set
-	 */
-	public void setGeoLocationToDatacenterMap(
-			Map<GeoLocation, Datacenter> geoLocationToDatacenterMap) {
-		this.geoLocationToDatacenterMap = geoLocationToDatacenterMap;
-	}
-
 	public Provider(){
 		id = UUID.randomUUID().toString();
 	}
@@ -116,47 +127,29 @@ public class Provider {
 	 * except, of course the number of available VMs.
 	 * @return
 	 */
-	public ProviderParams getPromisedQos(GeoLocation geoLocation){
+	public ProviderParams getPromisedQos(){
 		ProviderParams params = new ProviderParams(id, getPromisedAvailability(), getCost(), getPromisedBandwidth(),  cores, ram, storage);
-		params.setNumOfVmsAvailable(geoLocationToDatacenterMap.get(geoLocation).getNumOfAvailableVms());
+		params.setNumOfVmsAvailable(getNumOfAvailableVms());
 		return params;
 	}
 	
-	public ProviderParams getCurrentQos(GeoLocation geolocation){
+	public ProviderParams getCurrentQos(){
 		// HERE WE SHOULD APPLY SOME CURVES TO CHANGE THE QOS ACCORDING TO THE SCENARIO TO BE MODELED
 		
-		if(!geoLocationToDatacenterMap.containsKey(geolocation))
-			return null;
-		Datacenter dc = geoLocationToDatacenterMap.get(geolocation);
-		if(dc == null)
-			return null;
-		ProviderParams params = new ProviderParams(id, dc.getCurrentAvailability(), getCost(), dc.getCurrentBandwidth(),  cores, ram, storage);
-		params.setNumOfVmsAvailable(geoLocationToDatacenterMap.get(geolocation).getNumOfAvailableVms());
+		ProviderParams params = new ProviderParams(id, getCurrentAvailability(), getCost(), getCurrentBandwidth(),  cores, ram, storage);
+		params.setNumOfVmsAvailable(getNumOfAvailableVms());
 		return params;
-	}
-	
-	public void sendVmToGeoLocation(Vm vm, GeoLocation geoLocation){
-		Datacenter datacenter = geoLocationToDatacenterMap.get(geoLocation);
-		datacenter.createVm(vm);
-		
 	}
 	
 	public Map<String, QoS> getQosExperiencedByVms(){
 		return null;
 	}
 	
-	public boolean addDatacenter(GeoLocation geoLocation, Datacenter datacenter){
-		if(geoLocationToDatacenterMap.containsKey(geoLocation))
-			return false;
-		geoLocationToDatacenterMap.put(geoLocation, datacenter);
-		return true;
-	}
-	
 	public double getAvailability(){
 		return 0.0;
 	}
 	public double getCost(){
-		return 0.0;
+		return cost;
 	}
 	public double getBandwidth(){
 		return 0.0;
@@ -181,5 +174,21 @@ public class Provider {
 	 */
 	public void setCost(double cost) {
 		this.cost = cost;
+	}
+
+	public double getCurrentAvailability() {
+		return currentAvailability;
+	}
+
+	public void setCurrentAvailability(double currentAvailability) {
+		this.currentAvailability = currentAvailability;
+	}
+
+	public double getCurrentBandwidth() {
+		return currentBandwidth;
+	}
+
+	public void setCurrentBandwidth(double currentBandwidth) {
+		this.currentBandwidth = currentBandwidth;
 	}
 }

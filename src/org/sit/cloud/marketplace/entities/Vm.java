@@ -6,7 +6,6 @@ public class Vm {
 
 	private String id;
 	private String providerId;
-	private GeoLocation geoLocation;
 	
 	private double experience;
 	
@@ -15,7 +14,6 @@ public class Vm {
 	public Vm(boolean shouldBeViolated){
 		id = UUID.randomUUID().toString();
 		providerId = null;
-		setGeoLocation(null);
 		setExperience(1.0);
 		this.shouldBeViolated = shouldBeViolated;
 	}
@@ -31,14 +29,6 @@ public class Vm {
 	}
 	public void setId(String id) {
 		this.id = id;
-	}
-
-	public GeoLocation getGeoLocation() {
-		return geoLocation;
-	}
-
-	public void setGeoLocation(GeoLocation geoLocation) {
-		this.geoLocation = geoLocation;
 	}
 
 	public double getExperience() {

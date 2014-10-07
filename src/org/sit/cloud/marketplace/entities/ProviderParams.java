@@ -1,7 +1,5 @@
 package org.sit.cloud.marketplace.entities;
 
-import java.util.Map;
-
 public class ProviderParams {
 	
 	private String providerId;
@@ -12,6 +10,7 @@ public class ProviderParams {
 	private int cores;
 	private int ram;
 	private int storage;
+	private int fuzzyUtility;
 	
 	public ProviderParams(String providerId, double availability, double cost, double bw, int cores, int ram, int storage){
 		this.providerId = providerId;
@@ -97,6 +96,14 @@ public class ProviderParams {
 
 	public void setNumOfVmsAvailable(int numOfVmsAvailable) {
 		this.numOfVmsAvailable = numOfVmsAvailable;
+	}
+
+	public int getFuzzyUtility() {
+		return fuzzyUtility;
+	}
+
+	public void setFuzzyUtility(int fuzzyUtility) {
+		this.fuzzyUtility = fuzzyUtility;
 	}
 	
 	
