@@ -6,8 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.sit.cloud.marketplace.entities.ProviderParams;
+import org.sit.cloud.marketplace.entities.UserRequest;
 
-public class RoundRobinProviderSelector extends ProviderSelector {
+public class CrispProviderSelector extends ProviderSelector {
 
 	@Override
 	protected List<ProviderParams> performInitialFiltering(
@@ -42,10 +43,10 @@ public class RoundRobinProviderSelector extends ProviderSelector {
 
 	@Override
 	protected Map<String, Integer> getAllocationMapAfterInitialFiltering(
-			List<ProviderParams> providerParams, int numOfVms) {
+			List<ProviderParams> providerParams, UserRequest userRequest) {
 		Map<String, Integer> allocationMap = new HashMap<String, Integer>();
 		List<ProviderParams> sortedProviderParams = sortProviderParams(providerParams);
-		int remainingVmsToBeAllocated = numOfVms;
+		int remainingVmsToBeAllocated = userRequest.getNumOfVms();
 		for(int i=0;i<sortedProviderParams.size();i++){
 			if(remainingVmsToBeAllocated == 0)
 				break;

@@ -106,8 +106,8 @@ public class Broker {
 				sumOfExperiencedAvailabilityMap.put(vm.getId(), 0.0);
 				sumOfExperiencedBandwidthMap.put(vm.getId(), 0.0);
 				
-				bandwidthSatisfactionMap.put(vm.getId(), 1.0);
-				availabilitySatisfactionMap.put(vm.getId(), 1.0);
+				bandwidthSatisfactionMap.put(vm.getId(), 1.5);
+				availabilitySatisfactionMap.put(vm.getId(), 1.5);
 				
 				vmIdToNumberOfPollsMap.put(vm.getId(), 0);
 			}

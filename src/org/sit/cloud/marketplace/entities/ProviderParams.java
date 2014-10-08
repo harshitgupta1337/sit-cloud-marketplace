@@ -10,7 +10,7 @@ public class ProviderParams {
 	private int cores;
 	private int ram;
 	private int storage;
-	private int fuzzyUtility;
+	private float fuzzyUtility;
 	
 	public ProviderParams(String providerId, double availability, double cost, double bw, int cores, int ram, int storage){
 		this.providerId = providerId;
@@ -98,11 +98,11 @@ public class ProviderParams {
 		this.numOfVmsAvailable = numOfVmsAvailable;
 	}
 
-	public int getFuzzyUtility() {
+	public float getFuzzyUtility() {
 		return fuzzyUtility;
 	}
 
-	public void setFuzzyUtility(int fuzzyUtility) {
+	public void setFuzzyUtility(float fuzzyUtility) {
 		this.fuzzyUtility = fuzzyUtility;
 	}
 	

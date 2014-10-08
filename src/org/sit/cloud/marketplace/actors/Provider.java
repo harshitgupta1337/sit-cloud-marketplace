@@ -142,6 +142,9 @@ public class Provider {
 	}
 	
 	public Map<String, QoS> getQosExperiencedByVms(){
+		
+		// IF ACTUAL QoS > PROMISED QoS, THEN RETURN PROMISED VALUE
+		
 		return null;
 	}
 	
