@@ -11,6 +11,8 @@ public class ProviderParams {
 	private int ram;
 	private int storage;
 	private float fuzzyUtility;
+	private double trustInAvailability;
+	private double trustInBandwidth;
 	
 	public ProviderParams(String providerId, double availability, double cost, double bw, int cores, int ram, int storage){
 		this.providerId = providerId;
@@ -104,6 +106,22 @@ public class ProviderParams {
 
 	public void setFuzzyUtility(float fuzzyUtility) {
 		this.fuzzyUtility = fuzzyUtility;
+	}
+
+	public double getTrustInBandwidth() {
+		return trustInBandwidth;
+	}
+
+	public void setTrustInBandwidth(double trustInBandwidth) {
+		this.trustInBandwidth = trustInBandwidth;
+	}
+
+	public double getTrustInAvailability() {
+		return trustInAvailability;
+	}
+
+	public void setTrustInAvailability(double trustInAvailability) {
+		this.trustInAvailability = trustInAvailability;
 	}
 	
 	

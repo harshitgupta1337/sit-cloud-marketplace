@@ -49,8 +49,7 @@ public class Registry {
 	}
 	public void registerVmWithUser(Vm vm, String userId){
 		userIdToVmIdsMap.get(userId).add(vm.getId());
-		vmIdToVmMap.put(vm.getId(), vm);
-		
+		vmIdToVmMap.put(vm.getId(), vm);	
 	}
 	/**
 	 * @return the providerIdtoProviderMap

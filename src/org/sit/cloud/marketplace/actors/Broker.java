@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,15 @@ public class Broker {
 	 */
 	private Map<String, Double> availabilitySatisfactionMap;
 	
+	/**
+	 * A map that maps each PROVIDER to the value of it's TRUST in AVAILABILITY
+	 */
+	private Map<String, Double> availabilityTrustMap;
+	
+	/**
+	 * A map that maps each PROVIDER to the value of it's TRUST in BANDWIDTH
+	 */
+	private Map<String, Double> bandwidthTrustMap;
 	
 	/**
 	 * A map that maps every VM to the number of times it's experienced QoS has been polled by the broker. 
@@ -67,6 +77,8 @@ public class Broker {
 	
 	public void registerProvider(Provider provider){
 		registry.registerProvider(provider);
+		availabilityTrustMap.put(provider.getId(), 1.5);
+		bandwidthTrustMap.put(provider.getId(), 1.5);
 	}
 
 	public void registerUser(User user){
@@ -85,9 +97,17 @@ public class Broker {
 		return null;
 	}
 	
+	private void insertTrustValuesInProviderParams(List<ProviderParams> providerParams){
+		for(ProviderParams providerParam : providerParams){
+			providerParam.setTrustInAvailability(availabilityTrustMap.get(providerParam.getProviderId()));
+			providerParam.setTrustInBandwidth(bandwidthTrustMap.get(providerParam.getProviderId()));
+		}
+	}
+	
 	public void acceptUserRequest(UserRequest userRequest){
 		int numOfVms = userRequest.getNumOfVms();
 		List<ProviderParams> providerParams = registry.getProviderParams();
+		insertTrustValuesInProviderParams(providerParams);
 		Map<String, Integer> allocationMap = providerSelector.selectBestProvider(providerParams, numOfVms, userRequest);
 		for(String providerId : allocationMap.keySet()){
 			for(int i=0;i<allocationMap.get(providerId);i++){
@@ -119,6 +139,19 @@ public class Broker {
 		Map<String, QoS> vmIdToQosMap = monitorVms();
 		Map<String, SlaViolationData> vmIdToSlaViolationMap = calculateSlaViolations(vmIdToQosMap);
 		checkForSLAViolation(vmIdToSlaViolationMap);
+		performNecessaryMigrations();
+	}
+	
+	private void performNecessaryMigrations(){
+		for(String vmId : registry.getVmIdToVmMap().keySet()){
+			if(doesVmNeedMigration(vmId)){
+				migrateVm(vmId);
+			}
+		}
+	}
+	
+	private void migrateVm(String vmId){
+		
 	}
 	
 	/**
@@ -128,7 +161,7 @@ public class Broker {
 	 * @return a map from VM to the QoS experienced by that VM
 	 * @throws IOException
 	 */
-	public Map<String, QoS> monitorVms() throws IOException{
+	private Map<String, QoS> monitorVms() throws IOException{
 		Map<String, QoS> vmIdToQosMap = new HashMap<String, QoS>();
 		for(String providerId : registry.getProviderIdtoProviderMap().keySet()){
 			Map<String, QoS> vmIdToQosMapForProvider = registry.getProviderIdtoProviderMap().get(providerId).getQosExperiencedByVms();
@@ -142,7 +175,7 @@ public class Broker {
 		return vmIdToQosMap;
 	}
 	
-	public Map<String, SlaViolationData> calculateSlaViolations(Map<String, QoS> vmIdToQosMap){
+	private Map<String, SlaViolationData> calculateSlaViolations(Map<String, QoS> vmIdToQosMap){
 		Map<String, SlaViolationData> vmIdToSlaViolationMap = new HashMap<String, SlaViolationData>();
 		for(String vmId : vmIdToQosMap.keySet()){
 			Transaction transaction = registry.getVmIdToTransactionMap().get(vmId);
@@ -151,7 +184,7 @@ public class Broker {
 		return vmIdToSlaViolationMap;
 	}
 	
-	public void checkForSLAViolation(Map<String, SlaViolationData> vmIdToSlaViolationMap){
+	private void checkForSLAViolation(Map<String, SlaViolationData> vmIdToSlaViolationMap){
 		for(String vmId : vmIdToSlaViolationMap.keySet()){
 			
 			//ADDING THE EXPERIENCED QoS PARAMETERS SO THAT AVERAGE CAN BE CALCULATED AT THE END OF THE WEEK
@@ -164,11 +197,43 @@ public class Broker {
 				availabilitySatisfactionMap.put(vmId, (sumOfExperiencedAvailabilityMap.get(vmId)/(vmIdToNumberOfPollsMap.get(vmId))) + (availabilitySatisfactionMap.get(vmId)/Math.E));
 				bandwidthSatisfactionMap.put(vmId, (sumOfExperiencedBandwidthMap.get(vmId)/(vmIdToNumberOfPollsMap.get(vmId))) + (bandwidthSatisfactionMap.get(vmId)/Math.E));
 				
+				refreshTrustValues();
+				
 				// RESETING THE WEEK'S CALCULATION AFTER THE CALCULATION OF THE SATISFACTION VALUES
 				sumOfExperiencedAvailabilityMap.put(vmId, 0.0);
 				sumOfExperiencedBandwidthMap.put(vmId, 0.0);
 				vmIdToNumberOfPollsMap.put(vmId, 0);
 			}
+		}
+	}
+	
+	/**
+	 * This function refreshes the trust values for each provider.
+	 * It computes the trust as the average of the satisfaction values of all the VMs running on a provider.
+	 */
+	private void refreshTrustValues(){
+		Map<String, List<String>> providerIdToVmIdMap = new HashMap<String, List<String>>();
+		for(String providerId : registry.getProviderIdtoProviderMap().keySet()){
+			providerIdToVmIdMap.put(providerId, new ArrayList<String>());
+		}
+		for(String vmId : registry.getVmIdToVmMap().keySet()){
+			providerIdToVmIdMap.get(registry.getVmIdToVmMap().get(vmId).getProviderId()).add(vmId);
+		}
+		for(String providerId : availabilityTrustMap.keySet()){
+			double totalSatisfactionValue = 0;
+			for(String vmId : providerIdToVmIdMap.get(providerId)){
+				totalSatisfactionValue += availabilitySatisfactionMap.get(vmId);
+			}
+			if(providerIdToVmIdMap.get(providerId).size() > 0)
+				availabilityTrustMap.put(providerId, totalSatisfactionValue/providerIdToVmIdMap.get(providerId).size());			
+		}
+		for(String providerId : bandwidthTrustMap.keySet()){
+			double totalSatisfactionValue = 0;
+			for(String vmId : providerIdToVmIdMap.get(providerId)){
+				totalSatisfactionValue += bandwidthSatisfactionMap.get(vmId);
+			}
+			if(providerIdToVmIdMap.get(providerId).size() > 0)
+				bandwidthTrustMap.put(providerId, totalSatisfactionValue/providerIdToVmIdMap.get(providerId).size());			
 		}
 	}
 	
@@ -252,5 +317,21 @@ public class Broker {
 	 */
 	public void setVmIdToNumberOfPollsMap(Map<String, Integer> vmIdToNumberOfPollsMap) {
 		this.vmIdToNumberOfPollsMap = vmIdToNumberOfPollsMap;
+	}
+
+	public Map<String, Double> getAvailabilityTrustMap() {
+		return availabilityTrustMap;
+	}
+
+	public void setAvailabilityTrustMap(Map<String, Double> availabilityTrustMap) {
+		this.availabilityTrustMap = availabilityTrustMap;
+	}
+
+	public Map<String, Double> getBandwidthTrustMap() {
+		return bandwidthTrustMap;
+	}
+
+	public void setBandwidthTrustMap(Map<String, Double> bandwidthTrustMap) {
+		this.bandwidthTrustMap = bandwidthTrustMap;
 	}	
 }
