@@ -53,14 +53,13 @@ public class FuzzyProviderSelector extends ProviderSelector {
 	 * @return list of providers' parameters sorted based on their fuzzy utility
 	 */
 	private List<ProviderParams> sortProvidersFuzzily(List<ProviderParams> providerParams, UserRequest userRequest){
-			for(ProviderParams providerParam : providerParams){
-				try {
-					setFuzzyValueForProvider(userRequest, providerParam);
-				} catch (MWException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			try {
+				setFuzzyValueForProviders(userRequest, providerParams);
+			} catch (MWException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
+			
 			for(int i=0;i<providerParams.size();i++){
 				ProviderParams largestUtilityProvider = providerParams.get(i);
 				int largestUtilityIndex = i;
@@ -84,12 +83,12 @@ public class FuzzyProviderSelector extends ProviderSelector {
 	 * The function makes a call the MATLAB code to use the FIS.
 	 * @param providerParams
 	 */
-	private void setFuzzyValueForProvider(UserRequest userRequest, ProviderParams providerParams) throws MWException{
+	private void setFuzzyValueForProviders(UserRequest userRequest, List<ProviderParams> providerParams) throws MWException{
 		/*
 		 * Here, we need to set the Fuzzy V value for the provider. @sujeet you need to put your code here.
 		 */
 		fuzopt1 thefuzopt=new fuzopt1();
-		Object[] y=null;
+		Object[] z=null;
 		//First three numbers are provider commitments : 97.5=P1 availability,97.8=P1's bw in mbps,97=P1's cost per VM per Hr
 		//Next two numbers are providers trust_avail and trust_bw.These values are given by broker
 		//Next two numbers are Cust reqd availability and da (da is reqd for availbility MF)
@@ -97,14 +96,25 @@ public class FuzzyProviderSelector extends ProviderSelector {
 		//Next two numbers are Cust reqd cost and dc (dc is reqd for cost MF)
 		//Next last number is do (do is reqd for output MF)
 		//double[] AData = {98,98,97,1.5,1.5,98,0.5,98,0.5,97,0.5,0.334};
-		double[] AData = {providerParams.getAvailability(), providerParams.getBw(), providerParams.getCost(), 
-				1.6, 1.6, userRequest.getRequiredAvailability(), 1, 
-				userRequest.getRequiredBandwidth(), 1.5, userRequest.getMaxAffordableCost(), 10, 0.334};
-
-		MWNumericArray x = new MWNumericArray(AData, MWClassID.DOUBLE);
-		y=thefuzopt.dynafis2(1, x);
-		System.out.println("The output is  = \n" + y[0].toString());
+		double providerData[][] = new double[providerParams.size()][5];
+		int i=0;
+		for(ProviderParams providerParam : providerParams){
+			providerData[i][0] = providerParam.getAvailability();
+			providerData[i][1] = providerParam.getBw();
+			providerData[i][2] = providerParam.getCost();
+			providerData[i][3] = providerParam.getTrustInAvailability();
+			providerData[i][4] = providerParam.getTrustInBandwidth();
+			i++;
+		}
+		double customerReq[] = {userRequest.getRequiredAvailability(), 1.0, userRequest.getRequiredBandwidth(), 1.5, userRequest.getMaxAffordableCost(), 10, 0.334};
+		MWNumericArray x = new MWNumericArray(providerData, MWClassID.DOUBLE);
+		MWNumericArray y = new MWNumericArray(customerReq, MWClassID.DOUBLE);
+		z=thefuzopt.dynafis3(1,x,y);
 		
-		providerParams.setFuzzyUtility(Float.parseFloat(y[0].toString()));
+		
+		String[] parts = z[0].toString().split("\n");
+		for (i = 0; i < parts.length; ++i) {
+			providerParams.get(i).setFuzzyUtility(Float.parseFloat(parts[i]));
+		}
 	}
 }
