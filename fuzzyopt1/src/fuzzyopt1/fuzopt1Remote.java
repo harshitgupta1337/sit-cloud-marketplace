@@ -1,11 +1,11 @@
 /*
  * MATLAB Compiler: 4.18.1 (R2013a)
- * Date: Wed Oct 08 10:51:50 2014
+ * Date: Wed Oct 08 21:04:00 2014
  * Arguments: "-B" "macro_default" "-W" "java:fuzzyopt1,fuzopt1" "-T" "link:lib" "-d" 
  * "C:\\Users\\MR-CUUUL\\fuzzyopt1\\src" "-N" "-p" "fuzzy" "-w" 
  * "enable:specified_file_mismatch" "-w" "enable:repeated_file" "-w" 
  * "enable:switch_ignored" "-w" "enable:missing_lib_sentinel" "-w" "enable:demo_license" 
- * "-v" "class{fuzopt1:C:\\Program Files\\MATLAB\\R2013a\\bin\\dynafis2.m}" 
+ * "-v" "class{fuzopt1:C:\\Program Files\\MATLAB\\R2013a\\bin\\dynafis3.m}" 
  */
 
 package fuzzyopt1;
@@ -19,7 +19,7 @@ import java.rmi.RemoteException;
  * The <code>fuzopt1Remote</code> class provides a Java RMI-compliant interface to the 
  * M-functions from the files:
  * <pre>
- *  C:\\Program Files\\MATLAB\\R2013a\\bin\\dynafis2.m
+ *  C:\\Program Files\\MATLAB\\R2013a\\bin\\dynafis3.m
  * </pre>
  * The {@link #dispose} method <b>must</b> be called on a <code>fuzopt1Remote</code> 
  * instance when it is no longer needed to ensure that native resources allocated by this 
@@ -34,8 +34,8 @@ import java.rmi.RemoteException;
 public interface fuzopt1Remote extends Poolable
 {
     /**
-     * Provides the standard interface for calling the <code>dynafis2</code> M-function 
-     * with 1 input argument.  
+     * Provides the standard interface for calling the <code>dynafis3</code> M-function 
+     * with 2 input arguments.  
      *
      * Input arguments to standard interface methods may be passed as sub-classes of 
      * <code>com.mathworks.toolbox.javabuilder.MWArray</code>, or as arrays of any 
@@ -53,7 +53,7 @@ public interface fuzopt1Remote extends Poolable
      * %X(1,3)=cost i/p
      * %X(1,4)=trust_avail i/p
      * %X(1,5)=trust_bw i/p
-     * %X(1,6)=availcust
+     * %Y(1,1)=availcust
      * </pre>
      *
      * @param nargout Number of outputs to return.
@@ -66,7 +66,7 @@ public interface fuzopt1Remote extends Poolable
      * @throws java.jmi.RemoteException An error has occurred during the function call or 
      * in communication with the server.
      */
-    public Object[] dynafis2(int nargout, Object... rhs) throws RemoteException;
+    public Object[] dynafis3(int nargout, Object... rhs) throws RemoteException;
   
     /** Frees native resources associated with the remote server object */
     void dispose() throws RemoteException;
