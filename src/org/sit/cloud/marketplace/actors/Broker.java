@@ -73,6 +73,14 @@ public class Broker {
 		registry = new Registry();
 		providerSelector = new FuzzyProviderSelector();
 		vmIdToNumberOfPollsMap = new HashMap<String, Integer>();
+		availabilityTrustMap = new HashMap<String, Double>();
+		bandwidthSatisfactionMap = new HashMap<String, Double>();
+		vmsToBePlotted = new ArrayList<String>();
+		writerForVm = new HashMap<String, BufferedWriter>();
+		availabilityTrustMap = new HashMap<String, Double>();
+		bandwidthTrustMap = new HashMap<String, Double>();
+		sumOfExperiencedAvailabilityMap = new HashMap<String, Double>();
+		sumOfExperiencedBandwidthMap = new HashMap<String, Double>();
 	}
 	
 	public void registerProvider(Provider provider){

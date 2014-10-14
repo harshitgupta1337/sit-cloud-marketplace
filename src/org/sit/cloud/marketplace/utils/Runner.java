@@ -65,16 +65,11 @@ public class Runner {
 		provider.setPromisedBandwidth(bw);
 		return provider;
 	}
-	public static List<Provider> constructProviders(){
-		List<Provider> providers = new ArrayList<Provider>();
-		providers.add(constructProvider(100, 98.1, 10.5));
-		providers.add(constructProvider(105, 99, 20));
-		providers.add(constructProvider(198, 98.3, 10.5));
-		return providers;
+	public static List<Provider> constructProviders() throws IOException{
+		return GetProviderFromInputData.getProviderFromInputData();
 	}
 	
 	public static void main(String args[]) throws IOException{
-		
 		
 		for(Provider provider : constructProviders()){
 			broker.registerProvider(provider);

@@ -9,7 +9,7 @@ import org.sit.cloud.marketplace.entities.Vm;
 
 public class Provider {
 	
-	String id;
+	private String id;
 	private int cores;
 	private int ram;
 	private int storage;
@@ -21,8 +21,8 @@ public class Provider {
 	private double currentAvailability;
 	private double currentBandwidth;
 	
-	public Provider(int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity){
-		id = UUID.randomUUID().toString();
+	public Provider(String id, int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity){
+		this.id = id;
 		this.cores = cores;
 		this.ram = ram;
 		this.storage = storage;
