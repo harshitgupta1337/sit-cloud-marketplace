@@ -35,6 +35,8 @@ public class GetProviderFromInputData {
 			double availability = cellIterator.next().getNumericCellValue();
 			double bw = cellIterator.next().getNumericCellValue();
 			double cost = cellIterator.next().getNumericCellValue();
+			cellIterator.next();
+			cellIterator.next();
 			int vmsAvail = (int) cellIterator.next().getNumericCellValue();
 			providers.add(new Provider(id, cores, ram, disk, cost, availability, bw, vmsAvail));
 		}
