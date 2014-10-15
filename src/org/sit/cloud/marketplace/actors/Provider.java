@@ -1,5 +1,6 @@
 package org.sit.cloud.marketplace.actors;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,6 +31,7 @@ public class Provider {
 		this.promisedAvailability = promisedAvailability;
 		this.promisedBandwidth = promisedBandwidth;
 		this.numOfAvailableVms = vmCapacity;
+		this.runningVmIdToVmMap = new HashMap<String, Vm>();
 	}
 	public int getNumOfAvailableVms(){
 		return numOfAvailableVms;
@@ -46,6 +48,7 @@ public class Provider {
 	public void createVm(Vm vm){
 		numOfAvailableVms--;
 		runningVmIdToVmMap.put(vm.getId(), vm);
+		
 	}
 	
 	/**

@@ -7,7 +7,6 @@ import java.util.List;
 import org.sit.cloud.marketplace.actors.Broker;
 import org.sit.cloud.marketplace.actors.Provider;
 import org.sit.cloud.marketplace.actors.User;
-import org.sit.cloud.marketplace.entities.Datacenter;
 import org.sit.cloud.marketplace.entities.UserRequest;
 
 public class Runner {
@@ -44,7 +43,7 @@ public class Runner {
 			index++;
 			User user = new User();
 			broker.registerUser(user);
-			UserRequest request = new UserRequest(user.getId(), 10, 0.0, 0.0, 0, 0, 0, 0.0, false);
+			UserRequest request = new UserRequest(user.getId(), 2, 90, 82, 2, 1, 250, 90, false);
 			broker.acceptUserRequest(request);
 		}
 		else if(index < userRequestInstants.size() && userRequestInstants.get(index) <= TimeKeeper.getTime()){
@@ -52,19 +51,6 @@ public class Runner {
 		}
 	}
 	
-	public static Datacenter createDatacenter(){
-		return null;
-	}
-	public static Provider constructProvider(double cost, double avail, double bw){
-		Provider provider = new Provider();
-		provider.setCores(10);
-		provider.setRam(1024);
-		provider.setStorage(2);
-		provider.setCost(cost);
-		provider.setPromisedAvailability(avail);
-		provider.setPromisedBandwidth(bw);
-		return provider;
-	}
 	public static List<Provider> constructProviders() throws IOException{
 		return GetProviderFromInputData.getProviderFromInputData();
 	}
@@ -75,9 +61,12 @@ public class Runner {
 			broker.registerProvider(provider);
 		}
 		//System.out.println(userRequestInstants);
-		
+		User user = new User();
+		broker.registerUser(user);
+		UserRequest request = new UserRequest(user.getId(), 2, 90, 82, 2, 1, 250, 90, false);
+		broker.acceptUserRequest(request);
 		while(TimeKeeper.tick()){
-			generateUserRequest();
+		//	generateUserRequest();
 			//broker.monitorVms();
 		}
 	}

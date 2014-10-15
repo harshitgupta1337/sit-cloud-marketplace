@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.dom4j.xpp.ProxyXmlStartTag;
 import org.sit.cloud.marketplace.decision.FuzzyProviderSelector;
 import org.sit.cloud.marketplace.decision.ProviderSelector;
 import org.sit.cloud.marketplace.entities.ProviderParams;
@@ -73,7 +74,7 @@ public class Broker {
 		registry = new Registry();
 		providerSelector = new FuzzyProviderSelector();
 		vmIdToNumberOfPollsMap = new HashMap<String, Integer>();
-		availabilityTrustMap = new HashMap<String, Double>();
+		availabilitySatisfactionMap = new HashMap<String, Double>();
 		bandwidthSatisfactionMap = new HashMap<String, Double>();
 		vmsToBePlotted = new ArrayList<String>();
 		writerForVm = new HashMap<String, BufferedWriter>();
@@ -116,8 +117,11 @@ public class Broker {
 		int numOfVms = userRequest.getNumOfVms();
 		List<ProviderParams> providerParams = registry.getProviderParams();
 		insertTrustValuesInProviderParams(providerParams);
+		System.out.println("YES");
 		Map<String, Integer> allocationMap = providerSelector.selectBestProvider(providerParams, numOfVms, userRequest);
 		for(String providerId : allocationMap.keySet()){
+			System.out.println("Provider ID : "+providerId + " VMs : "+allocationMap.get(providerId));
+			System.out.println("VMs available : "+registry.getProviderIdtoProviderMap().get(providerId).getNumOfAvailableVms());
 			for(int i=0;i<allocationMap.get(providerId);i++){
 				//
 				// SOME VERY INTRICATE THINGS NEED TO BE DONE HERE 
