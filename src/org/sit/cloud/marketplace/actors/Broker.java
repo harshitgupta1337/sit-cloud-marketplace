@@ -11,6 +11,7 @@ import java.util.Map;
 
 import org.sit.cloud.marketplace.decision.CrispProviderSelector;
 import org.sit.cloud.marketplace.decision.FuzzyProviderSelector;
+import org.sit.cloud.marketplace.decision.MigrationDecisionMaker;
 import org.sit.cloud.marketplace.decision.ProviderSelector;
 import org.sit.cloud.marketplace.entities.ProviderParams;
 import org.sit.cloud.marketplace.entities.QoS;
@@ -27,6 +28,7 @@ public class Broker {
 	private Registry registry;
 	private ProviderSelector providerSelector;
 	private ProviderSelector crispSelector;
+	private MigrationDecisionMaker migrationDecisionMaker;
 
 	/**
 	 * A map that maps each Vm id to the sum of the experienced availability for an entire week
@@ -84,6 +86,7 @@ public class Broker {
 		bandwidthTrustMap = new HashMap<String, Double>();
 		sumOfExperiencedAvailabilityMap = new HashMap<String, Double>();
 		sumOfExperiencedBandwidthMap = new HashMap<String, Double>();
+		migrationDecisionMaker = new MigrationDecisionMaker();
 	}
 	
 	public void registerProvider(Provider provider){
@@ -132,7 +135,7 @@ public class Broker {
 				Vm vm = new Vm(userRequest.isShouldBeViolated());
 				registerVmWithUser(vm, userRequest.getUserId());
 				ProviderParams promisedParams = getProviderParamsForProviderId(providerParams, providerId);
-				Transaction transaction = new Transaction(userRequest.getUserId(), vm.getId(), promisedParams.getAvailability(), promisedParams.getCost(), promisedParams.getBw());
+				Transaction transaction = new Transaction(userRequest.getUserId(), vm.getId(), promisedParams.getAvailability(), promisedParams.getCost(), promisedParams.getBw(), userRequest.getRequiredAvailability(), userRequest.getRequiredBandwidth());
 				registry.getVmIdToTransactionMap().put(vm.getId(), transaction);
 				
 				// SENDING THE CREATED VM TO THE PROVIDER
@@ -165,9 +168,21 @@ public class Broker {
 		}
 	}
 	
-	private void migrateVm(String vmId){
-		
+	
+	private List<ProviderParams> selectPossibleProviders(List<ProviderParams> providerParams, double requestedAvailability, double requestedBandwidth){
+		List<ProviderParams> suitableProviders = new ArrayList<ProviderParams>();
+		for(ProviderParams param : providerParams){
+			if(param.getAvailability() >= requestedAvailability && param.getBw()>=requestedBandwidth)
+				suitableProviders.add(param);
+		}
+		return suitableProviders;
 	}
+	private void migrateVm(String vmId){
+		List<ProviderParams> possibleTargetProviders = selectPossibleProviders(registry.getProviderParams(), registry.getVmIdToTransactionMap().get(vmId).getRequestedAvailability(), registry.getVmIdToTransactionMap().get(vmId).getRequestedBandwidth());
+		String providerId = migrationDecisionMaker.selectTargetProviderForMigration(possibleTargetProviders);
+		migrateVm(registry.getVmIdToVmMap().get(vmId).getProviderId(), providerId, vmId);
+	}
+	
 	
 	/**
 	 * This function fetched the currently offered QoS for each VM from the provider hosting it.

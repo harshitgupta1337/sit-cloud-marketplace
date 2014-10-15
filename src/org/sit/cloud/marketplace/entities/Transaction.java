@@ -9,18 +9,22 @@ public class Transaction {
 	private double availability;
 	private double cost;
 	private double bw;
+	private double requestedAvailability;
+	private double requestedBandwidth;
 	
 	private String id;
 	
 	private String userId;
 	
-	public Transaction(String userId, String vmId, double availability, double cost, double bw){
+	public Transaction(String userId, String vmId, double availability, double cost, double bw, double requestedAvailability, double requestedBandwidth){
 		this.userId = userId;
 		this.vmId = vmId;
 		this.availability = availability;
 		this.cost = cost;
 		this.bw = bw;
 		this.id = UUID.randomUUID().toString();
+		this.requestedAvailability = requestedAvailability;
+		this.requestedBandwidth = requestedBandwidth;
 	}
 
 	public String getVmId() {
@@ -69,6 +73,22 @@ public class Transaction {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public double getRequestedAvailability() {
+		return requestedAvailability;
+	}
+
+	public void setRequestedAvailability(double requestedAvailability) {
+		this.requestedAvailability = requestedAvailability;
+	}
+
+	public double getRequestedBandwidth() {
+		return requestedBandwidth;
+	}
+
+	public void setRequestedBandwidth(double requestedBandwidth) {
+		this.requestedBandwidth = requestedBandwidth;
 	}
 
 }
