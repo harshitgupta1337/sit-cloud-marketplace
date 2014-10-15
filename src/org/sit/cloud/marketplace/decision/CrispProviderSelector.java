@@ -12,16 +12,19 @@ public class CrispProviderSelector extends ProviderSelector {
 
 	@Override
 	protected List<ProviderParams> performInitialFiltering(
-			List<ProviderParams> providers, int cores, int ram, int storage) {
+			List<ProviderParams> providers, int cores, int ram, int storage, int numOfVms) {
 		List<ProviderParams> filteredProviders = new ArrayList<ProviderParams>();
 		for(ProviderParams providerParams : providers){
-			if(providerParams.getCores() >= cores && providerParams.getStorage() >= storage && providerParams.getRam() >= ram)
+			if(providerParams.getCores() >= cores && providerParams.getStorage() >= storage && providerParams.getRam() >= ram && providerParams.getNumOfVmsAvailable() >= numOfVms)
 				filteredProviders.add(providerParams);
 		}
+		System.out.println("Filtered providers' size : "+filteredProviders.size());
 		return filteredProviders;
 	}
 
 	private List<ProviderParams> sortProviderParams(List<ProviderParams> providerParams){
+		System.out.println("Sorted providers' size : "+providerParams.size());
+
 		for(int i=0;i<providerParams.size();i++){
 			ProviderParams smallestCost = providerParams.get(i);
 			int smallestCostIndex = i;
@@ -36,16 +39,33 @@ public class CrispProviderSelector extends ProviderSelector {
 			providerParams.add(i, smallestCost);
 			providerParams.remove(smallestCostIndex);
 			providerParams.add(smallestCostIndex, provider_i);
-			
 		}
 		return providerParams;
 	}
 
+	protected List<ProviderParams> getSuitableProviders(List<ProviderParams> params, UserRequest userRequest){
+		System.out.println("Suitable providers' size : "+params.size());
+		List<ProviderParams> suitableProviders = new ArrayList<ProviderParams>();
+		System.out.println("Bandwidth : "+userRequest.getRequiredBandwidth());
+		System.out.println("Availability : "+userRequest.getRequiredAvailability());
+		System.out.println("Cost : "+userRequest.getMaxAffordableCost());
+		
+		for(ProviderParams providerParam : params){
+			
+			if(providerParam.getBw() >= userRequest.getRequiredBandwidth() && providerParam.getAvailability() >= userRequest.getRequiredAvailability() && providerParam.getCost()<=userRequest.getMaxAffordableCost()){
+				suitableProviders.add(providerParam);
+				System.out.println("YES111");
+			}
+				
+		}
+		return suitableProviders;
+	}
+	
 	@Override
 	protected Map<String, Integer> getAllocationMapAfterInitialFiltering(
 			List<ProviderParams> providerParams, UserRequest userRequest) {
 		Map<String, Integer> allocationMap = new HashMap<String, Integer>();
-		List<ProviderParams> sortedProviderParams = sortProviderParams(providerParams);
+		List<ProviderParams> sortedProviderParams = sortProviderParams(getSuitableProviders(providerParams, userRequest));
 		int remainingVmsToBeAllocated = userRequest.getNumOfVms();
 		for(int i=0;i<sortedProviderParams.size();i++){
 			if(remainingVmsToBeAllocated == 0)

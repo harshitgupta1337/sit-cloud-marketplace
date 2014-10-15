@@ -32,7 +32,7 @@ public class GetProviderFromInputData {
 			int cores = (int) cellIterator.next().getNumericCellValue(); 
 			int ram = (int) cellIterator.next().getNumericCellValue();
 			int disk = (int) cellIterator.next().getNumericCellValue();
-			double availability = cellIterator.next().getNumericCellValue();
+			double availability = (int) cellIterator.next().getNumericCellValue();
 			double bw = cellIterator.next().getNumericCellValue();
 			double cost = cellIterator.next().getNumericCellValue();
 			cellIterator.next();

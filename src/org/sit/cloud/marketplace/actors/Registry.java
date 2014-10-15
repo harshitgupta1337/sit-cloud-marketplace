@@ -41,7 +41,7 @@ public class Registry {
 	public List<ProviderParams> getProviderParams(){
 		List<ProviderParams> providerParamsList = new ArrayList<ProviderParams>();
 		for(String providerId : providerIdtoProviderMap.keySet()){
-			ProviderParams params = providerIdtoProviderMap.get(providerId).getCurrentQos();
+			ProviderParams params = providerIdtoProviderMap.get(providerId).getPromisedQos();
 			if(params != null)
 				providerParamsList.add(params);
 		}

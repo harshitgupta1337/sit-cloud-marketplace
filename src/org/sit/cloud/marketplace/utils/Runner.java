@@ -43,7 +43,7 @@ public class Runner {
 			index++;
 			User user = new User();
 			broker.registerUser(user);
-			UserRequest request = new UserRequest(user.getId(), 2, 90, 82, 2, 1, 250, 90, false);
+			UserRequest request = new UserRequest(user.getId(), 1, 70, 62, 2, 1, 250, 200, false);
 			broker.acceptUserRequest(request);
 		}
 		else if(index < userRequestInstants.size() && userRequestInstants.get(index) <= TimeKeeper.getTime()){
@@ -65,10 +65,10 @@ public class Runner {
 		broker.registerUser(user);
 		UserRequest request = new UserRequest(user.getId(), 2, 90, 82, 2, 1, 250, 90, false);
 		broker.acceptUserRequest(request);
-		while(TimeKeeper.tick()){
+		//while(TimeKeeper.tick()){
 		//	generateUserRequest();
 			//broker.monitorVms();
-		}
+		//}
 	}
 	
 	

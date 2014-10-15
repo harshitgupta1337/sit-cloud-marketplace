@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.dom4j.xpp.ProxyXmlStartTag;
+import org.sit.cloud.marketplace.decision.CrispProviderSelector;
 import org.sit.cloud.marketplace.decision.FuzzyProviderSelector;
 import org.sit.cloud.marketplace.decision.ProviderSelector;
 import org.sit.cloud.marketplace.entities.ProviderParams;
@@ -26,6 +26,7 @@ public class Broker {
 	
 	private Registry registry;
 	private ProviderSelector providerSelector;
+	private ProviderSelector crispSelector;
 
 	/**
 	 * A map that maps each Vm id to the sum of the experienced availability for an entire week
@@ -71,6 +72,7 @@ public class Broker {
 	private Map<String, BufferedWriter> writerForVm;
 	
 	public Broker(){
+		crispSelector = new CrispProviderSelector();
 		registry = new Registry();
 		providerSelector = new FuzzyProviderSelector();
 		vmIdToNumberOfPollsMap = new HashMap<String, Integer>();
@@ -119,6 +121,7 @@ public class Broker {
 		insertTrustValuesInProviderParams(providerParams);
 		System.out.println("YES");
 		Map<String, Integer> allocationMap = providerSelector.selectBestProvider(providerParams, numOfVms, userRequest);
+		System.out.println(allocationMap.keySet().size());
 		for(String providerId : allocationMap.keySet()){
 			System.out.println("Provider ID : "+providerId + " VMs : "+allocationMap.get(providerId));
 			System.out.println("VMs available : "+registry.getProviderIdtoProviderMap().get(providerId).getNumOfAvailableVms());

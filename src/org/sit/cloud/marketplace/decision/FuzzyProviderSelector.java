@@ -17,10 +17,10 @@ import fuzzyopt1.fuzopt1;
 public class FuzzyProviderSelector extends ProviderSelector {
 	@Override
 	protected List<ProviderParams> performInitialFiltering(
-			List<ProviderParams> providers, int cores, int ram, int storage) {
+			List<ProviderParams> providers, int cores, int ram, int storage, int numOfVms) {
 		List<ProviderParams> filteredProviders = new ArrayList<ProviderParams>();
 		for(ProviderParams providerParams : providers){
-			if(providerParams.getCores() >= cores && providerParams.getStorage() >= storage && providerParams.getRam() >= ram)
+			if(providerParams.getCores() >= cores && providerParams.getStorage() >= storage && providerParams.getRam() >= ram && providerParams.getNumOfVmsAvailable() >= numOfVms)
 				filteredProviders.add(providerParams);
 		}
 		return filteredProviders;	
@@ -113,6 +113,7 @@ public class FuzzyProviderSelector extends ProviderSelector {
 		
 		
 		String[] parts = z[0].toString().split("\n");
+
 		for (i = 0; i < parts.length; ++i) {
 			providerParams.get(i).setFuzzyUtility(Float.parseFloat(parts[i]));
 		}

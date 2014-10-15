@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.apache.commons.logging.impl.AvalonLogger;
 import org.sit.cloud.marketplace.entities.ProviderParams;
 import org.sit.cloud.marketplace.entities.QoS;
 import org.sit.cloud.marketplace.entities.Vm;

@@ -9,10 +9,10 @@ import org.sit.cloud.marketplace.entities.UserRequest;
 public abstract class ProviderSelector {
 	
 	public Map<String, Integer> selectBestProvider(List<ProviderParams> providers, int numOfVms, UserRequest userRequest){
-		return getAllocationMapAfterInitialFiltering(performInitialFiltering(providers, userRequest.getCores(), userRequest.getRam(), userRequest.getStorage()), userRequest);
+		return getAllocationMapAfterInitialFiltering(performInitialFiltering(providers, userRequest.getCores(), userRequest.getRam(), userRequest.getStorage(), userRequest.getNumOfVms()), userRequest);
 	}
 	
-	protected abstract List<ProviderParams> performInitialFiltering(List<ProviderParams> providers, int cores, int ram, int storage);
+	protected abstract List<ProviderParams> performInitialFiltering(List<ProviderParams> providers, int cores, int ram, int storage, int getNumOfVms);
 	
 	protected abstract Map<String, Integer> getAllocationMapAfterInitialFiltering(List<ProviderParams> providers, UserRequest userRequest);
 	
