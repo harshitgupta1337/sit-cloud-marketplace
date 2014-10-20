@@ -1,0 +1,51 @@
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnguis\nntraintool.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnutils\+nntype\plot_fcn.m 
+(because of toolbox compilability rules) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\adapt.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnutils\+nntype\adaptive_fcn.m 
+(because of toolbox compilability rules) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\adapt.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\nnnetwork\linearlayer.m 
+(because of toolbox compilability rules) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\init.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\nnnetwork\linearlayer.m 
+(because of toolbox compilability rules) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\init.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\nnnetwork\feedforwardnet.m 
+(because of toolbox compilability rules) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\init.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\nnnetwork\narxnet.m 
+(because of toolbox compilability rules) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\init.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\matlab\scribe\legend.m 
+(C:\Program Files\MATLAB\R2013a\toolbox\compiler\depfun.opts, line 7: 
+exclude if $caller in [$toolbox/matlab, $toolbox/daq] and ...
+           $file in $toolbox and ...
+           $file not in [$toolbox/matlab, $toolbox/shared, $toolbox/compiler] ...
+           and not ($file in $toolbox/distcomp and $caller in $toolbox/matlab)) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\train.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\nnnetwork\linearlayer.m 
+(because of toolbox compilability rules) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\gensim.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\nnnetwork\linearlayer.m 
+(because of toolbox compilability rules) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\view.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\nnnetwork\linearlayer.m 
+(because of toolbox compilability rules) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\view.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\matlab\specgraph\private\barHGUsingMATLABClasses.p 
+(C:\Program Files\MATLAB\R2013a\toolbox\compiler\depfun.opts, line 7: 
+exclude if $caller in [$toolbox/matlab, $toolbox/daq] and ...
+           $file in $toolbox and ...
+           $file not in [$toolbox/matlab, $toolbox/shared, $toolbox/compiler] ...
+           and not ($file in $toolbox/distcomp and $caller in $toolbox/matlab)) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\@network\view.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\matlab\specgraph\private\barV6.m 
+(C:\Program Files\MATLAB\R2013a\toolbox\compiler\depfun.opts, line 7: 
+exclude if $caller in [$toolbox/matlab, $toolbox/daq] and ...
+           $file in $toolbox and ...
+           $file not in [$toolbox/matlab, $toolbox/shared, $toolbox/compiler] ...
+           and not ($file in $toolbox/distcomp and $caller in $toolbox/matlab)) 
+C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnet\nntrain\trainscg.m 
+  called by C:\Program Files\MATLAB\R2013a\toolbox\nnet\nnutils\+nncalc\setup1.m 
+(because of toolbox compilability rules) 

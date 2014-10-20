@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import migrdecider.migrdecider;
+
 import org.sit.cloud.marketplace.decision.CrispProviderSelector;
 import org.sit.cloud.marketplace.decision.FuzzyProviderSelector;
 import org.sit.cloud.marketplace.decision.MigrationDecisionMaker;
@@ -22,6 +24,10 @@ import org.sit.cloud.marketplace.entities.Vm;
 import org.sit.cloud.marketplace.utils.TimeKeeper;
 import org.sit.cloud.marketplace.utils.Utils;
 
+import com.mathworks.toolbox.javabuilder.MWClassID;
+import com.mathworks.toolbox.javabuilder.MWException;
+import com.mathworks.toolbox.javabuilder.MWNumericArray;
+
 
 public class Broker {
 	
@@ -29,6 +35,7 @@ public class Broker {
 	private ProviderSelector providerSelector;
 	private ProviderSelector crispSelector;
 	private MigrationDecisionMaker migrationDecisionMaker;
+	private Map<String, Double> vmIdToMigrationValue;
 
 	/**
 	 * A map that maps each Vm id to the sum of the experienced availability for an entire week
@@ -41,12 +48,12 @@ public class Broker {
 	private Map<String, Double> sumOfExperiencedBandwidthMap;
 	
 	/**
-	 * A map that maps each Vm id to the sum of the satisfaction in availability for that Vm
+	 * A map that maps each Vm id to the satisfaction in availability for that Vm
 	 */
 	private Map<String, Double> bandwidthSatisfactionMap;
 	
 	/**
-	 * A map that maps each Vm id to the sum of the satisfaction in bandwidth for that Vm
+	 * A map that maps each Vm id to the satisfaction in bandwidth for that Vm
 	 */
 	private Map<String, Double> availabilitySatisfactionMap;
 	
@@ -72,8 +79,10 @@ public class Broker {
 	 */
 	private List<String> vmsToBePlotted;
 	private Map<String, BufferedWriter> writerForVm;
+	private migrdecider theMigration;
 	
 	public Broker(){
+		vmIdToMigrationValue = new HashMap<String, Double>();
 		crispSelector = new CrispProviderSelector();
 		registry = new Registry();
 		providerSelector = new FuzzyProviderSelector();
@@ -87,6 +96,12 @@ public class Broker {
 		sumOfExperiencedAvailabilityMap = new HashMap<String, Double>();
 		sumOfExperiencedBandwidthMap = new HashMap<String, Double>();
 		migrationDecisionMaker = new MigrationDecisionMaker();
+		try {
+			theMigration = new migrdecider();
+		} catch (MWException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void registerProvider(Provider provider){
@@ -137,6 +152,7 @@ public class Broker {
 				ProviderParams promisedParams = getProviderParamsForProviderId(providerParams, providerId);
 				Transaction transaction = new Transaction(userRequest.getUserId(), vm.getId(), promisedParams.getAvailability(), promisedParams.getCost(), promisedParams.getBw(), userRequest.getRequiredAvailability(), userRequest.getRequiredBandwidth());
 				registry.getVmIdToTransactionMap().put(vm.getId(), transaction);
+				vmIdToMigrationValue.put(vm.getId(), 1.0);
 				
 				// SENDING THE CREATED VM TO THE PROVIDER
 				registry.getProviderIdtoProviderMap().get(providerId).createVm(vm);
@@ -153,17 +169,49 @@ public class Broker {
 	}
 
 	
-	public void performMonitoringAndMigrations() throws IOException{
+	public void performMonitoringAndMigrations() throws IOException, MWException{
 		Map<String, QoS> vmIdToQosMap = monitorVms();
 		Map<String, SlaViolationData> vmIdToSlaViolationMap = calculateSlaViolations(vmIdToQosMap);
 		checkForSLAViolation(vmIdToSlaViolationMap);
-		performNecessaryMigrations();
+		if(TimeKeeper.shouldViolationsBeCalculated())
+			performNecessaryMigrations();
 	}
 	
-	private void performNecessaryMigrations(){
+	private void performNecessaryMigrations() throws MWException{
+		if(vmIdToMigrationValue.keySet().size() > 0){
+			double satisfactionValues[][] = new double[vmIdToMigrationValue.keySet().size()][2];
+			int i=0;
+			
+			for(String vmId : vmIdToMigrationValue.keySet()){
+				System.out.println("+++++");
+				satisfactionValues[i][0] = availabilitySatisfactionMap.get(vmId);
+				if(satisfactionValues[i][0] > 1.6){
+					System.out.println("AVAIL OUT OF RANGE");
+					System.exit(0);
+				}
+				satisfactionValues[i][1] = bandwidthSatisfactionMap.get(vmId);
+				if(satisfactionValues[i][1] > 1.6){
+					System.out.println("BANDWIDTH OUT OF RANGE");
+					System.exit(0);
+				}
+				i++;
+			}
+			Object[] y = null;
+			MWNumericArray x = new MWNumericArray(satisfactionValues, MWClassID.DOUBLE);
+			System.out.println(x.toArray().length);
+			y=theMigration.migration(1,x);
+			
+			String[] parts = y[0].toString().split("\n");
+		    i=0;
+			for(String vmId : vmIdToMigrationValue.keySet()){
+				vmIdToMigrationValue.put(vmId, Double.parseDouble(parts[i]));
+				i++;
+			}
+		}	
 		for(String vmId : registry.getVmIdToVmMap().keySet()){
 			if(doesVmNeedMigration(vmId)){
 				migrateVm(vmId);
+				System.out.println("----------------------------");
 			}
 		}
 	}
@@ -224,8 +272,12 @@ public class Broker {
 			
 			if(TimeKeeper.shouldViolationsBeCalculated()){
 				// NOW CALCULATE F_A(t_i) and F_BW(t_i)
-				availabilitySatisfactionMap.put(vmId, (sumOfExperiencedAvailabilityMap.get(vmId)/(vmIdToNumberOfPollsMap.get(vmId))) + (availabilitySatisfactionMap.get(vmId)/Math.E));
-				bandwidthSatisfactionMap.put(vmId, (sumOfExperiencedBandwidthMap.get(vmId)/(vmIdToNumberOfPollsMap.get(vmId))) + (bandwidthSatisfactionMap.get(vmId)/Math.E));
+				availabilitySatisfactionMap.put(vmId, sumOfExperiencedAvailabilityMap.get(vmId)/
+						(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedAvailability()) 
+						+ availabilitySatisfactionMap.get(vmId)/Math.E);
+				bandwidthSatisfactionMap.put(vmId, sumOfExperiencedBandwidthMap.get(vmId)/
+						(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedBandwidth()) 
+						+ bandwidthSatisfactionMap.get(vmId)/Math.E);
 				
 				refreshTrustValues();
 				
@@ -247,6 +299,8 @@ public class Broker {
 			providerIdToVmIdMap.put(providerId, new ArrayList<String>());
 		}
 		for(String vmId : registry.getVmIdToVmMap().keySet()){
+			if(providerIdToVmIdMap.get(registry.getVmIdToVmMap().get(vmId).getProviderId())==null)
+				providerIdToVmIdMap.put(registry.getVmIdToVmMap().get(vmId).getProviderId(), new ArrayList<String>());
 			providerIdToVmIdMap.get(registry.getVmIdToVmMap().get(vmId).getProviderId()).add(vmId);
 		}
 		for(String providerId : availabilityTrustMap.keySet()){
@@ -276,7 +330,10 @@ public class Broker {
 	 * @return true if the vm requires to be migrated , false otherwise
 	 */
 	private boolean doesVmNeedMigration(String vmId){
-		return false;
+		if(vmIdToMigrationValue.get(vmId)<0.5)
+			return true;
+		else
+			return false;
 	}
 	
 	public void migrateVm(String sourceProvider, String destProvider, String vmId){
@@ -363,5 +420,13 @@ public class Broker {
 
 	public void setBandwidthTrustMap(Map<String, Double> bandwidthTrustMap) {
 		this.bandwidthTrustMap = bandwidthTrustMap;
+	}
+
+	public Map<String, Double> getVmIdToMigrationValue() {
+		return vmIdToMigrationValue;
+	}
+
+	public void setVmIdToMigrationValue(Map<String, Double> vmIdToMigrationValue) {
+		this.vmIdToMigrationValue = vmIdToMigrationValue;
 	}	
 }

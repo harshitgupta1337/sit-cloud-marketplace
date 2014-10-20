@@ -9,6 +9,8 @@ import org.sit.cloud.marketplace.actors.Provider;
 import org.sit.cloud.marketplace.actors.User;
 import org.sit.cloud.marketplace.entities.UserRequest;
 
+import com.mathworks.toolbox.javabuilder.MWException;
+
 public class Runner {
 
 	private static Broker broker = new Broker();
@@ -55,7 +57,7 @@ public class Runner {
 		return GetProviderFromInputData.getProviderFromInputData();
 	}
 	
-	public static void main(String args[]) throws IOException{
+	public static void main(String args[]) throws IOException, MWException{
 		
 		for(Provider provider : constructProviders()){
 			broker.registerProvider(provider);
@@ -63,12 +65,12 @@ public class Runner {
 		//System.out.println(userRequestInstants);
 		User user = new User();
 		broker.registerUser(user);
-		UserRequest request = new UserRequest(user.getId(), 2, 90, 82, 2, 1, 250, 90, false);
-		broker.acceptUserRequest(request);
-		//while(TimeKeeper.tick()){
-		//	generateUserRequest();
-			//broker.monitorVms();
-		//}
+		//UserRequest request = new UserRequest(user.getId(), 2, 90, 82, 2, 1, 250, 90, false);
+		//broker.acceptUserRequest(request);
+		while(TimeKeeper.tick()){
+			generateUserRequest();
+			broker.performMonitoringAndMigrations();
+		}
 	}
 	
 	

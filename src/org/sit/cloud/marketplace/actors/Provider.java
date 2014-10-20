@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.commons.logging.impl.AvalonLogger;
 import org.sit.cloud.marketplace.entities.ProviderParams;
 import org.sit.cloud.marketplace.entities.QoS;
 import org.sit.cloud.marketplace.entities.Vm;
@@ -22,8 +21,9 @@ public class Provider {
 	private Map<String, Vm> runningVmIdToVmMap;
 	private double currentAvailability;
 	private double currentBandwidth;
+	private boolean isBadProvider;
 	
-	public Provider(String id, int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity){
+	public Provider(String id, int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity, boolean isBadProvider){
 		this.id = id;
 		this.cores = cores;
 		this.ram = ram;
@@ -33,6 +33,7 @@ public class Provider {
 		this.promisedBandwidth = promisedBandwidth;
 		this.numOfAvailableVms = vmCapacity;
 		this.runningVmIdToVmMap = new HashMap<String, Vm>();
+		this.isBadProvider = isBadProvider;
 	}
 	public int getNumOfAvailableVms(){
 		return numOfAvailableVms;
@@ -147,9 +148,12 @@ public class Provider {
 	
 	public Map<String, QoS> getQosExperiencedByVms(){
 		
+		Map<String, QoS> map = new HashMap<String, QoS>();
 		// IF ACTUAL QoS > PROMISED QoS, THEN RETURN PROMISED VALUE
-		
-		return null;
+		for(String vmId : runningVmIdToVmMap.keySet()){
+			map.put(vmId, new QoS(getPromisedAvailability(), getPromisedBandwidth()));
+		}
+		return map;
 	}
 	
 	public double getAvailability(){
@@ -197,5 +201,11 @@ public class Provider {
 
 	public void setCurrentBandwidth(double currentBandwidth) {
 		this.currentBandwidth = currentBandwidth;
+	}
+	public boolean isBadProvider() {
+		return isBadProvider;
+	}
+	public void setBadProvider(boolean isBadProvider) {
+		this.isBadProvider = isBadProvider;
 	}
 }
