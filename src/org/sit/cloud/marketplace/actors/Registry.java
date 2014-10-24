@@ -13,6 +13,8 @@ public class Registry {
 	
 	private Map<String, User> userIdtoUserMap;
 	
+	private Map<String, Boolean> vmIdToIsMarkedMap;
+	
 	private Map<String, Provider> providerIdtoProviderMap;
 	
 	private Map<String, List<String>> userIdToVmIdsMap;
@@ -27,6 +29,7 @@ public class Registry {
 		userIdtoUserMap = new HashMap<String, User>();
 		vmIdToVmMap = new HashMap<String, Vm>();
 		userIdToVmIdsMap = new HashMap<String, List<String>>();
+		vmIdToIsMarkedMap = new HashMap<String, Boolean>();
 	}
 	
 	public void registerUser(User user){

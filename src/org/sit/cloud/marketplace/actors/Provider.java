@@ -23,7 +23,7 @@ public class Provider {
 	private double currentBandwidth;
 	private boolean isBadProvider;
 	
-	public Provider(String id, int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity, boolean isBadProvider){
+	public Provider(String id, int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity/*, boolean isBadProvider*/){
 		this.id = id;
 		this.cores = cores;
 		this.ram = ram;
@@ -33,7 +33,7 @@ public class Provider {
 		this.promisedBandwidth = promisedBandwidth;
 		this.numOfAvailableVms = vmCapacity;
 		this.runningVmIdToVmMap = new HashMap<String, Vm>();
-		this.isBadProvider = isBadProvider;
+		//this.isBadProvider = isBadProvider;
 	}
 	public int getNumOfAvailableVms(){
 		return numOfAvailableVms;
@@ -151,7 +151,11 @@ public class Provider {
 		Map<String, QoS> map = new HashMap<String, QoS>();
 		// IF ACTUAL QoS > PROMISED QoS, THEN RETURN PROMISED VALUE
 		for(String vmId : runningVmIdToVmMap.keySet()){
-			map.put(vmId, new QoS(getPromisedAvailability(), getPromisedBandwidth()));
+			if(runningVmIdToVmMap.get(vmId).isShouldBeViolated()){
+				map.put(vmId, new QoS((Math.random()/5 + 0.7)*getPromisedAvailability(), (Math.random()/5 + 0.7)*getPromisedBandwidth()));
+			}else{
+				map.put(vmId, new QoS(getPromisedAvailability(), getPromisedBandwidth()));
+			}
 		}
 		return map;
 	}

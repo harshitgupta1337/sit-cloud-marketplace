@@ -11,18 +11,18 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.sit.cloud.marketplace.actors.Provider;
+import org.sit.cloud.marketplace.entities.UserRequest;
 
-public class GetProviderFromInputData {
+public class GetUserRequestsFromInputData {
 	
-	public static List<Provider> getProviderFromInputData() throws IOException{
-		FileInputStream file = new FileInputStream(new File("InputData/providers.xls"));
+	public static List<UserRequest> getUserRequestFromInputData() throws IOException{
+		FileInputStream file = new FileInputStream(new File("InputData/custrreq.xls"));
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
-		HSSFSheet sheet = workbook.getSheet("providers");
+		HSSFSheet sheet = workbook.getSheet("userRequests");
 		Iterator<Row> rowIterator = sheet.iterator();
 		Row row;
 
-		List<Provider> providers = new ArrayList<Provider>();
+		List<UserRequest> userRequests = new ArrayList<UserRequest>();
 
 		while(rowIterator.hasNext())
 		{
@@ -35,17 +35,16 @@ public class GetProviderFromInputData {
 			double availability = cellIterator.next().getNumericCellValue();
 			double bw = cellIterator.next().getNumericCellValue();
 			double cost = cellIterator.next().getNumericCellValue();
-			cellIterator.next();
-			cellIterator.next();
-			int vmsAvail = (int) cellIterator.next().getNumericCellValue();
-			providers.add(new Provider(id, cores, ram, disk, cost, availability, bw, vmsAvail));
+			int numOfVms = (int) cellIterator.next().getNumericCellValue();
+			
+			userRequests.add(new UserRequest(id, numOfVms, availability, bw, cores, ram, disk, cost, (Math.random()<0.4)?true:false));
 		}
-		return providers;
+		return userRequests;
 	
 	}
 	
 	public static void main(String args[]) throws IOException{
-		System.out.println(getProviderFromInputData().size());
+		System.out.println(getUserRequestFromInputData().size());
 	}
 
 }

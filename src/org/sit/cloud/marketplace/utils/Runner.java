@@ -16,7 +16,10 @@ public class Runner {
 	private static Broker broker = new Broker();
 	
 	private static int index = 0;
+	private static int requestIndex = 0;
+	
 	private static List<Long> userRequestInstants = getUserRequestInstants();
+	private static List<UserRequest> userRequests;
 	
 	private static List<Long> sort(List<Long> input){
 		for(int i=0;i<input.size();i++){
@@ -40,13 +43,24 @@ public class Runner {
 		return sort(userRequestInstants);
 	}
 	
+	private static void fillUserRequests() throws IOException{
+		userRequests = GetUserRequestsFromInputData.getUserRequestFromInputData();
+	}
+	
 	private static void generateUserRequest(){
 		if(index < userRequestInstants.size() && userRequestInstants.get(index) == TimeKeeper.getTime()){
 			index++;
-			User user = new User();
-			broker.registerUser(user);
-			UserRequest request = new UserRequest(user.getId(), 1, 70, 62, 2, 1, 250, 200, false);
-			broker.acceptUserRequest(request);
+			
+			if(requestIndex < userRequests.size()){
+				User user = new User();
+				UserRequest userRequest = userRequests.get(requestIndex++);
+				
+				user.setId(userRequest.getUserId());
+				broker.registerUser(user);
+				broker.acceptUserRequest(userRequest);
+			}
+				
+			//UserRequest request = new UserRequest(user.getId(), 1, 70, 62, 2, 1, 250, 200, (Math.random()<0.4)?true:false);
 		}
 		else if(index < userRequestInstants.size() && userRequestInstants.get(index) <= TimeKeeper.getTime()){
 			index++;
@@ -58,15 +72,12 @@ public class Runner {
 	}
 	
 	public static void main(String args[]) throws IOException, MWException{
-		
+		fillUserRequests();
 		for(Provider provider : constructProviders()){
 			broker.registerProvider(provider);
 		}
-		//System.out.println(userRequestInstants);
 		User user = new User();
 		broker.registerUser(user);
-		//UserRequest request = new UserRequest(user.getId(), 2, 90, 82, 2, 1, 250, 90, false);
-		//broker.acceptUserRequest(request);
 		while(TimeKeeper.tick()){
 			generateUserRequest();
 			broker.performMonitoringAndMigrations();

@@ -183,7 +183,7 @@ public class Broker {
 			int i=0;
 			
 			for(String vmId : vmIdToMigrationValue.keySet()){
-				System.out.println("+++++");
+				//System.out.println("+++++");
 				satisfactionValues[i][0] = availabilitySatisfactionMap.get(vmId);
 				if(satisfactionValues[i][0] > 1.6){
 					System.out.println("AVAIL OUT OF RANGE");
@@ -211,7 +211,7 @@ public class Broker {
 		for(String vmId : registry.getVmIdToVmMap().keySet()){
 			if(doesVmNeedMigration(vmId)){
 				migrateVm(vmId);
-				System.out.println("----------------------------");
+				System.out.println("----------------------------\n----------------------------\n----------------------------");
 			}
 		}
 	}
@@ -330,7 +330,7 @@ public class Broker {
 	 * @return true if the vm requires to be migrated , false otherwise
 	 */
 	private boolean doesVmNeedMigration(String vmId){
-		if(vmIdToMigrationValue.get(vmId)<0.5)
+		if(vmIdToMigrationValue.get(vmId)<0.8)
 			return true;
 		else
 			return false;
