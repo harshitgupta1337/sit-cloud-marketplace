@@ -136,18 +136,24 @@ public class Broker {
 	public void acceptUserRequest(UserRequest userRequest){
 		int numOfVms = userRequest.getNumOfVms();
 		List<ProviderParams> providerParams = registry.getProviderParams();
+		System.out.println("------------------------------------\nAVAIL\tBW\tCOST\n------------------------------------");
+		System.out.printf("%.2f\t%.2f\t%.2f\n", userRequest.getRequiredAvailability(), userRequest.getRequiredBandwidth(),  userRequest.getMaxAffordableCost());
+		//System.out.println(userRequest.getRequiredAvailability()+"\t"+userRequest.getRequiredBandwidth()+"\t"+userRequest.getMaxAffordableCost());
 		insertTrustValuesInProviderParams(providerParams);
-		System.out.println("YES");
+		//System.out.println("YES");
 		Map<String, Integer> allocationMap = providerSelector.selectBestProvider(providerParams, numOfVms, userRequest);
-		System.out.println(allocationMap.keySet().size());
+		//System.out.println(allocationMap.keySet().size());
 		for(String providerId : allocationMap.keySet()){
-			System.out.println("Provider ID : "+providerId + " VMs : "+allocationMap.get(providerId));
-			System.out.println("VMs available : "+registry.getProviderIdtoProviderMap().get(providerId).getNumOfAvailableVms());
+			//System.out.println("Provider ID : "+providerId + " VMs : "+allocationMap.get(providerId));
+			System.out.println(registry.getProviderIdtoProviderMap().get(providerId).getPromisedAvailability()+"\t"+registry.getProviderIdtoProviderMap().get(providerId).getPromisedBandwidth()+"\t"+registry.getProviderIdtoProviderMap().get(providerId).getCost());
+			System.out.println("------------------------------------\n");
+			//System.out.println("VMs available : "+registry.getProviderIdtoProviderMap().get(providerId).getNumOfAvailableVms());
 			for(int i=0;i<allocationMap.get(providerId);i++){
 				//
 				// SOME VERY INTRICATE THINGS NEED TO BE DONE HERE 
 				
 				Vm vm = new Vm(userRequest.isShouldBeViolated());
+				vm.setProviderId(providerId);
 				registerVmWithUser(vm, userRequest.getUserId());
 				ProviderParams promisedParams = getProviderParamsForProviderId(providerParams, providerId);
 				Transaction transaction = new Transaction(userRequest.getUserId(), vm.getId(), promisedParams.getAvailability(), promisedParams.getCost(), promisedParams.getBw(), userRequest.getRequiredAvailability(), userRequest.getRequiredBandwidth());
@@ -178,12 +184,12 @@ public class Broker {
 	}
 	
 	private void performNecessaryMigrations() throws MWException{
+		System.out.println("Inside performNecessaryMigrations");
 		if(vmIdToMigrationValue.keySet().size() > 0){
 			double satisfactionValues[][] = new double[vmIdToMigrationValue.keySet().size()][2];
 			int i=0;
 			
 			for(String vmId : vmIdToMigrationValue.keySet()){
-				//System.out.println("+++++");
 				satisfactionValues[i][0] = availabilitySatisfactionMap.get(vmId);
 				if(satisfactionValues[i][0] > 1.6){
 					System.out.println("AVAIL OUT OF RANGE");
@@ -211,24 +217,45 @@ public class Broker {
 		for(String vmId : registry.getVmIdToVmMap().keySet()){
 			if(doesVmNeedMigration(vmId)){
 				migrateVm(vmId);
-				System.out.println("----------------------------\n----------------------------\n----------------------------");
 			}
 		}
 	}
 	
 	
-	private List<ProviderParams> selectPossibleProviders(List<ProviderParams> providerParams, double requestedAvailability, double requestedBandwidth){
+	private List<ProviderParams> selectPossibleProviders(List<ProviderParams> providerParams, double requestedAvailability, double requestedBandwidth, double currentProviderAvailTrust, double currentProviderBwTrust){
 		List<ProviderParams> suitableProviders = new ArrayList<ProviderParams>();
+		
 		for(ProviderParams param : providerParams){
-			if(param.getAvailability() >= requestedAvailability && param.getBw()>=requestedBandwidth)
+			if(param.getAvailability() >= requestedAvailability && param.getBw()>=requestedBandwidth && 
+					availabilityTrustMap.get(param.getProviderId())>=currentProviderAvailTrust && 
+					bandwidthTrustMap.get(param.getProviderId())>=currentProviderBwTrust){
+				param.setTrustInAvailability(availabilityTrustMap.get(param.getProviderId()));
+				param.setTrustInBandwidth(bandwidthTrustMap.get(param.getProviderId()));
 				suitableProviders.add(param);
+			}
 		}
 		return suitableProviders;
 	}
-	private void migrateVm(String vmId){
-		List<ProviderParams> possibleTargetProviders = selectPossibleProviders(registry.getProviderParams(), registry.getVmIdToTransactionMap().get(vmId).getRequestedAvailability(), registry.getVmIdToTransactionMap().get(vmId).getRequestedBandwidth());
-		String providerId = migrationDecisionMaker.selectTargetProviderForMigration(possibleTargetProviders);
-		migrateVm(registry.getVmIdToVmMap().get(vmId).getProviderId(), providerId, vmId);
+	private void migrateVm(String vmId) throws MWException{
+		String currentProviderId = registry.getVmIdToVmMap().get(vmId).getProviderId();
+		
+		List<ProviderParams> possibleTargetProviders = selectPossibleProviders(registry.getProviderParams(), 
+				registry.getVmIdToTransactionMap().get(vmId).getRequestedAvailability(), 
+				registry.getVmIdToTransactionMap().get(vmId).getRequestedBandwidth(), 
+				availabilityTrustMap.get(currentProviderId), 
+				bandwidthTrustMap.get(currentProviderId));
+		System.out.println("POSSIBLE PROVIDERS = "+possibleTargetProviders.size());
+		if(possibleTargetProviders.size() == 1){
+			if(possibleTargetProviders.get(0).getProviderId() == currentProviderId)
+				return;
+		}
+		if(possibleTargetProviders.size() == 0)
+			return;
+		String providerId = migrationDecisionMaker.selectTargetProviderForMigration(currentProviderId, availabilityTrustMap.get(currentProviderId), 
+				bandwidthTrustMap.get(currentProviderId), registry.getProviderIdtoProviderMap().get(currentProviderId).getPromisedAvailability(),
+				registry.getProviderIdtoProviderMap().get(currentProviderId).getPromisedBandwidth(), registry.getProviderIdtoProviderMap().get(currentProviderId).getCost(), possibleTargetProviders);
+		if(providerId != null)
+			migrateVm(registry.getVmIdToVmMap().get(vmId).getProviderId(), providerId, vmId);
 	}
 	
 	
@@ -272,12 +299,12 @@ public class Broker {
 			
 			if(TimeKeeper.shouldViolationsBeCalculated()){
 				// NOW CALCULATE F_A(t_i) and F_BW(t_i)
-				availabilitySatisfactionMap.put(vmId, sumOfExperiencedAvailabilityMap.get(vmId)/
+				availabilitySatisfactionMap.put(vmId, Math.min(sumOfExperiencedAvailabilityMap.get(vmId)/
 						(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedAvailability()) 
-						+ availabilitySatisfactionMap.get(vmId)/Math.E);
-				bandwidthSatisfactionMap.put(vmId, sumOfExperiencedBandwidthMap.get(vmId)/
+						+ availabilitySatisfactionMap.get(vmId)/Math.E, 1.5));
+				bandwidthSatisfactionMap.put(vmId, Math.min(sumOfExperiencedBandwidthMap.get(vmId)/
 						(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedBandwidth()) 
-						+ bandwidthSatisfactionMap.get(vmId)/Math.E);
+						+ bandwidthSatisfactionMap.get(vmId)/Math.E, 1.5));
 				
 				refreshTrustValues();
 				
@@ -337,8 +364,14 @@ public class Broker {
 	}
 	
 	public void migrateVm(String sourceProvider, String destProvider, String vmId){
+		registry.getProviderIdtoProviderMap().get(sourceProvider).getRunningVmIdToVmMap().remove(vmId);
+		registry.getVmIdToVmMap().get(vmId).setProviderId(destProvider);
+		registry.getProviderIdtoProviderMap().get(destProvider).createVm(registry.getVmIdToVmMap().get(vmId));
 		
+		bandwidthSatisfactionMap.put(vmId, 1.5);
+		availabilitySatisfactionMap.put(vmId, 1.5);
 	}
+	
 	public Registry getRegistry() {
 		return registry;
 	}

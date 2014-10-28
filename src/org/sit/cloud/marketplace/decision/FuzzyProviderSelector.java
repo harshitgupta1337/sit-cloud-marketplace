@@ -84,6 +84,7 @@ public class FuzzyProviderSelector extends ProviderSelector {
 	 * @param providerParams
 	 */
 	private void setFuzzyValueForProviders(UserRequest userRequest, List<ProviderParams> providerParams) throws MWException{
+		//System.out.println("Inside setFuzzyValueForProviders");
 		/*
 		 * Here, we need to set the Fuzzy V value for the provider. @sujeet you need to put your code here.
 		 */
@@ -106,7 +107,7 @@ public class FuzzyProviderSelector extends ProviderSelector {
 			providerData[i][4] = providerParam.getTrustInBandwidth();
 			i++;
 		}
-		double customerReq[] = {userRequest.getRequiredAvailability(), 1.0, userRequest.getRequiredBandwidth(), 1.5, userRequest.getMaxAffordableCost(), 10, 0.334};
+		double customerReq[] = {userRequest.getRequiredAvailability(), 1.0, userRequest.getRequiredBandwidth(), 1.5, userRequest.getMaxAffordableCost(), 5, 0.334};
 		MWNumericArray x = new MWNumericArray(providerData, MWClassID.DOUBLE);
 		MWNumericArray y = new MWNumericArray(customerReq, MWClassID.DOUBLE);
 		z=thefuzopt.dynafis3(1,x,y);
@@ -118,4 +119,5 @@ public class FuzzyProviderSelector extends ProviderSelector {
 			providerParams.get(i).setFuzzyUtility(Float.parseFloat(parts[i]));
 		}
 	}
+	
 }

@@ -38,7 +38,8 @@ public class GetProviderFromInputData {
 			cellIterator.next();
 			cellIterator.next();
 			int vmsAvail = (int) cellIterator.next().getNumericCellValue();
-			providers.add(new Provider(id, cores, ram, disk, cost, availability, bw, vmsAvail));
+			int isBadProvider = (int) cellIterator.next().getNumericCellValue();;
+			providers.add(new Provider(id, cores, ram, disk, cost, availability, bw, vmsAvail, (isBadProvider==1)?true:false));
 		}
 		return providers;
 	
