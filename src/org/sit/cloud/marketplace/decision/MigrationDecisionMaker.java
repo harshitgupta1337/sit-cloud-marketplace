@@ -13,7 +13,7 @@ import com.mathworks.toolbox.javabuilder.MWNumericArray;
 public class MigrationDecisionMaker {
 
 	public String selectTargetProviderForMigration(String currentProviderId, double currentAvailTrust, double currentBwTrust, double currentAvail, double currentBw, double currentCost, List<ProviderParams> params) throws MWException{
-		System.out.println("Inside selectTargetProviderForMigration. Current prooviderId = " + currentProviderId);
+		//System.out.println("Inside selectTargetProviderForMigration. Current prooviderId = " + currentProviderId);
 		calclust thecalclust=new calclust();
 		Object[] y = null;
 		int del = -1;
@@ -46,7 +46,7 @@ public class MigrationDecisionMaker {
 		//MWNumericArray idx = new MWNumericArray(index, MWClassID.DOUBLE);
 		//y=thecalclust.calhierclust(1,x,idx);
 		y=thecalclust.calhierclust(1,x);
-		System.out.println("The output is  = \n" + y[0].toString());
+		//System.out.println("The output is  = \n" + y[0].toString());
 		int number = Integer.parseInt(y[0].toString());
 		
 		// If the output is 1, that means there is no provider found suitable.
@@ -59,7 +59,7 @@ public class MigrationDecisionMaker {
 		}
 		System.out.println("Chose index : " + (number-2));
 		*/
-		System.out.format("The selected provider's ID is =  " + params.get(number-2).getProviderId());
+		//System.out.format("The selected provider's ID is =  " + params.get(number-2).getProviderId());
 		System.out.println();
 		return params.get(number-2).getProviderId();
 	}

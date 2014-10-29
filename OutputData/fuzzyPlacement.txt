@@ -1,1131 +1,304 @@
-Inside performNecessaryMigrations
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-95.52	10.00	135.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-95.10	68.00	173.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-2
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.16	62.00	110.00
-98.37	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-85.91	83.00	142.00
-98.37	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-90.92	87.00	175.00
-98.37	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-97.34	65.00	130.00
-98.37	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-83.00	11.00	107.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-7
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-80.91	30.00	109.00
-94.18	44.0	104.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-88.80	28.00	131.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-80.02	98.00	170.00
-93.46	98.0	133.0
-------------------------------------
-
-Inside performNecessaryMigrations
-10
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-83.51	91.00	165.00
-93.46	98.0	133.0
-------------------------------------
-
-Inside performNecessaryMigrations
-11
-POSSIBLE PROVIDERS = 14
-Inside selectTargetProviderForMigration. Current prooviderId = 159
-The output is  = 
-8
-The selected provider's ID is =  448
-POSSIBLE PROVIDERS = 22
-Inside selectTargetProviderForMigration. Current prooviderId = 159
-The output is  = 
-10
-The selected provider's ID is =  448
-POSSIBLE PROVIDERS = 178
-Inside selectTargetProviderForMigration. Current prooviderId = 159
-The output is  = 
-72
-The selected provider's ID is =  448
-POSSIBLE PROVIDERS = 52
-Inside selectTargetProviderForMigration. Current prooviderId = 159
-The output is  = 
-20
-The selected provider's ID is =  448
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-80.62	32.00	108.00
-88.9	48.0	103.0
-------------------------------------
-
-Inside performNecessaryMigrations
-12
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-85.13	52.00	184.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-97.29	49.00	100.00
-98.99	100.0	100.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.53	49.00	105.00
-98.99	100.0	100.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.28	88.00	133.00
-98.99	100.0	100.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-81.77	98.00	188.00
-93.46	98.0	133.0
-------------------------------------
-
-Inside performNecessaryMigrations
-17
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-87.93	74.00	164.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-92.33	80.00	178.00
-95.69	94.0	144.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-97.24	98.00	116.00
-98.94	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-83.56	23.00	185.00
-89.79	40.0	172.0
-------------------------------------
-
-Inside performNecessaryMigrations
-21
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-81.61	79.00	192.00
-89.79	99.0	157.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-93.47	24.00	136.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-81.14	59.00	195.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-24
-POSSIBLE PROVIDERS = 58
-Inside selectTargetProviderForMigration. Current prooviderId = 1
-The output is  = 
-2
-The selected provider's ID is =  159
-POSSIBLE PROVIDERS = 21
-Inside selectTargetProviderForMigration. Current prooviderId = 1
-The output is  = 
-3
-The selected provider's ID is =  159
-POSSIBLE PROVIDERS = 234
-Inside selectTargetProviderForMigration. Current prooviderId = 1
-The output is  = 
-4
-The selected provider's ID is =  159
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-92.39	15.00	160.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-86.33	79.00	134.00
-90.84	84.0	106.0
-------------------------------------
-
-Inside performNecessaryMigrations
-26
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-86.00	70.00	111.00
-90.84	84.0	106.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-91.74	92.00	198.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-28
-POSSIBLE PROVIDERS = 57
-Inside selectTargetProviderForMigration. Current prooviderId = 159
-The output is  = 
-18
-The selected provider's ID is =  448
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-85.65	24.00	101.00
-94.18	44.0	104.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-81.80	39.00	173.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-95.28	37.00	119.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-31
-POSSIBLE PROVIDERS = 20
-Inside selectTargetProviderForMigration. Current prooviderId = 159
-The output is  = 
-9
-The selected provider's ID is =  448
-POSSIBLE PROVIDERS = 233
-Inside selectTargetProviderForMigration. Current prooviderId = 159
-The output is  = 
-90
-The selected provider's ID is =  448
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-98.98	78.00	135.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-32
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-96.49	95.00	188.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-33
-Inside performNecessaryMigrations
-33
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.14	33.00	175.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-34
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-80.60	35.00	131.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-98.34	31.00	133.00
-98.94	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-80.33	30.00	126.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-37
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-81.12	93.00	149.00
-93.46	98.0	133.0
-------------------------------------
-
-Inside performNecessaryMigrations
-38
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-94.71	69.00	177.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-91.46	84.00	169.00
-93.46	98.0	133.0
-------------------------------------
-
-Inside performNecessaryMigrations
-40
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-84.28	14.00	133.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-92.51	43.00	119.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-42
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-91.34	66.00	163.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-86.40	43.00	199.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-96.47	92.00	136.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-45
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-81.22	84.00	167.00
-89.79	99.0	157.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-98.01	37.00	147.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-47
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-85.87	52.00	132.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-48
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-98.76	21.00	166.00
-98.97	45.0	157.0
-------------------------------------
-
-Inside performNecessaryMigrations
-49
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-98.59	65.00	104.00
-98.99	100.0	100.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-95.20	89.00	122.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-51
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-97.83	53.00	137.00
-98.94	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-88.23	92.00	161.00
-93.46	98.0	133.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-84.92	92.00	159.00
-93.46	98.0	133.0
-------------------------------------
-
-Inside performNecessaryMigrations
-54
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-80.35	96.00	151.00
-82.52	99.0	135.0
-------------------------------------
-
-Inside performNecessaryMigrations
-55
-POSSIBLE PROVIDERS = 7
-Inside selectTargetProviderForMigration. Current prooviderId = 1
-The output is  = 
-4
-The selected provider's ID is =  448
-Inside performNecessaryMigrations
-55
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-85.02	77.00	133.00
-89.37	80.0	109.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-81.24	32.00	153.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-57
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-85.72	47.00	124.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-84.70	45.00	169.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-59
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-95.44	12.00	161.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-98.19	92.00	103.00
-98.94	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.09	79.00	137.00
-88.57	86.0	127.0
-------------------------------------
-
-Inside performNecessaryMigrations
-62
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-83.21	12.00	146.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-63
-Inside performNecessaryMigrations
-63
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.46	78.00	123.00
-90.84	84.0	106.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-89.29	31.00	178.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-65
-Inside performNecessaryMigrations
-65
-Inside performNecessaryMigrations
-65
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-95.80	22.00	122.00
-96.79	53.0	111.0
-------------------------------------
-
-Inside performNecessaryMigrations
-66
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-94.12	69.00	147.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-85.25	33.00	110.00
-91.22	46.0	100.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-90.24	80.00	121.00
-96.15	80.0	111.0
-------------------------------------
-
-Inside performNecessaryMigrations
-69
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-97.81	21.00	189.00
-98.82	67.0	136.0
-------------------------------------
-
-Inside performNecessaryMigrations
-70
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-95.71	91.00	132.00
-98.94	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-95.86	18.00	170.00
-98.21	69.0	121.0
-------------------------------------
-
-Inside performNecessaryMigrations
-72
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-85.96	23.00	112.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.37	38.00	177.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-74
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-98.68	86.00	157.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-75
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-80.96	68.00	169.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-76
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-80.47	41.00	112.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-84.74	13.00	100.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-93.28	86.00	127.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-79
-Inside performNecessaryMigrations
-79
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-87.88	32.00	199.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-90.17	82.00	101.00
-98.94	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-87.73	83.00	163.00
-93.46	98.0	133.0
-------------------------------------
-
-Inside performNecessaryMigrations
-82
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-87.06	58.00	178.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.69	51.00	156.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-84
-Inside performNecessaryMigrations
-84
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-91.22	84.00	119.00
-98.94	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-96.88	58.00	172.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-86
-Inside performNecessaryMigrations
-86
-Inside performNecessaryMigrations
-86
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-83.76	30.00	146.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-87
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-86.98	29.00	117.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-88.11	65.00	146.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-89
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-81.12	31.00	166.00
-97.61	74.0	102.0
-------------------------------------
-
-Inside performNecessaryMigrations
-90
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.30	94.00	107.00
-98.94	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.97	83.00	198.00
-89.79	99.0	157.0
-------------------------------------
-
-Inside performNecessaryMigrations
-92
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-95.05	94.00	166.00
-98.94	100.0	105.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-94.89	52.00	170.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-83.23	46.00	167.00
-97.61	74.0	102.0
-------------------------------------
-
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-83.90	14.00	183.00
-89.79	40.0	172.0
-------------------------------------
-
-Inside performNecessaryMigrations
-96
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-90.26	100.00	189.00
-98.94	100.0	105.0
-------------------------------------
-
-Inside performNecessaryMigrations
-97
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-85.60	31.00	198.00
-89.79	40.0	172.0
-------------------------------------
-
-Inside performNecessaryMigrations
-98
-Inside performNecessaryMigrations
-98
-------------------------------------
-AVAIL	BW	COST
-------------------------------------
-82.99	19.00	140.00
-97.61	74.0	102.0
-------------------------------------
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.5
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.5
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.5
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.5
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.5
+VMs on provider ID 159 : 1
+Trust of provider ID 159 : 1.5
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.5
+VMs on provider ID 159 : 1
+Trust of provider ID 159 : 1.3393081356941348
+
+
+Migrating 1 vm from provider ID 159 to providerID 448
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.5
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2880735422748621
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.5
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2880735422748621
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.5
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2880735422748621
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.3468272120021068
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2880735422748621
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.296420245828991
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2880735422748621
+
+
+Migrating 1 vm from provider ID 1 to providerID 159
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 1
+Trust of provider ID 159 : 1.2880735422748621
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 1
+Trust of provider ID 159 : 1.3413160196331377
+
+
+Migrating 1 vm from provider ID 159 to providerID 448
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2801082825568035
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.3601948212419466
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.3028527089110238
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+
+Migrating 1 vm from provider ID 1 to providerID 448
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2847137058791627
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2847137058791627
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2847137058791627
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2847137058791627
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 0
+Trust of provider ID 1 : 1.2847137058791627
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2847137058791627
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.3561301274040884
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2940015036945913
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2706025025841294
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2605032293252907
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2596750051875305
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2640463065447105
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2685396825108943
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.274870880359273
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.278799088513957
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.267712010937286
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2660977355899194
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2724798973201525
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.265985428086398
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2659468609317504
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.26343310985551
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2640359047601653
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2573363828590498
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2606264964106297
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.266174917042085
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2697128148121632
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2621692941864313
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2638767176751449
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2720560776102483
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
+
+VMs on provider ID 1 : 1
+Trust of provider ID 1 : 1.2692942266079261
+VMs on provider ID 159 : 0
+Trust of provider ID 159 : 1.2841037287751726
 
 DONE !!!!
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnetParam' class exist.  Cannot clear this class or any of its superclasses.
-Warning: Objects of 'nnfcnType' class exist.  Cannot clear this class or any of its superclasses.
-
-------------------------------------------------------------------------
-       Segmentation violation detected at Tue Oct 28 17:08:42 2014
-------------------------------------------------------------------------
-
-Configuration:
-  Crash Decoding     : Disabled
-  Default Encoding   : windows-1252
-  MATLAB Architecture: win64
-  MATLAB Root        : C:\Program Files\MATLAB\R2013a
-  MATLAB Version     : 8.1.0.604 (R2013a)
-  Operating System   : Microsoft Windows 8
-  Processor ID       : x86 Family 6 Model 69 Stepping 1, GenuineIntel
-  Virtual Machine    : Java 1.7.0_67-b01 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
-  Window System      : Version 6.3 (Build 9600)
-
-Fault Count: 1
-
-
-Abnormal termination:
-Segmentation violation
-
-Register State (from fault):
-  RAX = 000000007b1f8688  RBX = 0000000018fd16f0
-  RCX = 000000001c5bd810  RDX = 0000000011fec700
-  RSP = 0000000011fec7a8  RBP = 0000000011fec910
-  RSI = 0000000000000005  RDI = 000000001c0284e0
- 
-   R8 = 0000000000000000   R9 = 0000000000008000
-  R10 = 00000000179d6010  R11 = 0000000011fec6c0
-  R12 = 000000000000006e  R13 = 0000000000000000
-  R14 = 0000000000000001  R15 = 0000000011fed000
- 
-  RIP = 0000000074ea38d0  EFL = 00010202
- 
-   CS = 0033   FS = 0053   GS = 002b
-
-Stack Trace (from fault):
-[  0] 0x0000000074ea38d0 C:\Program Files\MATLAB\R2013a\bin\win64\m_dispatcher.dll+00145616 Mlm_MATLAB_fn::get_lock_count+00000000
-[  1] 0x000000007b0f0fca  C:\Program Files\MATLAB\R2013a\bin\win64\mcos.dll+00331722 mcos::COSInterfacePtr::COSInterfacePtr+00001370
-[  2] 0x000000007b0f0f7c  C:\Program Files\MATLAB\R2013a\bin\win64\mcos.dll+00331644 mcos::COSInterfacePtr::COSInterfacePtr+00001292
-[  3] 0x000000007b0e7b9c  C:\Program Files\MATLAB\R2013a\bin\win64\mcos.dll+00293788 mcos::COSTypeRepository::addConversion+00000732
-[  4] 0x0000000075a902b0 C:\Program Files\MATLAB\R2013a\bin\win64\libmx.dll+00459440 mxClearClasses+00000048
-[  5] 0x0000000075bdd6e7 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00317159 MathWorks::MException::MExceptionEnvelope::InitializeCosi+00018743
-[  6] 0x0000000075be80ce C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00360654 MathWorks::MException::MExceptionEnvelope::Initialize+00041230
-[  7] 0x0000000075be6668 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00353896 MathWorks::MException::MExceptionEnvelope::Initialize+00034472
-[  8] 0x0000000074e8cf7f C:\Program Files\MATLAB\R2013a\bin\win64\m_dispatcher.dll+00053119 Mfunction_handle::dispatch+00000975
-[  9] 0x0000000074e8cd8f C:\Program Files\MATLAB\R2013a\bin\win64\m_dispatcher.dll+00052623 Mfunction_handle::dispatch+00000479
-[ 10] 0x0000000075c36d48 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00683336 inDestroyWS+00240776
-[ 11] 0x0000000075bc07e5 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00198629 inCallFcn+00002853
-[ 12] 0x0000000075c3a79d C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00698269 inDestroyWS+00255709
-[ 13] 0x0000000075c5021f C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00786975 inDestroyWS+00344415
-[ 14] 0x0000000075c50370 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00787312 inDestroyWS+00344752
-[ 15] 0x0000000075c9cce5 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+01101029 inGetSeqVarPtrsFromCurrentWS+00010565
-[ 16] 0x0000000075c92e27 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+01060391 MathWorks::MException::MExceptionEnvelope::MExceptionEnvelope+00020071
-[ 17] 0x0000000075c9f59c C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+01111452 inEvalExpInWS+00001980
-[ 18] 0x0000000075c9b92a C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+01095978 inGetSeqVarPtrsFromCurrentWS+00005514
-[ 19] 0x0000000075ca3e24 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+01130020 inEachVisibleName+00015076
-[ 20] 0x0000000075ca1df4 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+01121780 inEachVisibleName+00006836
-[ 21] 0x0000000075baa42d C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00107565 inFullEvalFcn+00000061
-[ 22] 0x0000000074e8cf7f C:\Program Files\MATLAB\R2013a\bin\win64\m_dispatcher.dll+00053119 Mfunction_handle::dispatch+00000975
-[ 23] 0x0000000074e8cd8f C:\Program Files\MATLAB\R2013a\bin\win64\m_dispatcher.dll+00052623 Mfunction_handle::dispatch+00000479
-[ 24] 0x0000000075bd0d26 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00265510 MathWorks::MException::MExceptionEnvelope::MExceptionEnvelope+00005782
-[ 25] 0x0000000075bbfd07 C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll+00195847 inCallFcn+00000071
-[ 26] 0x000000007499d7ff   C:\Program Files\MATLAB\R2013a\bin\win64\mcr.dll+00186367 mcrInstance::feval_on_interpreter_thread+00000127
-[ 27] 0x00000000749a744c   C:\Program Files\MATLAB\R2013a\bin\win64\mcr.dll+00226380 mcrInstance::get_toolbox_prefix+00004892
-[ 28] 0x00000000749ad1f9   C:\Program Files\MATLAB\R2013a\bin\win64\mcr.dll+00250361 mcr_get_mcr+00004681
-[ 29] 0x0000000074982220   C:\Program Files\MATLAB\R2013a\bin\win64\mcr.dll+00074272 mcr::setInterpreterThreadToCurrent+00031664
-[ 30] 0x0000000074982280   C:\Program Files\MATLAB\R2013a\bin\win64\mcr.dll+00074368 mcr::setInterpreterThreadToCurrent+00031760
-[ 31] 0x000000000e4cf9d6   C:\Program Files\MATLAB\R2013a\bin\win64\uiw.dll+00391638 UIW_IsUserMessage+00000086
-[ 32] 0x000000000e4d0095   C:\Program Files\MATLAB\R2013a\bin\win64\uiw.dll+00393365 UIW_SetGLIMUserMsg+00000117
-[ 33] 0x00007ffd79f3bbae                     C:\Windows\system32\USER32.dll+00572334 BroadcastSystemMessageExA+00000558
-[ 34] 0x00007ffd79eb3785                     C:\Windows\system32\USER32.dll+00014213 MsgWaitForMultipleObjects+00000229
-[ 35] 0x00007ffd79eb37f6                     C:\Windows\system32\USER32.dll+00014326 MsgWaitForMultipleObjects+00000342
-[ 36] 0x00007ffd7ac9348f                      C:\Windows\SYSTEM32\ntdll.dll+00603279 KiUserCallbackDispatcher+00000031
-[ 37] 0x00007ffd79eb2f7a                     C:\Windows\system32\USER32.dll+00012154 PeekMessageW+00000202
-[ 38] 0x00007ffd79eb7bd3                     C:\Windows\system32\USER32.dll+00031699 GetMessageA+00000243
-[ 39] 0x00007ffd79eb7b7f                     C:\Windows\system32\USER32.dll+00031615 GetMessageA+00000159
-[ 40] 0x000000000e4a9a1b   C:\Program Files\MATLAB\R2013a\bin\win64\uiw.dll+00236059 UIW_SetCurrentDialog+00000731
-[ 41] 0x000000000e4d1532   C:\Program Files\MATLAB\R2013a\bin\win64\uiw.dll+00398642 ws_FreeSystemFont+00000482
-[ 42] 0x000000000d338930 C:\Program Files\MATLAB\R2013a\bin\win64\libmwservices.dll+00887088 services::system_events::PpeDispatchHook::~PpeDispatchHook+00055600
-[ 43] 0x000000000d3392f5 C:\Program Files\MATLAB\R2013a\bin\win64\libmwservices.dll+00889589 services::system_events::PpeDispatchHook::~PpeDispatchHook+00058101
-[ 44] 0x000000000d33a100 C:\Program Files\MATLAB\R2013a\bin\win64\libmwservices.dll+00893184 services::system_events::PpeDispatchHook::~PpeDispatchHook+00061696
-[ 45] 0x000000000d3428d2 C:\Program Files\MATLAB\R2013a\bin\win64\libmwservices.dll+00927954 svWS_ProcessPendingEvents+00001090
-[ 46] 0x000000007498329d   C:\Program Files\MATLAB\R2013a\bin\win64\mcr.dll+00078493 mcr::setInterpreterThreadToCurrent+00035885
-[ 47] 0x0000000074983562   C:\Program Files\MATLAB\R2013a\bin\win64\mcr.dll+00079202 mcr::setInterpreterThreadToCurrent+00036594
-[ 48] 0x0000000074976915   C:\Program Files\MATLAB\R2013a\bin\win64\mcr.dll+00026901 mcrInstantiationError::operator=+00003781
-[ 49] 0x00007ffd7a8e16ad                   C:\Windows\system32\KERNEL32.DLL+00005805 BaseThreadInitThunk+00000013
-[ 50] 0x00007ffd7ac54409                      C:\Windows\SYSTEM32\ntdll.dll+00345097 RtlUserThreadStart+00000029
-
-
-If this problem is reproducible, please submit a Service Request via:
-    http://www.mathworks.com/support/contact_us/
-
-A technical support engineer might contact you with further information.
-
-Thank you for your help.** This crash report has been saved to disk as C:\Users\hp\AppData\Local\Temp\matlab_crash_dump.9388-1 **
-
-
