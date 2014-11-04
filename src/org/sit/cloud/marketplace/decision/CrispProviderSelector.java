@@ -18,12 +18,12 @@ public class CrispProviderSelector extends ProviderSelector {
 			if(providerParams.getCores() >= cores && providerParams.getStorage() >= storage && providerParams.getRam() >= ram && providerParams.getNumOfVmsAvailable() >= numOfVms)
 				filteredProviders.add(providerParams);
 		}
-		System.out.println("Filtered providers' size : "+filteredProviders.size());
+		//System.out.println("Filtered providers' size : "+filteredProviders.size());
 		return filteredProviders;
 	}
 
 	private List<ProviderParams> sortProviderParams(List<ProviderParams> providerParams){
-		System.out.println("Sorted providers' size : "+providerParams.size());
+		//System.out.println("Sorted providers' size : "+providerParams.size());
 
 		for(int i=0;i<providerParams.size();i++){
 			ProviderParams smallestCost = providerParams.get(i);
@@ -44,17 +44,17 @@ public class CrispProviderSelector extends ProviderSelector {
 	}
 
 	protected List<ProviderParams> getSuitableProviders(List<ProviderParams> params, UserRequest userRequest){
-		System.out.println("Suitable providers' size : "+params.size());
+		//System.out.println("Suitable providers' size : "+params.size());
 		List<ProviderParams> suitableProviders = new ArrayList<ProviderParams>();
-		System.out.println("Bandwidth : "+userRequest.getRequiredBandwidth());
-		System.out.println("Availability : "+userRequest.getRequiredAvailability());
-		System.out.println("Cost : "+userRequest.getMaxAffordableCost());
+		//System.out.println("Bandwidth : "+userRequest.getRequiredBandwidth());
+		//System.out.println("Availability : "+userRequest.getRequiredAvailability());
+		//System.out.println("Cost : "+userRequest.getMaxAffordableCost());
 		
 		for(ProviderParams providerParam : params){
 			
 			if(providerParam.getBw() >= userRequest.getRequiredBandwidth() && providerParam.getAvailability() >= userRequest.getRequiredAvailability() && providerParam.getCost()<=userRequest.getMaxAffordableCost()){
 				suitableProviders.add(providerParam);
-				System.out.println("YES111");
+				//System.out.println("YES111");
 			}
 				
 		}
@@ -63,7 +63,7 @@ public class CrispProviderSelector extends ProviderSelector {
 	
 	@Override
 	protected Map<String, Integer> getAllocationMapAfterInitialFiltering(
-			List<ProviderParams> providerParams, UserRequest userRequest) {
+			List<ProviderParams> providerParams, UserRequest userRequest, boolean toPrint) {
 		Map<String, Integer> allocationMap = new HashMap<String, Integer>();
 		List<ProviderParams> sortedProviderParams = sortProviderParams(getSuitableProviders(providerParams, userRequest));
 		int remainingVmsToBeAllocated = userRequest.getNumOfVms();

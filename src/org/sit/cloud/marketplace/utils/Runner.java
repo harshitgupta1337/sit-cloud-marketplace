@@ -37,7 +37,7 @@ public class Runner {
 	
 	private static List<Long> getUserRequestInstants(){
 		List<Long> userRequestInstants = new ArrayList<Long>();
-		for(int i=0;i<100;i++){
+		for(int i=0;i<50;i++){
 			userRequestInstants.add((long)(Math.random() * TimeKeeper.END));
 		}
 		return sort(userRequestInstants);
@@ -82,6 +82,7 @@ public class Runner {
 			generateUserRequest();
 			broker.performMonitoringAndMigrations();
 		}
+		broker.printAverageCost();
 		System.out.println("DONE !!!!");
 	}
 	

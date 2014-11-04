@@ -4,6 +4,8 @@ import java.util.UUID;
 
 public class Vm {
 
+	private static int VM_ID = 0;
+	
 	private String id;
 	private String providerId;
 	
@@ -12,7 +14,7 @@ public class Vm {
 	private boolean shouldBeViolated;
 	
 	public Vm(boolean shouldBeViolated){
-		id = UUID.randomUUID().toString();
+		id = Integer.toString(++VM_ID);
 		providerId = null;
 		setExperience(1.0);
 		this.shouldBeViolated = shouldBeViolated;

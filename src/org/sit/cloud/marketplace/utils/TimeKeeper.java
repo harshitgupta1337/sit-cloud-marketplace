@@ -11,8 +11,9 @@ public class TimeKeeper {
 	}
 	
 	public static boolean shouldViolationsBeCalculated(){
-		if(SIMULATION_TIME % (24*7) == 0)
+		if(SIMULATION_TIME % (24*7) == 0){
 			return true;
+		}
 		return false;
 	}
 	

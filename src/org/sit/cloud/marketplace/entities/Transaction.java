@@ -11,12 +11,13 @@ public class Transaction {
 	private double bw;
 	private double requestedAvailability;
 	private double requestedBandwidth;
+	private double maxAffordableCost;
 	
 	private String id;
 	
 	private String userId;
 	
-	public Transaction(String userId, String vmId, double availability, double cost, double bw, double requestedAvailability, double requestedBandwidth){
+	public Transaction(String userId, String vmId, double availability, double cost, double bw, double requestedAvailability, double requestedBandwidth, double maxAffordableCost){
 		this.userId = userId;
 		this.vmId = vmId;
 		this.availability = availability;
@@ -25,6 +26,7 @@ public class Transaction {
 		this.id = UUID.randomUUID().toString();
 		this.requestedAvailability = requestedAvailability;
 		this.requestedBandwidth = requestedBandwidth;
+		this.maxAffordableCost = maxAffordableCost;
 	}
 
 	public String getVmId() {
@@ -89,6 +91,14 @@ public class Transaction {
 
 	public void setRequestedBandwidth(double requestedBandwidth) {
 		this.requestedBandwidth = requestedBandwidth;
+	}
+
+	public double getMaxAffordableCost() {
+		return maxAffordableCost;
+	}
+
+	public void setMaxAffordableCost(double maxAffordableCost) {
+		this.maxAffordableCost = maxAffordableCost;
 	}
 
 }

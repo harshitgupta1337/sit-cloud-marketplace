@@ -1,8 +1,10 @@
 package org.sit.cloud.marketplace.decision;
 
 import java.util.List;
+import java.util.Map;
 
 import org.sit.cloud.marketplace.entities.ProviderParams;
+import org.sit.cloud.marketplace.entities.UserRequest;
 
 import calhierclust.calclust;
 
@@ -12,17 +14,54 @@ import com.mathworks.toolbox.javabuilder.MWNumericArray;
 
 public class MigrationDecisionMaker {
 
-	public String selectTargetProviderForMigration(String currentProviderId, double currentAvailTrust, double currentBwTrust, double currentAvail, double currentBw, double currentCost, List<ProviderParams> params) throws MWException{
+	
+	
+	public String selectTargetProviderForMigration(String currentProviderId, double currentAvailTrust, double currentBwTrust, double currentAvail, double currentBw, double currentCost, List<ProviderParams> params, List<ProviderParams> allProviders, UserRequest userRequest) throws MWException{
 		//System.out.println("Inside selectTargetProviderForMigration. Current prooviderId = " + currentProviderId);
 		calclust thecalclust=new calclust();
 		Object[] y = null;
 		int del = -1;
 		for(int i=0;i<params.size();i++){
-			if(params.get(i).getProviderId() == currentProviderId)
+			if(params.get(i).getProviderId().equals(currentProviderId))
 				del = i;
 		}
 		if(del != -1)
 			params.remove(del);
+		if(params.size() == 1){
+			FuzzyProviderSelector selector = new FuzzyProviderSelector();
+			
+			selector.setFuzzyValueForProviders(userRequest, allProviders, false);
+			
+			double currentV = 0.0;
+			for(ProviderParams providerParams : allProviders){	
+				if(providerParams.getProviderId().equals(currentProviderId)){
+					currentV = providerParams.getFuzzyUtility();
+				}
+			}
+			double highestVExcludingCurrent = currentV-0.05; String high = null;
+			for(ProviderParams providerParams : allProviders){	
+				if(!providerParams.getProviderId().equals(currentProviderId)){
+					if(providerParams.getFuzzyUtility() >= highestVExcludingCurrent){
+						highestVExcludingCurrent = providerParams.getFuzzyUtility();
+						high = providerParams.getProviderId();
+					}
+				}
+			}
+			if(high != null)
+				return high;
+			else
+				return currentProviderId;
+			
+			
+			/*
+			//selector.getAllocationMapAfterInitialFiltering(selector.performInitialFiltering(providers, cores, ram, storage, numOfVms), userRequest)
+			Map<String, Integer> allocationMap = selector.selectBestProvider(allProviders, 1, userRequest, true);
+			for(String providerId : allocationMap.keySet()){
+				if(allocationMap.get(providerId) > 0)
+					return providerId;
+			}
+			return params.get(0).getProviderId();*/
+		}
 		//Provider pool
 		//First provider is the current provider
 		//First provider values are promised_avail,promised_bw,promised_cost,current_trust_avail,current_trust_bw
@@ -34,13 +73,13 @@ public class MigrationDecisionMaker {
 		input[0][2] = currentCost;
 		input[0][3] = currentAvailTrust;
 		input[0][4] = currentBwTrust;
+		//System.out.println("Prospective target providers = "+params.size());
 		for(int i=0;i<params.size();i++){
 			input[i+1][0] = params.get(i).getAvailability();
 			input[i+1][1] = params.get(i).getBw();
 			input[i+1][2] = params.get(i).getCost();
 			input[i+1][3] = params.get(i).getTrustInAvailability();
 			input[i+1][4] = params.get(i).getTrustInBandwidth();
-			
 		}
 		MWNumericArray x = new MWNumericArray(input, MWClassID.DOUBLE);
 		//MWNumericArray idx = new MWNumericArray(index, MWClassID.DOUBLE);

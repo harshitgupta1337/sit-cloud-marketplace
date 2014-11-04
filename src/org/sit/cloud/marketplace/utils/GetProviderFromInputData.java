@@ -18,7 +18,8 @@ public class GetProviderFromInputData {
 	public static List<Provider> getProviderFromInputData() throws IOException{
 		FileInputStream file = new FileInputStream(new File("InputData/providers.xls"));
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
-		HSSFSheet sheet = workbook.getSheet("providers");
+		HSSFSheet sheet = workbook.getSheet("50");
+		//System.out.println("INDEX = "+workbook.getSheetIndex("test"));
 		Iterator<Row> rowIterator = sheet.iterator();
 		Row row;
 

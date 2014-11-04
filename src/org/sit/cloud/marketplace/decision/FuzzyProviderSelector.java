@@ -28,9 +28,9 @@ public class FuzzyProviderSelector extends ProviderSelector {
 
 	@Override
 	protected Map<String, Integer> getAllocationMapAfterInitialFiltering(
-			List<ProviderParams> providerParams, UserRequest userRequest) {
+			List<ProviderParams> providerParams, UserRequest userRequest, boolean toPrint) {
 		Map<String, Integer> allocationMap = new HashMap<String, Integer>();
-		List<ProviderParams> sortedProviderParams = sortProvidersFuzzily(providerParams, userRequest);
+		List<ProviderParams> sortedProviderParams = sortProvidersFuzzily(providerParams, userRequest, toPrint);
 		int remainingVmsToBeAllocated = userRequest.getNumOfVms();
 		for(int i=0;i<sortedProviderParams.size();i++){
 			if(remainingVmsToBeAllocated == 0)
@@ -52,9 +52,9 @@ public class FuzzyProviderSelector extends ProviderSelector {
 	 * @param providerParams
 	 * @return list of providers' parameters sorted based on their fuzzy utility
 	 */
-	private List<ProviderParams> sortProvidersFuzzily(List<ProviderParams> providerParams, UserRequest userRequest){
+	private List<ProviderParams> sortProvidersFuzzily(List<ProviderParams> providerParams, UserRequest userRequest, boolean toPrint){
 			try {
-				setFuzzyValueForProviders(userRequest, providerParams);
+				setFuzzyValueForProviders(userRequest, providerParams, toPrint);
 			} catch (MWException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -83,7 +83,7 @@ public class FuzzyProviderSelector extends ProviderSelector {
 	 * The function makes a call the MATLAB code to use the FIS.
 	 * @param providerParams
 	 */
-	private void setFuzzyValueForProviders(UserRequest userRequest, List<ProviderParams> providerParams) throws MWException{
+	public void setFuzzyValueForProviders(UserRequest userRequest, List<ProviderParams> providerParams, boolean toPrint) throws MWException{
 		//System.out.println("Inside setFuzzyValueForProviders");
 		/*
 		 * Here, we need to set the Fuzzy V value for the provider. @sujeet you need to put your code here.
@@ -114,10 +114,21 @@ public class FuzzyProviderSelector extends ProviderSelector {
 		
 		
 		String[] parts = z[0].toString().split("\n");
-
+		
 		for (i = 0; i < parts.length; ++i) {
+			
 			providerParams.get(i).setFuzzyUtility(Float.parseFloat(parts[i]));
 		}
+		
+		if(toPrint){
+			System.out.println("\n");
+			System.out.println("-------------------------");
+			System.out.println("Provider ID\tv-value\tTrust");
+			for(int j=0;j<providerParams.size();j++)
+				System.out.println(providerParams.get(j).getProviderId()+"\t\t"+providerParams.get(j).getFuzzyUtility()+"\t"+providerParams.get(j).getTrustInAvailability()+"\t"+providerParams.get(j).getTrustInAvailability());
+			System.out.println("-------------------------");
+		}
+		
 	}
 	
 }

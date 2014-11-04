@@ -31,13 +31,14 @@ import com.mathworks.toolbox.javabuilder.MWNumericArray;
 
 public class Broker {
 	
-	private static double MIGRATION_THRESHOLD = 0.8;
+	private static double MIGRATION_THRESHOLD = 0.85;
 	
 	private Registry registry;
 	private ProviderSelector providerSelector;
 	private ProviderSelector crispSelector;
 	private MigrationDecisionMaker migrationDecisionMaker;
 	private Map<String, Double> vmIdToMigrationValue;
+	private boolean isCrisp;
 
 	/**
 	 * A map that maps each Vm id to the sum of the experienced availability for an entire week
@@ -77,6 +78,17 @@ public class Broker {
 	private Map<String, Integer> vmIdToNumberOfPollsMap;
 	
 	/**
+	 * Map storing the total cost incurred for running the VM on the respective user
+	 */
+	private Map<String, Double> vmIdToCostMap;
+	private Map<String, Double> vmIdToBwMap;
+	private Map<String, Double> vmIdToAvailMap;
+	
+	private Map<String, Integer> vmIdToAvgCostDenomMap;
+	
+	private Map<String, UserRequest> vmIdToUserRequestMap;
+	
+	/**
 	 * List of ids of VMs whose experienced QoS parameters have to be printed and plotted
 	 */
 	private List<String> vmsToBePlotted;
@@ -84,6 +96,9 @@ public class Broker {
 	private migrdecider theMigration;
 	
 	public Broker(){
+		vmIdToUserRequestMap = new HashMap<String, UserRequest>();
+		vmIdToCostMap = new HashMap<String, Double>();
+		vmIdToAvgCostDenomMap = new HashMap<String, Integer>();
 		vmIdToMigrationValue = new HashMap<String, Double>();
 		crispSelector = new CrispProviderSelector();
 		registry = new Registry();
@@ -98,6 +113,9 @@ public class Broker {
 		sumOfExperiencedAvailabilityMap = new HashMap<String, Double>();
 		sumOfExperiencedBandwidthMap = new HashMap<String, Double>();
 		migrationDecisionMaker = new MigrationDecisionMaker();
+		vmIdToAvailMap = new HashMap<String, Double>();
+		vmIdToBwMap = new HashMap<String, Double>();
+		isCrisp = true;
 		try {
 			theMigration = new migrdecider();
 		} catch (MWException e) {
@@ -135,15 +153,27 @@ public class Broker {
 		}
 	}
 	
+	public List<ProviderParams> getProviderParams(){
+		List<ProviderParams> params = registry.getProviderParams();
+		insertTrustValuesInProviderParams(params);
+		return params;
+	}
+	
 	public void acceptUserRequest(UserRequest userRequest){
+		//System.out.println("Accepted user request");
 		int numOfVms = userRequest.getNumOfVms();
-		List<ProviderParams> providerParams = registry.getProviderParams();
+		List<ProviderParams> providerParams = getProviderParams();
 		//System.out.println("------------------------------------\nAVAIL\tBW\tCOST\n------------------------------------");
 		//System.out.printf("%.2f\t%.2f\t%.2f\n", userRequest.getRequiredAvailability(), userRequest.getRequiredBandwidth(),  userRequest.getMaxAffordableCost());
 		//System.out.println(userRequest.getRequiredAvailability()+"\t"+userRequest.getRequiredBandwidth()+"\t"+userRequest.getMaxAffordableCost());
-		insertTrustValuesInProviderParams(providerParams);
+		
 		//System.out.println("YES");
-		Map<String, Integer> allocationMap = providerSelector.selectBestProvider(providerParams, numOfVms, userRequest);
+		Map<String, Integer> allocationMap;
+		
+		if(isCrisp)
+			allocationMap = crispSelector.selectBestProvider(providerParams, numOfVms, userRequest, false);
+		else
+			allocationMap = providerSelector.selectBestProvider(providerParams, numOfVms, userRequest, false);
 		//System.out.println(allocationMap.keySet().size());
 		for(String providerId : allocationMap.keySet()){
 			//System.out.println("Provider ID : "+providerId + " VMs : "+allocationMap.get(providerId));
@@ -156,15 +186,19 @@ public class Broker {
 				
 				Vm vm = new Vm(userRequest.isShouldBeViolated());
 				vm.setProviderId(providerId);
+				
 				registerVmWithUser(vm, userRequest.getUserId());
 				ProviderParams promisedParams = getProviderParamsForProviderId(providerParams, providerId);
-				Transaction transaction = new Transaction(userRequest.getUserId(), vm.getId(), promisedParams.getAvailability(), promisedParams.getCost(), promisedParams.getBw(), userRequest.getRequiredAvailability(), userRequest.getRequiredBandwidth());
+				Transaction transaction = new Transaction(userRequest.getUserId(), vm.getId(), promisedParams.getAvailability(), promisedParams.getCost(), promisedParams.getBw(), userRequest.getRequiredAvailability(), userRequest.getRequiredBandwidth(), userRequest.getMaxAffordableCost());
 				registry.getVmIdToTransactionMap().put(vm.getId(), transaction);
 				vmIdToMigrationValue.put(vm.getId(), 1.0);
-				
+				vmIdToAvgCostDenomMap.put(vm.getId(), 0);
+				vmIdToCostMap.put(vm.getId(), 0.0);
+				vmIdToAvailMap.put(vm.getId(), 0.0);
+				vmIdToBwMap.put(vm.getId(), 0.0);
 				// SENDING THE CREATED VM TO THE PROVIDER
 				registry.getProviderIdtoProviderMap().get(providerId).createVm(vm);
-				
+				//System.out.println("VM ID "+vm.getId()+" created in Provider ID "+providerId);
 				sumOfExperiencedAvailabilityMap.put(vm.getId(), 0.0);
 				sumOfExperiencedBandwidthMap.put(vm.getId(), 0.0);
 				
@@ -172,6 +206,9 @@ public class Broker {
 				availabilitySatisfactionMap.put(vm.getId(), 1.5);
 				
 				vmIdToNumberOfPollsMap.put(vm.getId(), 0);
+				
+				vmIdToUserRequestMap.put(vm.getId(), userRequest);
+				
 			}
 		}
 	}
@@ -181,12 +218,24 @@ public class Broker {
 		Map<String, QoS> vmIdToQosMap = monitorVms();
 		Map<String, SlaViolationData> vmIdToSlaViolationMap = calculateSlaViolations(vmIdToQosMap);
 		checkForSLAViolation(vmIdToSlaViolationMap);
-		if(TimeKeeper.shouldViolationsBeCalculated())
+		if(TimeKeeper.shouldViolationsBeCalculated()){
+			evaluateCosts(vmIdToSlaViolationMap);
 			performNecessaryMigrations();
+		}
+	}
+	
+	private void evaluateCosts(Map<String, SlaViolationData> slaViolMap){
+		for(String vmId : vmIdToCostMap.keySet()){
+			vmIdToCostMap.put(vmId, vmIdToCostMap.get(vmId)+registry.getVmIdToTransactionMap().get(vmId).getCost());
+			
+			vmIdToAvailMap.put(vmId, vmIdToAvailMap.get(vmId)+slaViolMap.get(vmId).getExperiencedAvailability());
+			vmIdToBwMap.put(vmId, vmIdToBwMap.get(vmId)+slaViolMap.get(vmId).getExperiencedBandwidth());
+			
+			vmIdToAvgCostDenomMap.put(vmId, vmIdToAvgCostDenomMap.get(vmId)+1);
+		}
 	}
 	
 	private void performNecessaryMigrations() throws MWException{
-		//System.out.println("Inside performNecessaryMigrations");
 		if(vmIdToMigrationValue.keySet().size() > 0){
 			double satisfactionValues[][] = new double[vmIdToMigrationValue.keySet().size()][2];
 			int i=0;
@@ -216,8 +265,12 @@ public class Broker {
 				i++;
 			}
 		}	
+		
+		printAverageMigrationValue();
+		
 		for(String vmId : registry.getVmIdToVmMap().keySet()){
 			if(doesVmNeedMigration(vmId)){
+				//System.out.println("VM ID "+vmId+" needs migration.");
 				migrateVm(vmId);
 			}
 		}
@@ -238,26 +291,36 @@ public class Broker {
 		}
 		return suitableProviders;
 	}
+	
 	private void migrateVm(String vmId) throws MWException{
 		String currentProviderId = registry.getVmIdToVmMap().get(vmId).getProviderId();
 		
-		List<ProviderParams> possibleTargetProviders = selectPossibleProviders(registry.getProviderParams(), 
+		List<ProviderParams> possibleTargetProviders = selectPossibleProviders(getProviderParams(), 
 				registry.getVmIdToTransactionMap().get(vmId).getRequestedAvailability(), 
 				registry.getVmIdToTransactionMap().get(vmId).getRequestedBandwidth(), 
 				availabilityTrustMap.get(currentProviderId), 
 				bandwidthTrustMap.get(currentProviderId));
 		//System.out.println("POSSIBLE PROVIDERS = "+possibleTargetProviders.size());
 		if(possibleTargetProviders.size() == 1){
-			if(possibleTargetProviders.get(0).getProviderId() == currentProviderId)
+			if(possibleTargetProviders.get(0).getProviderId() == currentProviderId){
+				//System.out.println("Case 1");
 				return;
+			}
 		}
-		if(possibleTargetProviders.size() == 0)
+		if(possibleTargetProviders.size() == 0){
+			//System.out.println("Case 2");
 			return;
+		}
 		String providerId = migrationDecisionMaker.selectTargetProviderForMigration(currentProviderId, availabilityTrustMap.get(currentProviderId), 
 				bandwidthTrustMap.get(currentProviderId), registry.getProviderIdtoProviderMap().get(currentProviderId).getPromisedAvailability(),
-				registry.getProviderIdtoProviderMap().get(currentProviderId).getPromisedBandwidth(), registry.getProviderIdtoProviderMap().get(currentProviderId).getCost(), possibleTargetProviders);
-		if(providerId != null)
+				registry.getProviderIdtoProviderMap().get(currentProviderId).getPromisedBandwidth(), registry.getProviderIdtoProviderMap().get(currentProviderId).getCost(), 
+				possibleTargetProviders, getProviderParams(), vmIdToUserRequestMap.get(vmId));
+		//System.out.println("Current provider ID : "+currentProviderId);
+		//System.out.println("New provider ID : "+providerId);
+		if(providerId != null && providerId != currentProviderId)
 			migrateVm(registry.getVmIdToVmMap().get(vmId).getProviderId(), providerId, vmId);
+		//else
+			//System.out.println("PROVIDER WAS NULL");
 	}
 	
 	
@@ -293,26 +356,15 @@ public class Broker {
 	
 	private void checkForSLAViolation(Map<String, SlaViolationData> vmIdToSlaViolationMap){
 		
-		if(TimeKeeper.shouldViolationsBeCalculated()){
-			/*int violations = 0;
-			for(String vmId : vmIdToSlaViolationMap.keySet()){
-				if(vmIdToSlaViolationMap.get(vmId).getExperiencedAvailability() < vmIdToSlaViolationMap.get(vmId).getPromisedAvailability() || vmIdToSlaViolationMap.get(vmId).getExperiencedBandwidth() < vmIdToSlaViolationMap.get(vmId).getPromisedBandwidth())
-					violations++;
-			}
-			System.out.println("VIOLATIONS : "+violations);*/
-			System.out.println("VMs on provider ID 1 : "+registry.getProviderIdtoProviderMap().get("1").getRunningVmIdToVmMap().size());
-			System.out.println("Trust of provider ID 1 : "+availabilityTrustMap.get("1"));
-			System.out.println("VMs on provider ID 159 : "+registry.getProviderIdtoProviderMap().get("159").getRunningVmIdToVmMap().size());
-			System.out.println("Trust of provider ID 159 : "+availabilityTrustMap.get("159"));
-			System.out.println();
-		}
 		for(String vmId : vmIdToSlaViolationMap.keySet()){
 			//ADDING THE EXPERIENCED QoS PARAMETERS SO THAT AVERAGE CAN BE CALCULATED AT THE END OF THE WEEK
 			sumOfExperiencedAvailabilityMap.put(vmId, sumOfExperiencedAvailabilityMap.get(vmId) + vmIdToSlaViolationMap.get(vmId).getExperiencedAvailability());
 			sumOfExperiencedBandwidthMap.put(vmId, sumOfExperiencedBandwidthMap.get(vmId) + vmIdToSlaViolationMap.get(vmId).getExperiencedBandwidth());
 			vmIdToNumberOfPollsMap.put(vmId, vmIdToNumberOfPollsMap.get(vmId)+1); // INCREMENTING THE NUMBER OF POLLS DONE BY 1
-			
-			if(TimeKeeper.shouldViolationsBeCalculated()){
+		}
+		if(TimeKeeper.shouldViolationsBeCalculated()){
+			//printAverageGValue(vmIdToSlaViolationMap);
+			for(String vmId : vmIdToSlaViolationMap.keySet()){
 				// NOW CALCULATE F_A(t_i) and F_BW(t_i)
 				availabilitySatisfactionMap.put(vmId, Math.min(sumOfExperiencedAvailabilityMap.get(vmId)/
 						(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedAvailability()) 
@@ -330,6 +382,28 @@ public class Broker {
 			}
 		}
 		
+	}
+	
+	private void printAverageMigrationValue(){
+		double total = 0;
+		for(String vmId : vmIdToMigrationValue.keySet()){
+			total += vmIdToMigrationValue.get(vmId);
+		}
+		if(vmIdToMigrationValue.keySet().size()>0)
+			System.out.println(total/vmIdToMigrationValue.keySet().size());
+		
+	}
+	
+	private void printAverageGValue(Map<String, SlaViolationData> vmIdToSlaViolationMap){
+		double sumGAvail = 0.0;
+		for(String vmId : sumOfExperiencedAvailabilityMap.keySet()){
+			sumGAvail += (sumOfExperiencedAvailabilityMap.get(vmId))/(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedAvailability()) ;
+		}
+		double sumGBw = 0.0;
+		for(String vmId : sumOfExperiencedBandwidthMap.keySet()){
+			sumGBw += (sumOfExperiencedBandwidthMap.get(vmId))/(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedBandwidth()) ;
+		}
+		System.out.println((sumGAvail/sumOfExperiencedAvailabilityMap.keySet().size())+"\t"+(sumGBw/sumOfExperiencedBandwidthMap.keySet().size()));
 	}
 	
 	/**
@@ -373,6 +447,8 @@ public class Broker {
 	 * @return true if the vm requires to be migrated , false otherwise
 	 */
 	private boolean doesVmNeedMigration(String vmId){
+		if(isCrisp)
+			return false;
 		if(vmIdToMigrationValue.get(vmId) < MIGRATION_THRESHOLD)
 			return true;
 		else
@@ -380,14 +456,34 @@ public class Broker {
 	}
 	
 	public void migrateVm(String sourceProvider, String destProvider, String vmId){
-		System.out.println("Migrating 1 vm from provider ID "+sourceProvider+" to providerID "+destProvider);
+		//System.out.println("Migrating vm ID "+ vmId +" from provider ID "+sourceProvider+" to providerID "+destProvider);
 		registry.getProviderIdtoProviderMap().get(sourceProvider).getRunningVmIdToVmMap().remove(vmId);
 		registry.getVmIdToVmMap().get(vmId).setProviderId(destProvider);
 		registry.getProviderIdtoProviderMap().get(destProvider).createVm(registry.getVmIdToVmMap().get(vmId));
 		
+		Transaction oldTransaction = registry.getVmIdToTransactionMap().get(vmId);
+		ProviderParams newParams = registry.getProviderIdtoProviderMap().get(destProvider).getPromisedQos();
+		
+		registry.getVmIdToTransactionMap().put(vmId, new Transaction(oldTransaction.getUserId(), vmId, newParams.getAvailability(), newParams.getCost(), newParams.getBw(), oldTransaction.getRequestedAvailability(), oldTransaction.getRequestedBandwidth(), oldTransaction.getMaxAffordableCost()));
+		
 		bandwidthSatisfactionMap.put(vmId, 1.5);
 		availabilitySatisfactionMap.put(vmId, 1.5);
 	}
+	
+	public void printAverageCost(){
+		System.out.println(vmIdToCostMap.keySet().size());
+		System.out.println("VM ID\tREQ COST\tAVG COST\tREQ AVAIL\tAVG AVAIL\tREQ BW\tAVG BW");
+		for(String vmId : vmIdToCostMap.keySet()){
+			if(vmIdToAvgCostDenomMap.get(vmId) > 0){
+				System.out.println(vmId + "\t" + registry.getVmIdToTransactionMap().get(vmId).getMaxAffordableCost() + "\t" + 
+						+ vmIdToCostMap.get(vmId)/vmIdToAvgCostDenomMap.get(vmId) + "\t" + registry.getVmIdToTransactionMap().get(vmId).getRequestedAvailability() + "\t"+
+						vmIdToAvailMap.get(vmId)/vmIdToAvgCostDenomMap.get(vmId)+ "\t" + registry.getVmIdToTransactionMap().get(vmId).getRequestedBandwidth() + "\t"+
+								vmIdToBwMap.get(vmId)/vmIdToAvgCostDenomMap.get(vmId));
+			}
+		}
+	}
+	
+	
 	
 	public Registry getRegistry() {
 		return registry;
@@ -478,5 +574,29 @@ public class Broker {
 
 	public void setVmIdToMigrationValue(Map<String, Double> vmIdToMigrationValue) {
 		this.vmIdToMigrationValue = vmIdToMigrationValue;
+	}
+
+	public Map<String, Double> getVmIdToCostMap() {
+		return vmIdToCostMap;
+	}
+
+	public void setVmIdToCostMap(Map<String, Double> vmIdToCostMap) {
+		this.vmIdToCostMap = vmIdToCostMap;
+	}
+
+	public Map<String, Integer> getVmIdToAvgCostDenomMap() {
+		return vmIdToAvgCostDenomMap;
+	}
+
+	public void setVmIdToAvgCostDenomMap(Map<String, Integer> vmIdToAvgCostDenomMap) {
+		this.vmIdToAvgCostDenomMap = vmIdToAvgCostDenomMap;
+	}
+
+	public Map<String, UserRequest> getVmIdToUserRequestMap() {
+		return vmIdToUserRequestMap;
+	}
+
+	public void setVmIdToUserRequestMap(Map<String, UserRequest> vmIdToUserRequestMap) {
+		this.vmIdToUserRequestMap = vmIdToUserRequestMap;
 	}	
 }
