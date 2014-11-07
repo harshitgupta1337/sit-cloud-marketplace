@@ -2,6 +2,10 @@ package org.sit.cloud.marketplace.entities;
 
 public class UserRequest {
 	
+	private static int ID = 0;
+	
+	private String id;
+	
 	private String userId;
 	
 	private int numOfVms;
@@ -109,6 +113,7 @@ public class UserRequest {
 	private boolean shouldBeViolated;
 	
 	public UserRequest(String userId, int numOfVms, double requiredAvailability, double requiredBandwidth, int cores, int ram, int storage, double maxAffordableCost, boolean shouldBeViolated){
+		this.setId(Integer.toString(++ID));
 		this.userId = userId;
 		this.shouldBeViolated = shouldBeViolated;
 		this.cores = cores;
@@ -142,5 +147,13 @@ public class UserRequest {
 
 	public void setNumOfVms(int numOfVms) {
 		this.numOfVms = numOfVms;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

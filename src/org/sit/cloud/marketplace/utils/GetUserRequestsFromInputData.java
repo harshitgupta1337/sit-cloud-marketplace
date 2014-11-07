@@ -18,7 +18,7 @@ public class GetUserRequestsFromInputData {
 	public static List<UserRequest> getUserRequestFromInputData() throws IOException{
 		FileInputStream file = new FileInputStream(new File("InputData/custrreq.xls"));
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
-		HSSFSheet sheet = workbook.getSheet("userRequests");
+		HSSFSheet sheet = workbook.getSheet("newTest");
 		Iterator<Row> rowIterator = sheet.iterator();
 		Row row;
 

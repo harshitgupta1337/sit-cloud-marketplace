@@ -12,7 +12,8 @@ import com.mathworks.toolbox.javabuilder.MWClassID;
 import com.mathworks.toolbox.javabuilder.MWException;
 import com.mathworks.toolbox.javabuilder.MWNumericArray;
 
-import fuzzyopt1.fuzopt1;
+//import fuzzyopt1.fuzopt1;
+import fuzzyopt2.fuzopt2;
 
 public class FuzzyProviderSelector extends ProviderSelector {
 	@Override
@@ -88,7 +89,8 @@ public class FuzzyProviderSelector extends ProviderSelector {
 		/*
 		 * Here, we need to set the Fuzzy V value for the provider. @sujeet you need to put your code here.
 		 */
-		fuzopt1 thefuzopt=new fuzopt1();
+		//fuzopt1 thefuzopt=new fuzopt1();
+		fuzopt2 thefuzopt=new fuzopt2();
 		Object[] z=null;
 		//First three numbers are provider commitments : 97.5=P1 availability,97.8=P1's bw in mbps,97=P1's cost per VM per Hr
 		//Next two numbers are providers trust_avail and trust_bw.These values are given by broker
@@ -110,7 +112,8 @@ public class FuzzyProviderSelector extends ProviderSelector {
 		double customerReq[] = {userRequest.getRequiredAvailability(), 1.0, userRequest.getRequiredBandwidth(), 1.5, userRequest.getMaxAffordableCost(), 5, 0.334};
 		MWNumericArray x = new MWNumericArray(providerData, MWClassID.DOUBLE);
 		MWNumericArray y = new MWNumericArray(customerReq, MWClassID.DOUBLE);
-		z=thefuzopt.dynafis3(1,x,y);
+		//z=thefuzopt.dynafis3(1,x,y);
+		z=thefuzopt.dynafis4(1,x,y);
 		
 		
 		String[] parts = z[0].toString().split("\n");

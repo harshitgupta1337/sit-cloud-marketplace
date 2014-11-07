@@ -67,13 +67,13 @@ public class Runner {
 		}
 	}
 	
-	public static List<Provider> constructProviders() throws IOException{
-		return GetProviderFromInputData.getProviderFromInputData();
+	public static List<Provider> constructProviders(boolean gaussianWanted) throws IOException{
+		return GetProviderFromInputData.getProviderFromInputData(gaussianWanted);
 	}
 	
 	public static void main(String args[]) throws IOException, MWException{
 		fillUserRequests();
-		for(Provider provider : constructProviders()){
+		for(Provider provider : constructProviders(true)){
 			broker.registerProvider(provider);
 		}
 		User user = new User();
@@ -82,7 +82,8 @@ public class Runner {
 			generateUserRequest();
 			broker.performMonitoringAndMigrations();
 		}
-		broker.printAverageCost();
+		//broker.printAverageCost();
+		broker.printSimulationDetailsWrtUserReq();;
 		System.out.println("DONE !!!!");
 	}
 	

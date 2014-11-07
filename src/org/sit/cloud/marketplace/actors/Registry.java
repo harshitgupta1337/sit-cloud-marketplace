@@ -54,6 +54,16 @@ public class Registry {
 		userIdToVmIdsMap.get(userId).add(vm.getId());
 		vmIdToVmMap.put(vm.getId(), vm);	
 	}
+	
+	public List<ProviderParams> getCurrentExperiencedProviderParams(){
+		List<ProviderParams> providerParamsList = new ArrayList<ProviderParams>();
+		for(String providerId : providerIdtoProviderMap.keySet()){
+			ProviderParams params = providerIdtoProviderMap.get(providerId).getExperiencedProviderParams();
+			if(params != null)
+				providerParamsList.add(params);
+		}
+		return providerParamsList;
+	}
 	/**
 	 * @return the providerIdtoProviderMap
 	 */

@@ -10,15 +10,15 @@ import org.sit.cloud.marketplace.entities.Vm;
 
 public class Provider {
 	
-	private String id;
-	private int cores;
-	private int ram;
-	private int storage;
-	private double cost;
+	protected String id;
+	protected int cores;
+	protected int ram;
+	protected int storage;
+	protected double cost;
 	private double promisedAvailability;
 	private double promisedBandwidth;
 	private int numOfAvailableVms;
-	private Map<String, Vm> runningVmIdToVmMap;
+	protected Map<String, Vm> runningVmIdToVmMap;
 	public Map<String, Vm> getRunningVmIdToVmMap() {
 		return runningVmIdToVmMap;
 	}
@@ -27,7 +27,7 @@ public class Provider {
 	}
 	private double currentAvailability;
 	private double currentBandwidth;
-	private boolean isBadProvider;
+	protected boolean isBadProvider;
 	
 	public Provider(String id, int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity, boolean isBadProvider){
 		this.id = id;
@@ -169,6 +169,12 @@ public class Provider {
 			}
 		}
 		return map;
+	}
+	
+	public ProviderParams getExperiencedProviderParams(){
+		if(isBadProvider)
+			return new ProviderParams(id, (Math.random()/5 + 0.7)*getPromisedAvailability(), cost, (Math.random()/5 + 0.7)*getPromisedBandwidth(), cores, ram, storage);
+		return getPromisedQos();
 	}
 	
 	public double getAvailability(){

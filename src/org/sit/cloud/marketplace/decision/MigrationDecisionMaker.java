@@ -20,54 +20,45 @@ public class MigrationDecisionMaker {
 		//System.out.println("Inside selectTargetProviderForMigration. Current prooviderId = " + currentProviderId);
 		calclust thecalclust=new calclust();
 		Object[] y = null;
-		int del = -1;
+		/*int del = -1;
 		for(int i=0;i<params.size();i++){
 			if(params.get(i).getProviderId().equals(currentProviderId))
 				del = i;
 		}
 		if(del != -1)
 			params.remove(del);
-		if(params.size() == 1){
-			FuzzyProviderSelector selector = new FuzzyProviderSelector();
+		*/
+
+		FuzzyProviderSelector selector = new FuzzyProviderSelector();
 			
-			selector.setFuzzyValueForProviders(userRequest, allProviders, false);
+		selector.setFuzzyValueForProviders(userRequest, allProviders, false);
 			
-			double currentV = 0.0;
-			for(ProviderParams providerParams : allProviders){	
-				if(providerParams.getProviderId().equals(currentProviderId)){
-					currentV = providerParams.getFuzzyUtility();
-				}
+		double currentV = 0.0;
+		for(ProviderParams providerParams : allProviders){	
+			if(providerParams.getProviderId().equals(currentProviderId)){
+				currentV = providerParams.getFuzzyUtility();
 			}
-			double highestVExcludingCurrent = currentV-0.05; String high = null;
-			for(ProviderParams providerParams : allProviders){	
-				if(!providerParams.getProviderId().equals(currentProviderId)){
-					if(providerParams.getFuzzyUtility() >= highestVExcludingCurrent){
-						highestVExcludingCurrent = providerParams.getFuzzyUtility();
-						high = providerParams.getProviderId();
-					}
-				}
-			}
-			if(high != null)
-				return high;
-			else
-				return currentProviderId;
-			
-			
-			/*
-			//selector.getAllocationMapAfterInitialFiltering(selector.performInitialFiltering(providers, cores, ram, storage, numOfVms), userRequest)
-			Map<String, Integer> allocationMap = selector.selectBestProvider(allProviders, 1, userRequest, true);
-			for(String providerId : allocationMap.keySet()){
-				if(allocationMap.get(providerId) > 0)
-					return providerId;
-			}
-			return params.get(0).getProviderId();*/
 		}
+		double highestVExcludingCurrent = currentV-0.05; String high = null;
+		for(ProviderParams providerParams : allProviders){	
+			if(!providerParams.getProviderId().equals(currentProviderId)){
+				if(providerParams.getFuzzyUtility() >= highestVExcludingCurrent){
+					highestVExcludingCurrent = providerParams.getFuzzyUtility();
+					high = providerParams.getProviderId();
+				}
+			}
+		}
+		if(high != null)
+			return high;
+		else
+			return currentProviderId;
+	
 		//Provider pool
 		//First provider is the current provider
 		//First provider values are promised_avail,promised_bw,promised_cost,current_trust_avail,current_trust_bw
 		//Rest providers are prospective new providers
 		//Rest providers values are offered_avail,offered_bw,offered_cost,current_trust_avail,current_trust_bw
-		double[][] input = new double[params.size()+1][5];
+		/*double[][] input = new double[params.size()+1][5];
 		input[0][0] = currentAvail;
 		input[0][1] = currentBw;
 		input[0][2] = currentCost;
@@ -99,7 +90,7 @@ public class MigrationDecisionMaker {
 		System.out.println("Chose index : " + (number-2));
 		*/
 		//System.out.format("The selected provider's ID is =  " + params.get(number-2).getProviderId());
-		System.out.println();
-		return params.get(number-2).getProviderId();
+		/*System.out.println();
+		return params.get(number-2).getProviderId();*/
 	}
 }
