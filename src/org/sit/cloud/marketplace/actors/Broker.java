@@ -32,14 +32,25 @@ import com.mathworks.toolbox.javabuilder.MWNumericArray;
 
 public class Broker {
 	
-	private static double MIGRATION_THRESHOLD = 0.9;
+	private static double MIGRATION_THRESHOLD = 0.85;
+	
+	private static double ALPHA = 1/Math.E;
 	
 	private Registry registry;
 	private ProviderSelector providerSelector;
 	private ProviderSelector crispSelector;
 	private MigrationDecisionMaker migrationDecisionMaker;
 	private Map<String, Double> vmIdToMigrationValue;
+	
+	/**
+	 * A handle which is used to switch the broker between fuzzy and crisp modes
+	 */
 	private boolean isCrisp;
+	
+	/**
+	 * A handle which switches between migration and no-migration when in the fuzzy mode of the broker
+	 */
+	private boolean isMigrationNeeded;
 
 	/**
 	 * A map that maps each Vm id to the sum of the experienced availability for an entire week
@@ -92,8 +103,6 @@ public class Broker {
 	private Map<String, UserRequest> userReqIdToUserReqMap;
 	private Map<String, String> userReqIdToVmIdMap;
 	
-	
-	
 	/**
 	 * List of ids of VMs whose experienced QoS parameters have to be printed and plotted
 	 */
@@ -125,6 +134,7 @@ public class Broker {
 		vmIdToAvailMap = new HashMap<String, Double>();
 		vmIdToBwMap = new HashMap<String, Double>();
 		isCrisp = false;
+		isMigrationNeeded = false;
 		try {
 			//theMigration = new migrdecider();
 			theMigration = new migrdecidernew();
@@ -185,7 +195,6 @@ public class Broker {
 		else
 			allocationMap = providerSelector.selectBestProvider(providerParams, numOfVms, userRequest, false);
 		for(String providerId : allocationMap.keySet()){
-			//System.out.println("Provider ID : "+providerId );
 			//System.out.println(registry.getProviderIdtoProviderMap().get(providerId).getPromisedAvailability()+"\t"+registry.getProviderIdtoProviderMap().get(providerId).getPromisedBandwidth()+"\t"+registry.getProviderIdtoProviderMap().get(providerId).getCost());
 			//System.out.println("------------------------------------\n");
 			//System.out.println("VMs available : "+registry.getProviderIdtoProviderMap().get(providerId).getNumOfAvailableVms());
@@ -381,10 +390,10 @@ public class Broker {
 				// NOW CALCULATE F_A(t_i) and F_BW(t_i)
 				availabilitySatisfactionMap.put(vmId, Math.min(sumOfExperiencedAvailabilityMap.get(vmId)/
 						(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedAvailability()) 
-						+ availabilitySatisfactionMap.get(vmId)/Math.E, 1.5));
+						+ availabilitySatisfactionMap.get(vmId)*ALPHA, 1.5));
 				bandwidthSatisfactionMap.put(vmId, Math.min(sumOfExperiencedBandwidthMap.get(vmId)/
 						(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedBandwidth()) 
-						+ bandwidthSatisfactionMap.get(vmId)/Math.E, 1.5));
+						+ bandwidthSatisfactionMap.get(vmId)*ALPHA, 1.5));
 				
 				refreshTrustValues();	
 				
@@ -461,6 +470,8 @@ public class Broker {
 	private boolean doesVmNeedMigration(String vmId){
 		if(isCrisp)
 			return false;
+		if(!isMigrationNeeded)
+			return false;
 		if(vmIdToMigrationValue.get(vmId) < MIGRATION_THRESHOLD)
 			return true;
 		else
@@ -507,9 +518,9 @@ public class Broker {
 				}
 			}else{
 				System.out.println(userReqId + "\t" + userReqIdToUserReqMap.get(userReqId).getMaxAffordableCost() + "\t" + 
-						+ 0 + "\t" + userReqIdToUserReqMap.get(userReqId).getRequiredAvailability() + "\t"+
-						0 + "\t" + userReqIdToUserReqMap.get(userReqId).getRequiredBandwidth() + "\t"+
-								0);
+						"\t"  + userReqIdToUserReqMap.get(userReqId).getRequiredAvailability() + "\t"+
+						"\t" + userReqIdToUserReqMap.get(userReqId).getRequiredBandwidth() + "\t"+
+								"\t");
 			}
 		}
 	}
@@ -644,5 +655,13 @@ public class Broker {
 
 	public void setUserReqIdToVmIdMap(Map<String, String> userReqIdToVmIdMap) {
 		this.userReqIdToVmIdMap = userReqIdToVmIdMap;
+	}
+
+	public boolean isMigrationNeeded() {
+		return isMigrationNeeded;
+	}
+
+	public void setMigrationNeeded(boolean isMigrationNeeded) {
+		this.isMigrationNeeded = isMigrationNeeded;
 	}	
 }
