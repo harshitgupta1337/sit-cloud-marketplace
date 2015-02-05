@@ -52,45 +52,5 @@ public class MigrationDecisionMaker {
 			return high;
 		else
 			return currentProviderId;
-	
-		//Provider pool
-		//First provider is the current provider
-		//First provider values are promised_avail,promised_bw,promised_cost,current_trust_avail,current_trust_bw
-		//Rest providers are prospective new providers
-		//Rest providers values are offered_avail,offered_bw,offered_cost,current_trust_avail,current_trust_bw
-		/*double[][] input = new double[params.size()+1][5];
-		input[0][0] = currentAvail;
-		input[0][1] = currentBw;
-		input[0][2] = currentCost;
-		input[0][3] = currentAvailTrust;
-		input[0][4] = currentBwTrust;
-		//System.out.println("Prospective target providers = "+params.size());
-		for(int i=0;i<params.size();i++){
-			input[i+1][0] = params.get(i).getAvailability();
-			input[i+1][1] = params.get(i).getBw();
-			input[i+1][2] = params.get(i).getCost();
-			input[i+1][3] = params.get(i).getTrustInAvailability();
-			input[i+1][4] = params.get(i).getTrustInBandwidth();
-		}
-		MWNumericArray x = new MWNumericArray(input, MWClassID.DOUBLE);
-		//MWNumericArray idx = new MWNumericArray(index, MWClassID.DOUBLE);
-		//y=thecalclust.calhierclust(1,x,idx);
-		y=thecalclust.calhierclust(1,x);
-		//System.out.println("The output is  = \n" + y[0].toString());
-		int number = Integer.parseInt(y[0].toString());
-		
-		// If the output is 1, that means there is no provider found suitable.
-		// otherwise the output is index of the provider from above provider pool
-		if(number == 1)
-			return null;
-		int index=0;
-		/*for(ProviderParams param : params){
-			System.out.println(index++ + "\t" + param.getAvailability()+"\t"+param.getBw()+"\t"+param.getCost());
-		}
-		System.out.println("Chose index : " + (number-2));
-		*/
-		//System.out.format("The selected provider's ID is =  " + params.get(number-2).getProviderId());
-		/*System.out.println();
-		return params.get(number-2).getProviderId();*/
 	}
 }

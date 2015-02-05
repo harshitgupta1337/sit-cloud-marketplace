@@ -11,6 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.sit.cloud.marketplace.actors.FileBasedProvider;
 import org.sit.cloud.marketplace.actors.GaussianProvider;
 import org.sit.cloud.marketplace.actors.Provider;
 
@@ -19,7 +20,7 @@ public class GetProviderFromInputData {
 	public static List<Provider> getProviderFromInputData(boolean gaussianWanted) throws IOException{
 		FileInputStream file = new FileInputStream(new File("InputData/providers.xls"));
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
-		HSSFSheet sheet = workbook.getSheet("good");
+		HSSFSheet sheet = workbook.getSheet("maths");
 		//System.out.println("INDEX = "+workbook.getSheetIndex("test"));
 		Iterator<Row> rowIterator = sheet.iterator();
 		Row row;

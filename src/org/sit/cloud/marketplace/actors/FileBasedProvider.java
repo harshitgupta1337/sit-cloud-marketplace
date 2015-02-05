@@ -1,30 +1,43 @@
 package org.sit.cloud.marketplace.actors;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.sit.cloud.marketplace.entities.ProviderParams;
 import org.sit.cloud.marketplace.entities.QoS;
-import org.sit.cloud.marketplace.utils.GaussianDistribution;
 import org.sit.cloud.marketplace.utils.TimeKeeper;
 
-public class GaussianProvider extends Provider {
+public class FileBasedProvider extends Provider {
 	
-	protected GaussianDistribution gaussianDistribution;
+	BufferedReader br;
 	
-	public GaussianProvider(String id, int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity, boolean isBadProvider){
+	public FileBasedProvider(String id, int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity, boolean isBadProvider) throws FileNotFoundException, UnsupportedEncodingException{
 		super(id, cores, ram, storage, cost, promisedAvailability, promisedBandwidth, vmCapacity, isBadProvider);
-		gaussianDistribution = new GaussianDistribution(0, 0.25, id);
+		
+		br = new BufferedReader(new FileReader("InputData/"+id+".txt"));
+	}
+	
+	private double getNextGaussian() throws IOException{
+		String line = br.readLine();
+		return Double.parseDouble(line);
 	}
 	
 	public Map<String, QoS> getQosExperiencedByVms(){
-
 		Map<String, QoS> map = new HashMap<String, QoS>();
 		// IF ACTUAL QoS > PROMISED QoS, THEN RETURN PROMISED VALUE
 		for(String vmId : runningVmIdToVmMap.keySet()){
 			if(isBadProvider){
 				if(TimeKeeper.getTime() >= TimeKeeper.VIOLATION_START)// && TimeKeeper.getTime() <= TimeKeeper.VIOLATION_END)
-					map.put(vmId, new QoS(gaussianDistribution.nextGaussianValueForQoSDegradation()*getPromisedAvailability(), gaussianDistribution.nextGaussianValueForQoSDegradation()*getPromisedBandwidth()));
+					try{
+						map.put(vmId, new QoS(0.01*getNextGaussian()*getPromisedAvailability(), 0.01*getNextGaussian()*getPromisedBandwidth()));
+					}catch(Exception e){
+						
+					}
 				else
 					map.put(vmId, new QoS(getPromisedAvailability(), getPromisedBandwidth()));
 			}else{
@@ -33,12 +46,12 @@ public class GaussianProvider extends Provider {
 		}
 		return map;
 	}
-	
+	/*
 	public ProviderParams getExperiencedProviderParams(){
 		if(isBadProvider)
 			return new ProviderParams(id, 0.01*gaussianDistribution.nextGaussianValueForQoSDegradation()*getPromisedAvailability(), cost, 0.01*gaussianDistribution.nextGaussianValueForQoSDegradation()*getPromisedBandwidth(), cores, ram, storage);
 		return getPromisedQos();
 	}
-	
+	*/
 
 }

@@ -4,19 +4,21 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sit.cloud.marketplace.actors.Broker;
+import org.sit.cloud.marketplace.actors.AlphaBroker;
 import org.sit.cloud.marketplace.actors.Provider;
 import org.sit.cloud.marketplace.actors.User;
+import org.sit.cloud.marketplace.actors.ZeroToOneBroker;
 import org.sit.cloud.marketplace.entities.UserRequest;
 
 import com.mathworks.toolbox.javabuilder.MWException;
 
 public class Runner {
 
-	private static Broker broker = new Broker();
+	private static ZeroToOneBroker broker = new ZeroToOneBroker();
 	
 	private static int index = 0;
 	private static int requestIndex = 0;
+	private static int NO_OF_REQUESTS = 100;
 	
 	private static List<Long> userRequestInstants = getUserRequestInstants();
 	private static List<UserRequest> userRequests;
@@ -37,7 +39,7 @@ public class Runner {
 	
 	private static List<Long> getUserRequestInstants(){
 		List<Long> userRequestInstants = new ArrayList<Long>();
-		for(int i=0;i<200;i++){
+		for(int i=0;i<NO_OF_REQUESTS;i++){
 			userRequestInstants.add((long)(Math.random() * TimeKeeper.END));
 		}
 		return sort(userRequestInstants);

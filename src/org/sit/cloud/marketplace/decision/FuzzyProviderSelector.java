@@ -16,6 +16,11 @@ import com.mathworks.toolbox.javabuilder.MWNumericArray;
 import fuzzyopt2.fuzopt2;
 
 public class FuzzyProviderSelector extends ProviderSelector {
+	
+	private static double D_AVAIL = 5.0;
+	private static double D_BW = 1.5;
+	private static double D_COST = 5.0;
+	
 	@Override
 	protected List<ProviderParams> performInitialFiltering(
 			List<ProviderParams> providers, int cores, int ram, int storage, int numOfVms) {
@@ -109,7 +114,7 @@ public class FuzzyProviderSelector extends ProviderSelector {
 			providerData[i][4] = providerParam.getTrustInBandwidth();
 			i++;
 		}
-		double customerReq[] = {userRequest.getRequiredAvailability(), 1.0, userRequest.getRequiredBandwidth(), 1.5, userRequest.getMaxAffordableCost(), 5, 0.334};
+		double customerReq[] = {userRequest.getRequiredAvailability(), D_AVAIL, userRequest.getRequiredBandwidth(), D_BW, userRequest.getMaxAffordableCost(), D_COST, 0.334};
 		MWNumericArray x = new MWNumericArray(providerData, MWClassID.DOUBLE);
 		MWNumericArray y = new MWNumericArray(customerReq, MWClassID.DOUBLE);
 		//z=thefuzopt.dynafis3(1,x,y);

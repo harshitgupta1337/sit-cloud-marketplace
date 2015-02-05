@@ -29,6 +29,8 @@ public class GetUserRequestsFromInputData {
 			row = rowIterator.next();
 			Iterator<Cell> cellIterator = row.cellIterator();
 			String id = Integer.toString((int) cellIterator.next().getNumericCellValue());
+			if(id.equals("0"))
+				break;
 			int cores = (int) cellIterator.next().getNumericCellValue(); 
 			int ram = (int) cellIterator.next().getNumericCellValue();
 			int disk = (int) cellIterator.next().getNumericCellValue();

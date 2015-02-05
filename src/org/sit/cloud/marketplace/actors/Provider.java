@@ -153,7 +153,7 @@ public class Provider {
 	}
 	
 	public Map<String, QoS> getQosExperiencedByVms(){
-		
+		System.out.println("OLD");
 		Map<String, QoS> map = new HashMap<String, QoS>();
 		// IF ACTUAL QoS > PROMISED QoS, THEN RETURN PROMISED VALUE
 		for(String vmId : runningVmIdToVmMap.keySet()){
