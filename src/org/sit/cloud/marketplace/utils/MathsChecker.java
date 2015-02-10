@@ -8,8 +8,8 @@ import com.mathworks.toolbox.javabuilder.MWNumericArray;
 
 public class MathsChecker {
 
-	static double sigma = 0.25;
-	static double alpha = 0.2;
+	static double sigma = 0.15;
+	static double alpha = 0.8;
 	
 	public static void checkExpectedFCalculation(){
 		for(int i=0;i<100;i++){

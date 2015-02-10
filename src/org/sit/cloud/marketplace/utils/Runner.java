@@ -18,7 +18,7 @@ public class Runner {
 	
 	private static int index = 0;
 	private static int requestIndex = 0;
-	private static int NO_OF_REQUESTS = 100;
+	private static int NO_OF_REQUESTS = 1000;
 	
 	private static List<Long> userRequestInstants = getUserRequestInstants();
 	private static List<UserRequest> userRequests;

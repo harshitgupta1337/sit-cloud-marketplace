@@ -33,12 +33,11 @@ import com.mathworks.toolbox.javabuilder.MWClassID;
 import com.mathworks.toolbox.javabuilder.MWException;
 import com.mathworks.toolbox.javabuilder.MWNumericArray;
 
-
 public class ZeroToOneBroker {
 	
 	private static double MIGRATION_THRESHOLD = 0.9;
 	
-	private static double ALPHA = 0.2;
+	private static double ALPHA = 0.8;
 	
 	private Registry registry;
 	private ProviderSelector providerSelector;
@@ -46,10 +45,17 @@ public class ZeroToOneBroker {
 	private MigrationDecisionMaker migrationDecisionMaker;
 	private Map<String, Double> vmIdToMigrationValue;
 	
+	private int noOfRequests;
+	
 	/**
 	 * A handle which is used to switch the broker between fuzzy and crisp modes
 	 */
 	private boolean isCrisp;
+	
+	/**
+	 * A handle which is used to switch the broker between trustworthy and non-trustworthy modes
+	 */
+	private boolean trustworthy;
 	
 	/**
 	 * A handle which switches between migration and no-migration when in the fuzzy mode of the broker
@@ -124,6 +130,7 @@ public class ZeroToOneBroker {
 	private Map<String, String> vmIdToInitialProviderIdMap;
 	
 	public ZeroToOneBroker(){
+		noOfRequests = 0;
 		vmIdToInitialProviderIdMap = new HashMap<String, String>();
 		vmIdToCreationTimeMap = new HashMap<String, Long>();
 		vmIdToMigrationTimeMap = new HashMap<String, Long>();
@@ -150,6 +157,7 @@ public class ZeroToOneBroker {
 		vmIdToBwMap = new HashMap<String, Double>();
 		isCrisp = false;
 		isMigrationNeeded = true;
+		trustworthy = true;
 		try {
 			theMigration = new migrdecidernew();
 			theMigrationNorm = new migrdecidernorm();
@@ -245,6 +253,9 @@ public class ZeroToOneBroker {
 				vmIdToCreationTimeMap.put(vm.getId(), TimeKeeper.getTime());
 				
 				vmIdToInitialProviderIdMap.put(vm.getId(), providerId);
+				
+				if(providerId.equals("10"))
+					noOfRequests++;
 			}
 		}
 	}
@@ -268,11 +279,6 @@ public class ZeroToOneBroker {
 			}*/
 
 			evaluateCosts(vmIdToSlaViolationMap);
-			
-			//printFValues();
-			
-			//System.out.println("VM 3 F : "+availabilitySatisfactionMap.get("3")+"\t"+bandwidthSatisfactionMap.get("3")+"\t"+vmIdToMigrationValue.get("3"));
-			//System.out.println("VM 5 F : "+availabilitySatisfactionMap.get("5")+"\t"+bandwidthSatisfactionMap.get("5")+"\t"+vmIdToMigrationValue.get("5"));
 			
 			performNecessaryMigrations();	
 		}
@@ -328,7 +334,7 @@ public class ZeroToOneBroker {
 			}
 		}	
 		
-		//printAverageMigrationValue();
+		printAverageMigrationValue();
 		
 		for(String vmId : registry.getVmIdToVmMap().keySet()){
 			if(doesVmNeedMigration(vmId)){
@@ -428,16 +434,16 @@ public class ZeroToOneBroker {
 			vmIdToNumberOfPollsMap.put(vmId, vmIdToNumberOfPollsMap.get(vmId)+1); // INCREMENTING THE NUMBER OF POLLS DONE BY 1
 		}
 		if(TimeKeeper.shouldViolationsBeCalculated()){
-
-			for(int i=1;i<=100;i++){
+			//System.out.println(availabilitySatisfactionMap.get("1"));
+			/*for(int i=1;i<=100;i++){
 				String vmId = Integer.toString(i);
 				if(sumOfExperiencedAvailabilityMap.get(vmId) != null)
 					System.out.print(sumOfExperiencedAvailabilityMap.get(vmId)/
 							(vmIdToNumberOfPollsMap.get(vmId) * vmIdToUserRequestMap.get(vmId).getRequiredAvailability())
 							+"\t"+sumOfExperiencedBandwidthMap.get(vmId)/
 							(vmIdToNumberOfPollsMap.get(vmId) * vmIdToUserRequestMap.get(vmId).getRequiredBandwidth())+"\t\t");
-			}
-			System.out.println();
+			}*/
+			//System.out.println();
 			for(String vmId : vmIdToSlaViolationMap.keySet()){
 				// NOW CALCULATE F_A(t_i) and F_BW(t_i)
 				availabilitySatisfactionMap.put(vmId, Math.min((1-ALPHA)*sumOfExperiencedAvailabilityMap.get(vmId)/
@@ -447,7 +453,8 @@ public class ZeroToOneBroker {
 						(vmIdToNumberOfPollsMap.get(vmId) * vmIdToSlaViolationMap.get(vmId).getPromisedBandwidth()) 
 						+ bandwidthSatisfactionMap.get(vmId)*ALPHA, 1.0));
 				
-				refreshTrustValues();	
+				if(trustworthy)
+					refreshTrustValues();	
 				
 				// RESETING THE WEEK'S CALCULATION AFTER THE CALCULATION OF THE SATISFACTION VALUES
 				sumOfExperiencedAvailabilityMap.put(vmId, 0.0);
@@ -459,12 +466,15 @@ public class ZeroToOneBroker {
 	}
 	
 	private void printAverageMigrationValue(){
+		System.out.print(noOfRequests+"\t"+availabilityTrustMap.get("10")+"\t"+bandwidthTrustMap.get("10")+"\t");
+		noOfRequests=0;
 		double total = 0;
 		for(String vmId : vmIdToMigrationValue.keySet()){
 			total += vmIdToMigrationValue.get(vmId);
 		}
 		if(vmIdToMigrationValue.keySet().size()>0)
 			System.out.println(total/vmIdToMigrationValue.keySet().size());
+		
 	}
 	
 	private void printAverageGValue(Map<String, SlaViolationData> vmIdToSlaViolationMap){
@@ -544,7 +554,8 @@ public class ZeroToOneBroker {
 		bandwidthSatisfactionMap.put(vmId, 1.0);
 		availabilitySatisfactionMap.put(vmId, 1.0);
 		
-		//System.out.println("VM ID "+vmId+" has been migrated.");
+		//if(vmId.equals("1"))
+			//System.out.println("VM ID 1 has been migrated from provider "+sourceProvider+" to "+destProvider);
 	}
 	
 	public void printAverageCost(){

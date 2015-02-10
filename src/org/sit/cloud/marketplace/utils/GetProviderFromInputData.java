@@ -21,7 +21,6 @@ public class GetProviderFromInputData {
 		FileInputStream file = new FileInputStream(new File("InputData/providers.xls"));
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
 		HSSFSheet sheet = workbook.getSheet("maths");
-		//System.out.println("INDEX = "+workbook.getSheetIndex("test"));
 		Iterator<Row> rowIterator = sheet.iterator();
 		Row row;
 

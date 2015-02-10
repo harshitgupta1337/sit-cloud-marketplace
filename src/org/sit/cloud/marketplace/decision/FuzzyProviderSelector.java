@@ -17,7 +17,7 @@ import fuzzyopt2.fuzopt2;
 
 public class FuzzyProviderSelector extends ProviderSelector {
 	
-	private static double D_AVAIL = 5.0;
+	private static double D_AVAIL = 15.0;
 	private static double D_BW = 1.5;
 	private static double D_COST = 5.0;
 	
