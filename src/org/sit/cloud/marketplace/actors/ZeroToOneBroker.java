@@ -37,7 +37,7 @@ public class ZeroToOneBroker {
 	
 	private static double MIGRATION_THRESHOLD = 0.9;
 	
-	private static double ALPHA = 0.8;
+	private static double ALPHA = 0.2;
 	
 	private Registry registry;
 	private ProviderSelector providerSelector;
@@ -155,7 +155,7 @@ public class ZeroToOneBroker {
 		migrationDecisionMaker = new MigrationDecisionMaker();
 		vmIdToAvailMap = new HashMap<String, Double>();
 		vmIdToBwMap = new HashMap<String, Double>();
-		isCrisp = false;
+		isCrisp = true;
 		isMigrationNeeded = true;
 		trustworthy = true;
 		try {
@@ -466,7 +466,7 @@ public class ZeroToOneBroker {
 	}
 	
 	private void printAverageMigrationValue(){
-		System.out.print(noOfRequests+"\t"+availabilityTrustMap.get("10")+"\t"+bandwidthTrustMap.get("10")+"\t");
+		//System.out.print(noOfRequests+"\t"+availabilityTrustMap.get("10")+"\t"+bandwidthTrustMap.get("10")+"\t");
 		noOfRequests=0;
 		double total = 0;
 		for(String vmId : vmIdToMigrationValue.keySet()){
