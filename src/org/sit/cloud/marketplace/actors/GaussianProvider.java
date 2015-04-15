@@ -14,7 +14,7 @@ public class GaussianProvider extends Provider {
 	
 	public GaussianProvider(String id, int cores, int ram, int storage, double cost, double promisedAvailability, double promisedBandwidth, int vmCapacity, boolean isBadProvider){
 		super(id, cores, ram, storage, cost, promisedAvailability, promisedBandwidth, vmCapacity, isBadProvider);
-		gaussianDistribution = new GaussianDistribution(0, 0.25, id);
+		gaussianDistribution = new GaussianDistribution(0, 0.2, id);
 	}
 	
 	public Map<String, QoS> getQosExperiencedByVms(){

@@ -107,14 +107,14 @@ public class FuzzyProviderSelector extends ProviderSelector {
 		double providerData[][] = new double[providerParams.size()][5];
 		int i=0;
 		for(ProviderParams providerParam : providerParams){
-			providerData[i][0] = providerParam.getAvailability();
+			providerData[i][0] = (providerParam.getAvailability()-96)*25;
 			providerData[i][1] = providerParam.getBw();
 			providerData[i][2] = providerParam.getCost();
 			providerData[i][3] = providerParam.getTrustInAvailability();
 			providerData[i][4] = providerParam.getTrustInBandwidth();
 			i++;
 		}
-		double customerReq[] = {userRequest.getRequiredAvailability(), D_AVAIL, userRequest.getRequiredBandwidth(), D_BW, userRequest.getMaxAffordableCost(), D_COST, 0.334};
+		double customerReq[] = {(userRequest.getRequiredAvailability()-96)*25, D_AVAIL, userRequest.getRequiredBandwidth(), D_BW, userRequest.getMaxAffordableCost(), D_COST, 0.334};
 		MWNumericArray x = new MWNumericArray(providerData, MWClassID.DOUBLE);
 		MWNumericArray y = new MWNumericArray(customerReq, MWClassID.DOUBLE);
 		//z=thefuzopt.dynafis3(1,x,y);

@@ -16,7 +16,7 @@ import org.sit.cloud.marketplace.entities.UserRequest;
 public class GetUserRequestsFromInputData {
 	
 	public static List<UserRequest> getUserRequestFromInputData() throws IOException{
-		FileInputStream file = new FileInputStream(new File("InputData/custrreq.xls"));
+		FileInputStream file = new FileInputStream(new File("InputData/custrreqRanges.xls"));
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
 		HSSFSheet sheet = workbook.getSheet("reducedReq");
 		Iterator<Row> rowIterator = sheet.iterator();

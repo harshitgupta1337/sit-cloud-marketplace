@@ -50,16 +50,16 @@ public class GaussianDistribution {
 	
 	public static void main(String args[]) throws FileNotFoundException, UnsupportedEncodingException{
 		PrintWriter writer = new PrintWriter("InputData/11.txt", "UTF-8");
-		GaussianDistribution dist = new GaussianDistribution(0, 0.25, "11");
+		GaussianDistribution dist = new GaussianDistribution(0, 0.1, "11");
 		double sum = 0;
 		System.out.println(1-0.25*Math.sqrt(2/Math.PI));
-		for(int i=0;i<10000;i++){
+		for(int i=0;i<10;i++){
 			
-			sum += dist.nextGaussianValueForQoSDegradation();
-			
+			//sum += dist.nextGaussianValueForQoSDegradation();
+			System.out.println(dist.nextGaussianValueForQoSDegradation());
 			//System.out.println(i);
 		}
-		System.out.println(sum/10000);
+		//System.out.println(sum/10000);
 		writer.close();
 	}
 }

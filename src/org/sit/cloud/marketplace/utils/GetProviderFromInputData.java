@@ -18,7 +18,7 @@ import org.sit.cloud.marketplace.actors.Provider;
 public class GetProviderFromInputData {
 	
 	public static List<Provider> getProviderFromInputData(boolean gaussianWanted) throws IOException{
-		FileInputStream file = new FileInputStream(new File("InputData/providers.xls"));
+		FileInputStream file = new FileInputStream(new File("InputData/providersRanges.xls"));
 		HSSFWorkbook workbook = new HSSFWorkbook(file);
 		HSSFSheet sheet = workbook.getSheet("maths");
 		Iterator<Row> rowIterator = sheet.iterator();
